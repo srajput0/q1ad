@@ -3,12 +3,12 @@ from telegram import Update
 from telegram.ext import (
     Updater, CommandHandler, CallbackContext, PollAnswerHandler
 )
-from functions.chat_data_handler import load_chat_data, save_chat_data
-from functions.quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
-from functions.admin_handler import broadcast
+from chat_data_handler import load_chat_data, save_chat_data
+from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
+from admin_handler import broadcast
 
 # Enable logging
-from functions.bot_logging import logger
+from bot_logging import logger
 
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
