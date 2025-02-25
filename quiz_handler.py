@@ -2,6 +2,7 @@ import json
 import random
 from telegram import Poll
 from bot_logging import logger
+from leaderboard import load_leaderboard, save_leaderboard
 
 QUIZZES_FILE = 'quizzes/quizzes.json'
 
