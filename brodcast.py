@@ -1,5 +1,5 @@
 import logging
-from functions.chat_data_handler import load_chat_data
+from chat_data_handler import load_chat_data
 
 logger = logging.getLogger(__name__)
 
