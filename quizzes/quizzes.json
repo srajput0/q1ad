@@ -1,0 +1,6 @@
+[
+    {"question": "What is the capital of France?", "options": ["Berlin", "Madrid", "Paris", "Rome"], "answer": "Paris"},
+    {"question": "Which element has the chemical symbol 'O'?", "options": ["Gold", "Oxygen", "Silver", "Iron"], "answer": "Oxygen"},
+    {"question": "How many continents are there on Earth?", "options": ["5", "6", "7", "8"], "answer": "7"},
+    {"question": "What is the square root of 81?", "options": ["7", "8", "9", "10"], "answer": "9"}
+]
