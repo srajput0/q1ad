@@ -52,15 +52,18 @@ def handle_poll_answer(update, context):
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
     leaderboard = load_leaderboard()
     
-    correct_points = 2  # Points for the correct answer
+    correct_points = 1  # Points for the correct answer
 
     if selected_option is not None:
         for quiz in quizzes:
             if selected_option == quiz["options"].index(quiz["answer"]):
-                # Add points only if the answer is correct
+                # Add 1 point for the correct answer
                 leaderboard[user_id] = leaderboard.get(user_id, 0) + correct_points
-                save_leaderboard(leaderboard)
-                return
+            else:
+                # Add 0 points for the incorrect answer (no need to modify the leaderboard in this case)
+                leaderboard[user_id] = leaderboard.get(user_id, 0)
+            save_leaderboard(leaderboard)
+            return
 
 def show_leaderboard(update, context):
     #from leaderboard import load_leaderboard
