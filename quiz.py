@@ -1,107 +1,83 @@
-import logging
-from telegram import Update
-from telegram.ext import (
-    Updater, CommandHandler, CallbackContext, PollAnswerHandler
-)
-from chat_data_handler import load_chat_data, save_chat_data
-from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
-from admin_handler import broadcast
+import json
+import random
+from telegram import Poll
+from bot_logging import logger
 
-# Enable logging
-from  bot_logging import logger
+QUIZZES_FILE = 'quizzes/quizzes.json'
 
-TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
-ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
+# Load quizzes
+def load_quizzes():
+    if os.path.exists(QUIZZES_FILE):
+        with open(QUIZZES_FILE, 'r') as file:
+            try:
+                quizzes = json.load(file)
+                random.shuffle(quizzes)
+                return quizzes
+            except json.JSONDecodeError:
+                return []
+    return []
 
-def start_quiz(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    chat_data = load_chat_data()
+quizzes = load_quizzes()
 
-    if chat_id in chat_data and chat_data[chat_id].get("active", False):
-        update.message.reply_text("A quiz is already running in this chat!")
-        return
+def send_quiz(context):
+    job = context.job
+    chat_id = job.context["chat_id"]
+    used_questions = job.context["used_questions"]
 
-    interval = chat_data.get(chat_id, {}).get("interval", 30)
-    chat_data[chat_id] = {"active": True, "interval": interval}
-    save_chat_data(chat_data)
-
-    update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
-
-def sendgroup(update: Update, context: CallbackContext):
-    if update.effective_chat.type in ["group", "supergroup"]:
-        start_quiz(update, context)
-    else:
-        update.message.reply_text("This command can only be used in a group chat.")
-
-def prequiz(update: Update, context: CallbackContext):
-    if update.effective_chat.type == "private":
-        start_quiz(update, context)
-    else:
-        update.message.reply_text("This command can only be used in a private chat.")
-
-def stop_quiz(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    chat_data = load_chat_data()
-
-    if chat_id in chat_data:
-        del chat_data[chat_id]
-        save_chat_data(chat_data)
-
-        jobs = context.job_queue.jobs()
-        for job in jobs:
-            if job.context and job.context["chat_id"] == chat_id:
-                job.schedule_removal()
-
-        update.message.reply_text("Quiz stopped successfully.")
-    else:
-        update.message.reply_text("No active quiz to stop.")
-
-def set_interval(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-
-    if not context.args or not context.args[0].isdigit():
-        update.message.reply_text("Usage: /setinterval <seconds>")
+    available_quizzes = [q for q in quizzes if q not in used_questions]
+    if not available_quizzes:
+        job.schedule_removal()
         return
     
-    interval = int(context.args[0])
-    if interval < 10:
-        update.message.reply_text("Interval must be at least 10 seconds.")
+    quiz = random.choice(available_quizzes)
+    used_questions.append(quiz)
+
+    try:
+        context.bot.send_poll(
+            chat_id=chat_id,
+            question=quiz["question"],
+            options=quiz["options"],
+            type=Poll.QUIZ,
+            correct_option_id=quiz["options"].index(quiz["answer"]),
+            is_anonymous=False
+        )
+    except Exception as e:
+        logger.error(f"Failed to send quiz to {chat_id}: {e}")
+
+def handle_poll_answer(update, context):
+    from functions.leaderboard_handler import load_leaderboard, save_leaderboard
+    poll_answer = update.poll_answer
+    user_id = str(poll_answer.user.id)
+    selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
+    leaderboard = load_leaderboard()
+
+    for quiz in quizzes:
+        correct_option = quiz["options"].index(quiz["answer"])
+        if selected_option == correct_option:
+            leaderboard[user_id] = leaderboard.get(user_id, 0) + 1
+            save_leaderboard(leaderboard)
+            return
+
+def show_leaderboard(update, context):
+    from functions.leaderboard_handler import load_leaderboard
+    leaderboard = load_leaderboard()
+
+    if not leaderboard:
+        update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
         return
 
-    chat_data = load_chat_data()
-    if chat_id not in chat_data:
-        update.message.reply_text("No active quiz. Interval saved for future quizzes.")
-        chat_data[chat_id] = {"active": False, "interval": interval}
-        save_chat_data(chat_data)
-        return
+    sorted_scores = sorted(leaderboard.items(), key=lambda x: x[1], reverse=True)
+    message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+    medals = ["🥇", "🥈", "🥉"]
 
-    chat_data[chat_id]["interval"] = interval
-    save_chat_data(chat_data)
+    for rank, (user_id, score) in enumerate(sorted_scores[:10], start=1):
+        try:
+            user = context.bot.get_chat(int(user_id))
+            username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+        except Exception:
+            username = f"User {user_id}"
 
-    jobs = context.job_queue.jobs()
-    for job in jobs:
-        if job.context and job.context["chat_id"] == chat_id:
-            job.schedule_removal()
+        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+        message += f"{rank_display} *{username}* - {score} points\n"
 
-    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Restarting quiz...")
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
-
-def main():
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
-    
-    dp.add_handler(CommandHandler("start", lambda update, context: update.message.reply_text("Welcome! Use /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.")))
-    dp.add_handler(CommandHandler("sendgroup", sendgroup))
-    dp.add_handler(CommandHandler("prequiz", prequiz))
-    dp.add_handler(CommandHandler("stopquiz", stop_quiz))
-    dp.add_handler(CommandHandler("setinterval", set_interval))
-    dp.add_handler(PollAnswerHandler(handle_poll_answer))
-    dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
-    dp.add_handler(CommandHandler("broadcast", broadcast))
-    
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == '__main__':
-    main()
+    update.message.reply_text(message, parse_mode="Markdown")
