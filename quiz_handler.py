@@ -47,18 +47,17 @@ def send_quiz(context):
         logger.error(f"Failed to send quiz to {chat_id}: {e}")
 
 def handle_poll_answer(update, context):
-    #from leaderboard import load_leaderboard, save_leaderboard
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
     leaderboard = load_leaderboard()
 
-    for quiz in quizzes:
-        correct_option = quiz["options"].index(quiz["answer"])
-        if selected_option == correct_option:
-            leaderboard[user_id] = leaderboard.get(user_id, 0) + 1
-            save_leaderboard(leaderboard)
-            return
+    if selected_option is not None:
+        for quiz in quizzes:
+            if selected_option == quiz["options"].index(quiz["answer"]):
+                leaderboard[user_id] = leaderboard.get(user_id, 0) + 1
+                save_leaderboard(leaderboard)
+                return
 
 def show_leaderboard(update, context):
     #from leaderboard import load_leaderboard
