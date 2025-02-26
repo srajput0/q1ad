@@ -5,8 +5,8 @@ from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
 from pyrogram.errors import FloodWait
 
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 IS_BROADCASTING = False
@@ -78,7 +78,7 @@ async def broadcast_message_async(client, message):
         reply_markup = message.reply_to_message.reply_markup if message.reply_to_message.reply_markup else None
         content = None
     else:
-        if len(message.command) < 2:
+        if len(message.text.split()) < 2:
             return await message.reply_text("Please provide a message to broadcast.")
         query = message.text.split(None, 1)[1]
         if "-pin" in query:
