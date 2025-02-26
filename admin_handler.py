@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 IS_BROADCASTING = False
 
-async def broadcast_message(client, message, _):
+async def broadcast_message(client, message):
     global IS_BROADCASTING
 
     if "-wfchat" in message.text or "-wfuser" in message.text:
@@ -27,7 +27,7 @@ async def broadcast_message(client, message, _):
         reply_markup = message.reply_to_message.reply_markup if hasattr(message.reply_to_message, 'reply_markup') else None
 
         IS_BROADCASTING = True
-        await message.reply_text(_["broad_1"])
+        await message.reply_text("Broadcasting started!")
 
         if "-wfchat" in message.text or "-wfuser" in message.text:
             # Broadcasting to chats
@@ -36,9 +36,9 @@ async def broadcast_message(client, message, _):
             for i in chats:
                 try:
                     if content_type == 'photo':
-                        await app.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
+                        await client.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
                     else:
-                        await app.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
+                        await client.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
                     sent_chats += 1
                     await asyncio.sleep(0.2)
                 except FloodWait as fw:
@@ -54,9 +54,9 @@ async def broadcast_message(client, message, _):
             for i in users:
                 try:
                     if content_type == 'photo':
-                        await app.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
+                        await client.send_photo(chat_id=i, photo=file_id, caption=caption, reply_markup=reply_markup)
                     else:
-                        await app.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
+                        await client.send_message(chat_id=i, text=text_content, reply_markup=reply_markup)
                     sent_users += 1
                     await asyncio.sleep(0.2)
                 except FloodWait as fw:
@@ -76,7 +76,7 @@ async def broadcast_message(client, message, _):
         content = None
     else:
         if len(message.command) < 2:
-            return await message.reply_text(_["broad_2"])
+            return await message.reply_text("Please provide a message to broadcast.")
         query = message.text.split(None, 1)[1]
         if "-pin" in query:
             query = query.replace("-pin", "")
@@ -87,10 +87,10 @@ async def broadcast_message(client, message, _):
         if "-user" in query:
             query = query.replace("-user", "")
         if query == "":
-            return await message.reply_text(_["broad_8"])
+            return await message.reply_text("Please provide a message to broadcast.")
 
     IS_BROADCASTING = True
-    await message.reply_text(_["broad_1"])
+    await message.reply_text("Broadcasting started!")
 
     if "-nobot" not in message.text:
         sent = 0
@@ -102,9 +102,9 @@ async def broadcast_message(client, message, _):
         for i in chats:
             try:
                 m = (
-                    await app.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
+                    await client.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
                     if message.reply_to_message
-                    else await app.send_message(i, text=query)
+                    else await client.send_message(i, text=query)
                 )
                 if "-pin" in message.text:
                     try:
@@ -128,7 +128,7 @@ async def broadcast_message(client, message, _):
             except:
                 continue
         try:
-            await message.reply_text(_["broad_3"].format(sent, pin))
+            await message.reply_text(f"Broadcast to chats completed! Sent to {sent} chats and pinned {pin} messages.")
         except:
             pass
 
@@ -141,9 +141,9 @@ async def broadcast_message(client, message, _):
         for i in served_users:
             try:
                 m = (
-                    await app.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
+                    await client.copy_message(chat_id=i, from_chat_id=y, message_id=x, reply_markup=reply_markup)
                     if message.reply_to_message
-                    else await app.send_message(i, text=query)
+                    else await client.send_message(i, text=query)
                 )
                 susr += 1
                 await asyncio.sleep(0.2)
@@ -155,7 +155,7 @@ async def broadcast_message(client, message, _):
             except:
                 pass
         try:
-            await message.reply_text(_["broad_4"].format(susr))
+            await message.reply_text(f"Broadcast to users completed! Sent to {susr} users.")
         except:
             pass
 
