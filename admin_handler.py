@@ -76,3 +76,5 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             continue
 
     return sent_chats, sent_users
+
+
