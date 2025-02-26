@@ -3,7 +3,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Updater, CommandHandler, CallbackContext, PollAnswerHandler
 )
-from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user
+from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
 
@@ -132,6 +132,13 @@ def resume_quiz(update: Update, context: CallbackContext):
 
     update.message.reply_text("Quiz resumed successfully.")
 
+def restart_active_quizzes(context: CallbackContext):
+    active_quizzes = get_active_quizzes()
+    for quiz in active_quizzes:
+        chat_id = quiz["chat_id"]
+        interval = quiz["data"].get("interval", 30)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -148,6 +155,8 @@ def main():
     dp.add_handler(CommandHandler("broadcast", broadcast))
     
     updater.start_polling()
+    updater.job_queue.run_once(restart_active_quizzes, 0)
+
     updater.idle()
 
 if __name__ == '__main__':
