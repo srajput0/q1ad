@@ -6,6 +6,8 @@ from pymongo import MongoClient
 MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 client = MongoClient(MONGO_URI)
+
+client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 chat_data_collection = db["chat_data"]
 served_chats_collection = db["served_chats"]
@@ -27,15 +29,9 @@ def save_chat_data(chat_id, data):
     )
 
 # Get served chats
-async def get_served_chats():
-    chats = []
-    async for chat in served_chats_collection.find():
-        chats.append(chat)
-    return chats
+def get_served_chats():
+    return list(served_chats_collection.find({}, {"_id": 0, "chat_id": 1}))
 
 # Get served users
-async def get_served_users():
-    users = []
-    async for user in served_users_collection.find():
-        users.append(user)
-    return users
+def get_served_users():
+    return list(served_users_collection.find({}, {"_id": 0, "user_id": 1}))
