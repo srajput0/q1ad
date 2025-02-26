@@ -7,7 +7,8 @@ MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://asrushfig:2003@cluster0.6vdid.
 
 # client = MongoClient(MONGO_URI)
 
-client = MongoClient(MONGO_URI)db = client["telegram_bot"]
+client = MongoClient(MONGO_URI)
+db = client["telegram_bot"]
 chat_data_collection = db["chat_data"]
 served_chats_collection = db["served_chats"]
 served_users_collection = db["served_users"]
