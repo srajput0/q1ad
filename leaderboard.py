@@ -1,19 +1,24 @@
-import json
 import os
+from pymongo import MongoClient
 
-LEADERBOARD_FILE = 'config/leaderboard.json'
+# MongoDB connection
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+client = MongoClient(MONGO_URI)
+db = client["telegram_bot"]
+leaderboard_collection = db["leaderboard"]
 
 # Load leaderboard data
 def load_leaderboard():
-    if os.path.exists(LEADERBOARD_FILE):
-        with open(LEADERBOARD_FILE, 'r') as file:
-            try:
-                return json.load(file)
-            except json.JSONDecodeError:
-                return {}
-    return {}
+    leaderboard = {}
+    for entry in leaderboard_collection.find():
+        leaderboard[entry["user_id"]] = entry["score"]
+    return leaderboard
 
 # Save leaderboard data
 def save_leaderboard(data):
-    with open(LEADERBOARD_FILE, 'w') as file:
-        json.dump(data, file, indent=4)
+    for user_id, score in data.items():
+        leaderboard_collection.update_one(
+            {"user_id": user_id},
+            {"$set": {"score": score}},
+            upsert=True
+        )
