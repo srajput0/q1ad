@@ -10,16 +10,12 @@ from admin_handler import broadcast
 # Enable logging
 from bot_logging import logger
 
-
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
-    chat_data = load_chat_data(chat_id)
-    save_chat_data(chat_id, chat_data)
-
 
     # Register the chat and user for broadcasting
     add_served_chat(chat_id)
@@ -30,7 +26,7 @@ def start_command(update: Update, context: CallbackContext):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Send welcome message with photo and inline button
-    update.message.reply_photo(photo='https://envs.sh/gAT.jpg',
+    update.message.reply_photo(photo='https://example.com/welcome.jpg',
                                caption="Welcome to the Quiz Bot!\n\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.",
                                reply_markup=reply_markup)
 
@@ -102,6 +98,40 @@ def set_interval(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz interval updated to {interval} seconds. Restarting quiz...")
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
+def pause_quiz(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    chat_data = load_chat_data(chat_id)
+
+    if not chat_data.get("active", False):
+        update.message.reply_text("No active quiz to pause.")
+        return
+
+    chat_data["paused"] = True
+    save_chat_data(chat_id, chat_data)
+
+    jobs = context.job_queue.jobs()
+    for job in jobs:
+        if job.context and job.context["chat_id"] == chat_id:
+            job.schedule_removal()
+
+    update.message.reply_text("Quiz paused successfully.")
+
+def resume_quiz(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    chat_data = load_chat_data(chat_id)
+
+    if not chat_data.get("paused", False):
+        update.message.reply_text("No paused quiz to resume.")
+        return
+
+    chat_data["paused"] = False
+    save_chat_data(chat_id, chat_data)
+
+    interval = chat_data.get("interval", 30)
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+
+    update.message.reply_text("Quiz resumed successfully.")
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -111,6 +141,8 @@ def main():
     dp.add_handler(CommandHandler("prequiz", prequiz))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("setinterval", set_interval))
+    dp.add_handler(CommandHandler("pause", pause_quiz))
+    dp.add_handler(CommandHandler("resume", resume_quiz))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
