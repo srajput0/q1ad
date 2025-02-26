@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 
 # MongoDB connection
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://quiz:quiz123@+@cluster0.yzjqw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
