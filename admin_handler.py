@@ -1,27 +1,20 @@
 import logging
-import asyncio
-from telegram import Update
+from telegram import Update, BotCommand
 from telegram.ext import CallbackContext
-from chat_data_handler import load_chat_data, get_served_chats, get_served_users
-from pyrogram.errors import FloodWait
+from chat_data_handler import get_served_chats, get_served_users
+from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest
 
 logger = logging.getLogger(__name__)
 
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-IS_BROADCASTING = False
 
-def broadcast_message(update: Update, context: CallbackContext):
-    global IS_BROADCASTING
-
-    if not update.message.reply_to_message and len(update.message.text.split()) < 2:
-        update.message.reply_text("Please provide a message to broadcast or reply to a text/photo message.")
+def broadcast(update: Update, context: CallbackContext):
+    if update.effective_user.id != ADMIN_ID:
+        update.message.reply_text("You are not authorized to use this command.")
         return
 
-    IS_BROADCASTING = True
-    update.message.reply_text("Broadcasting started!")
-
+    # Determine if the message is a photo or text
     if update.message.reply_to_message:
-        # Extract data from the replied message
         if update.message.reply_to_message.photo:
             content_type = 'photo'
             file_id = update.message.reply_to_message.photo[-1].file_id
@@ -29,45 +22,48 @@ def broadcast_message(update: Update, context: CallbackContext):
         else:
             content_type = 'text'
             text_content = update.message.reply_to_message.text
-        
-        reply_markup = update.message.reply_to_message.reply_markup if hasattr(update.message.reply_to_message, 'reply_markup') else None
-        
-        broadcast_to_all(context.bot, text_content, content_type, file_id, reply_markup, update.message)
     else:
-        # Extract data from the command message
-        command_args = update.message.text.split(None, 1)[1]
-        broadcast_to_all(context.bot, command_args, 'text', None, None, update.message)
+        message = ' '.join(context.args)
+        if not message:
+            update.message.reply_text("Usage: /broadcast <message>")
+            return
+        content_type = 'text'
+        text_content = message
 
-    IS_BROADCASTING = False
+    reply_markup = update.message.reply_to_message.reply_markup if hasattr(update.message.reply_to_message, 'reply_markup') else None
+
+    sent_chats, sent_users = broadcast_to_all(context.bot, text_content, content_type, file_id if content_type == 'photo' else None, reply_markup, update.message)
+    update.message.reply_text(f"Broadcast completed! Sent to {sent_chats} chats and {sent_users} users.")
 
 def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, message):
-    # Broadcasting to chats
     sent_chats = 0
+    sent_users = 0
+
+    # Broadcasting to chats
     chats = [int(chat["chat_id"]) for chat in get_served_chats()]
     for chat_id in chats:
         try:
             if content_type == 'photo':
-                bot.send_photo(chat_id=chat_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
+                sent_message = bot.send_photo(chat_id=chat_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
             else:
                 sent_message = bot.send_message(chat_id=chat_id, text=text_content, reply_markup=reply_markup)
-                if "-pin" in message.text:
-                    try:
-                        sent_message.pin(disable_notification=True)
-                    except:
-                        continue
-                elif "-pinloud" in message.text:
-                    try:
-                        sent_message.pin(disable_notification=False)
-                    except:
-                        continue
+            
+            if "-pin" in message.text:
+                try:
+                    sent_message.pin(disable_notification=True)
+                except:
+                    continue
+            elif "-pinloud" in message.text:
+                try:
+                    sent_message.pin(disable_notification=False)
+                except:
+                    continue
             sent_chats += 1
         except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
             logger.error(f"Error broadcasting to chat {chat_id}: {e}")
             continue
-    message.reply_text(f"Broadcast to chats completed! Sent to {sent_chats} chats.")
 
     # Broadcasting to users
-    sent_users = 0
     users = [int(user["user_id"]) for user in get_served_users()]
     for user_id in users:
         try:
@@ -79,4 +75,5 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
         except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
             logger.error(f"Error broadcasting to user {user_id}: {e}")
             continue
-    message.reply_text(f"Broadcast to users completed! Sent to {sent_users} users.")
+
+    return sent_chats, sent_users
