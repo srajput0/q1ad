@@ -6,6 +6,9 @@ from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest
 
 logger = logging.getLogger(__name__)
 
+
+logger = logging.getLogger(__name__)
+
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 def broadcast(update: Update, context: CallbackContext):
@@ -76,5 +79,3 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             continue
 
     return sent_chats, sent_users
-
-
