@@ -5,7 +5,7 @@ from telegram.ext import (
 )
 from chat_data_handler import load_chat_data, save_chat_data
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
-from admin_handler import broadcast
+from admin_handler import broadcast_message
 
 # Enable logging
 from bot_logging import logger
