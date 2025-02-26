@@ -17,6 +17,9 @@ ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
+    chat_data = load_chat_data(chat_id)
+    save_chat_data(chat_id, chat_data)
+
 
     # Register the chat and user for broadcasting
     add_served_chat(chat_id)
