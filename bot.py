@@ -9,9 +9,18 @@ from admin_handler import broadcast
 
 # Enable logging
 from bot_logging import logger
-
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
+
+def start_command(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    user_id = str(update.effective_user.id)
+
+    # Register the chat and user for broadcasting
+    add_served_chat(chat_id)
+    add_served_user(user_id)
+
+    update.message.reply_text("Welcome! You are now registered for broadcasts.")
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -85,7 +94,7 @@ def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     
-    dp.add_handler(CommandHandler("start", lambda update, context: update.message.reply_text("Welcome! Use /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.")))
+    dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("sendgroup", sendgroup))
     dp.add_handler(CommandHandler("prequiz", prequiz))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
@@ -93,6 +102,12 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
+    
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
     
     updater.start_polling()
     updater.idle()
