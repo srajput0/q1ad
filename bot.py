@@ -92,7 +92,7 @@ def main():
     dp.add_handler(CommandHandler("setinterval", set_interval))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
-    dp.add_handler(CommandHandler("broadcast", broadcast))
+    dp.add_handler(CommandHandler("broadcast", broadcast_message))
     
     updater.start_polling()
     updater.idle()
