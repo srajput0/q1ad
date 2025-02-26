@@ -10,6 +10,7 @@ from admin_handler import broadcast
 # Enable logging
 from bot_logging import logger
 
+
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
@@ -26,7 +27,7 @@ def start_command(update: Update, context: CallbackContext):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Send welcome message with photo and inline button
-    update.message.reply_photo(photo='https://envs.sh/gAT.jpg',
+    update.message.reply_photo(photo='https://example.com/welcome.jpg',
                                caption="Welcome to the Quiz Bot!\n\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.",
                                reply_markup=reply_markup)
 
