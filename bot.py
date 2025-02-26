@@ -1,14 +1,15 @@
 import logging
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Updater, CommandHandler, CallbackContext, PollAnswerHandler
 )
-from chat_data_handler import load_chat_data, save_chat_data
+from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
 
 # Enable logging
 from bot_logging import logger
+
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
@@ -20,7 +21,14 @@ def start_command(update: Update, context: CallbackContext):
     add_served_chat(chat_id)
     add_served_user(user_id)
 
-    update.message.reply_text("Welcome! You are now registered for broadcasts.")
+    # Inline button
+    keyboard = [[InlineKeyboardButton("Learn More", url="https://example.com")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    # Send welcome message with photo and inline button
+    update.message.reply_photo(photo='https://envs.sh/gAT.jpg',
+                               caption="Welcome to the Quiz Bot!\n\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.",
+                               reply_markup=reply_markup)
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -102,12 +110,6 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
-    
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == '__main__':
-    main()
     
     updater.start_polling()
     updater.idle()
