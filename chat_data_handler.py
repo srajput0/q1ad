@@ -52,3 +52,7 @@ def add_served_user(user_id):
         {"$set": {"user_id": user_id}},
         upsert=True
     )
+
+# Get all active quizzes
+def get_active_quizzes():
+    return chat_data_collection.find({"data.active": True})
