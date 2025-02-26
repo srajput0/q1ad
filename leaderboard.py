@@ -24,7 +24,7 @@ def save_chat_data(chat_id, data):
         {"chat_id": chat_id},
         {"$set": {"data": data}},
         upsert=True
-    )")
+    )
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
