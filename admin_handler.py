@@ -61,7 +61,8 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
                     except:
                         continue
             sent_chats += 1
-        except (TimedOut, NetworkError, RetryAfter, BadRequest):
+        except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
+            logger.error(f"Error broadcasting to chat {chat_id}: {e}")
             continue
     message.reply_text(f"Broadcast to chats completed! Sent to {sent_chats} chats.")
 
@@ -75,6 +76,7 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             else:
                 bot.send_message(chat_id=user_id, text=text_content, reply_markup=reply_markup)
             sent_users += 1
-        except (TimedOut, NetworkError, RetryAfter, BadRequest):
+        except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
+            logger.error(f"Error broadcasting to user {user_id}: {e}")
             continue
     message.reply_text(f"Broadcast to users completed! Sent to {sent_users} users.")
