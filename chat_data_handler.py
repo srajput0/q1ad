@@ -5,7 +5,6 @@ from pymongo import MongoClient
 # MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
-# client = MongoClient(MONGO_URI)
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 chat_data_collection = db["chat_data"]
@@ -37,3 +36,19 @@ def get_served_chats():
 # Get served users
 def get_served_users():
     return list(served_users_collection.find({}, {"_id": 0, "user_id": 1}))
+
+# Add served chat
+def add_served_chat(chat_id):
+    served_chats_collection.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"chat_id": chat_id}},
+        upsert=True
+    )
+
+# Add served user
+def add_served_user(user_id):
+    served_users_collection.update_one(
+        {"user_id": user_id},
+        {"$set": {"user_id": user_id}},
+        upsert=True
+    )
