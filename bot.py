@@ -30,7 +30,7 @@ def start_command(update: Update, context: CallbackContext):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     # Send welcome message with photo and inline button
-    update.message.reply_photo(photo='https://example.com/welcome.jpg',
+    update.message.reply_photo(photo='https://envs.sh/gAT.jpg',
                                caption="Welcome to the Quiz Bot!\n\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.",
                                reply_markup=reply_markup)
 
