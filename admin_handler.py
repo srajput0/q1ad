@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 IS_BROADCASTING = False
 
-async def broadcast_message(client, message):
+async def broadcast_message_async(client, message):
     global IS_BROADCASTING
 
     if "-wfchat" in message.text or "-wfuser" in message.text:
@@ -160,3 +160,6 @@ async def broadcast_message(client, message):
             pass
 
     IS_BROADCASTING = False
+
+def broadcast_message(update: Update, context: CallbackContext):
+    asyncio.run(broadcast_message_async(context.bot, update.message))
