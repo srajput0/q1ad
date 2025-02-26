@@ -5,7 +5,7 @@ from telegram.ext import (
 )
 from chat_data_handler import load_chat_data, save_chat_data
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
-from admin_handler import broadcast_message
+from admin_handler import broadcast
 
 # Enable logging
 from bot_logging import logger
@@ -92,7 +92,7 @@ def main():
     dp.add_handler(CommandHandler("setinterval", set_interval))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
-    dp.add_handler(CommandHandler("broadcast", broadcast_message))
+    dp.add_handler(CommandHandler("broadcast", broadcast))
     
     updater.start_polling()
     updater.idle()
