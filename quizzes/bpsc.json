@@ -1,1 +1,12 @@
-
+[
+    {
+        "question": "Which river is known as the lifeline of Bihar?",
+        "options": ["Ganga", "Yamuna", "Saraswati", "Narmada"],
+        "correct_option_id": 0
+    },
+    {
+        "question": "Who is the current Chief Minister of Bihar (as of 2025)?",
+        "options": ["Nitish Kumar", "Tejashwi Yadav", "Ram Vilas Paswan", "Sushil Kumar Modi"],
+        "correct_option_id": 1
+    }
+]
