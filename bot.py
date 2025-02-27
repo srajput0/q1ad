@@ -214,7 +214,6 @@ def main():
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
-    dp.add_handler(CommandHandler("addquestion", add_question_command))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
