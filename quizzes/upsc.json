@@ -20,13 +20,11 @@
         "correct_option_id": 0
     },
     {
-   
         "question": "Who was the first woman Prime Minister of India?",
         "options": ["Indira Gandhi", "Sonia Gandhi", "Pratibha Patil", "Sarojini Naidu"],
         "correct_option_id": 0
     },
     {
-   
         "question": "Which is the largest state in India by area?",
         "options": ["Uttar Pradesh", "Madhya Pradesh", "Maharashtra", "Rajasthan"],
         "correct_option_id": 3
@@ -67,7 +65,6 @@
         "correct_option_id": 0
     },
     {
-
         "question": "Which is the highest mountain peak in India?",
         "options": ["Mount Everest", "Kanchenjunga", "Nanda Devi", "K2"],
         "correct_option_id": 1
