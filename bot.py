@@ -1,7 +1,7 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Updater, CommandHandler, CallbackContext, PollAnswerHandler
+    Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
@@ -21,14 +21,32 @@ def start_command(update: Update, context: CallbackContext):
     add_served_chat(chat_id)
     add_served_user(user_id)
 
-    # Inline button
-    keyboard = [[InlineKeyboardButton("Learn More", url="https://example.com")]]
+    # Inline buttons for category selection
+    keyboard = [
+        [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+        [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+        [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+        [InlineKeyboardButton("RRB", callback_data='category_rrb')]
+    ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Send welcome message with photo and inline button
-    update.message.reply_photo(photo='https://example.com/welcome.jpg',
-                               caption="Welcome to the Quiz Bot!\n\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.",
-                               reply_markup=reply_markup)
+    # Send welcome message with category selection buttons
+    update.message.reply_text(
+        "Welcome to the Quiz Bot! Please select your category:",
+        reply_markup=reply_markup
+    )
+
+def button(update: Update, context: CallbackContext):
+    query = update.callback_query
+    query.answer()
+    chat_id = str(query.message.chat.id)
+    chat_data = load_chat_data(chat_id)
+
+    if query.data.startswith('category_'):
+        category = query.data.split('_')[1]
+        chat_data['category'] = category
+        save_chat_data(chat_id, chat_data)
+        query.edit_message_text(text=f"Category selected: {category.upper()}\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.")
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -39,7 +57,7 @@ def start_quiz(update: Update, context: CallbackContext):
         return
 
     interval = chat_data.get("interval", 30)
-    chat_data = {"active": True, "interval": interval}
+    chat_data = {"active": True, "interval": interval, "category": chat_data.get("category", "general")}
     save_chat_data(chat_id, chat_data)
 
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
@@ -77,7 +95,7 @@ def stop_quiz(update: Update, context: CallbackContext):
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
 
-    if not context.args or not context.args[0].isdigit():
+    if not context.args or not context.args[0].isdigit()):
         update.message.reply_text("Usage: /setinterval <seconds>")
         return
     
@@ -150,6 +168,7 @@ def main():
     dp.add_handler(CommandHandler("setinterval", set_interval))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
+    dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
