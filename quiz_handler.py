@@ -32,7 +32,7 @@ def send_quiz(context: CallbackContext):
 
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"date": today, "count": 1})
-    elif quizzes_sent["count"] < 100:
+    elif quizzes_sent["count"] < 1:
         quizzes_sent_collection.update_one({"date": today}, {"$inc": {"count": 1}})
     else:
         # Schedule the next quiz after 24 hours
