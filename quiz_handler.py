@@ -18,11 +18,17 @@ db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
 
+
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
     if os.path.exists(file_path):
         with open(file_path, 'r') as f:
-            return json.load(f)
+            questions = json.load(f)
+            # Ensure each question has a unique ID
+            for idx, question in enumerate(questions):
+                if 'id' not in question:
+                    question['id'] = f"{category}_{idx}"
+            return questions
     else:
         logger.error(f"Quiz file for category '{category}' not found.")
         return []
