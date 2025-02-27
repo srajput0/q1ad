@@ -2,7 +2,7 @@ import logging
 from telegram import Update
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data
-from leaderboard_handler import load_leaderboard, save_leaderboard
+from leaderboard_handler import add_score, get_top_scores
 import random
 import json
 import os
@@ -51,7 +51,6 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
-    leaderboard = load_leaderboard()
 
     poll_id = poll_answer.poll_id
     poll_data = context.bot_data.get(poll_id)
@@ -60,34 +59,22 @@ def handle_poll_answer(update: Update, context: CallbackContext):
         return
 
     correct_option_id = poll_data['correct_option_id']
-    chat_id = poll_data['chat_id']
-    leaderboard = load_leaderboard()
-
-    if 'scores' not in chat_data:
-        chat_data['scores'] = {}
-
-    if user_id not in chat_data['scores']:
-        chat_data['scores'][user_id] = 0
 
     # Update the score
     if selected_option == correct_option_id:
-        chat_data['scores'][user_id] += 1
-        save_leaderboard(leaderboard)
+        add_score(user_id, 1)
 
 def show_leaderboard(update: Update, context: CallbackContext):
-     leaderboard = load_leaderboard()
+    top_scores = get_top_scores(10)
 
-    if 'scores' not in chat_data or not chat_data['scores']:
+    if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
         return
-
-    scores = chat_data['scores']
-    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
     medals = ["🥇", "🥈", "🥉"]
 
-    for rank, (user_id, score) in enumerate(sorted_scores[:10], start=1):
+    for rank, (user_id, score) in enumerate(top_scores, start=1):
         try:
             user = context.bot.get_chat(int(user_id))
             username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
