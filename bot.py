@@ -6,6 +6,7 @@ from telegram.ext import (
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
+from datetime import datetime  # Import the datetime module
 
 # Enable logging
 from bot_logging import logger
