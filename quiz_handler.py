@@ -41,7 +41,7 @@ def send_quiz(context: CallbackContext):
     )
 
 def handle_poll_answer(update, context):
-    from leaderboard_handler import load_leaderboard, save_leaderboard
+    from leaderboard import load_leaderboard, save_leaderboard
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
@@ -55,7 +55,7 @@ def handle_poll_answer(update, context):
             return
 
 def show_leaderboard(update, context):
-    from leaderboard_handler import load_leaderboard
+    from leaderboard import load_leaderboard
     leaderboard = load_leaderboard()
 
     if not leaderboard:
