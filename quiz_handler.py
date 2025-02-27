@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 # MongoDB connection
-MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://your_mongo_uri"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
@@ -36,12 +36,12 @@ def send_quiz(context: CallbackContext):
     questions = load_quizzes(category)
 
     today = datetime.now().date()
-    quizzes_sent = quizzes_sent_collection.find_one({"date": today})
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
     if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"date": today, "count": 1})
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
     elif quizzes_sent["count"] < 10:
-        quizzes_sent_collection.update_one({"date": today}, {"$inc": {"count": 1}})
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
         next_quiz_time = datetime.combine(today + timedelta(days=1), datetime.min.time())
         context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
