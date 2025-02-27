@@ -46,7 +46,54 @@ def button(update: Update, context: CallbackContext):
         category = query.data.split('_')[1]
         chat_data['category'] = category
         save_chat_data(chat_id, chat_data)
-        query.edit_message_text(text=f"Category selected: {category.upper()}\nUse /sendgroup to start a quiz in a group or /prequiz to start a quiz personally.")
+
+        # Inline buttons for selecting sendgroup or prequiz
+        keyboard = [
+            [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
+            [InlineKeyboardButton("Prequiz", callback_data='prequiz')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text=f"Category selected: {category.upper()}\nPlease select an option:",
+                                reply_markup=reply_markup)
+    elif query.data in ['sendgroup', 'prequiz']:
+        # Send the set interval command
+        if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
+            query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
+            return
+        elif query.data == 'prequiz' and update.effective_chat.type != 'private':
+            query.edit_message_text(text="The Prequiz option is only available in private chats.")
+            return
+
+        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30):")
+
+        # Save the selected option in chat data
+        chat_data['selected_option'] = query.data
+        save_chat_data(chat_id, chat_data)
+
+def set_interval(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+
+    if not context.args or not context.args[0].isdigit():
+        update.message.reply_text("Usage: /setinterval <seconds>")
+        return
+    
+    interval = int(context.args[0])
+    if interval < 10:
+        update.message.reply_text("Interval must be at least 10 seconds.")
+        return
+
+    chat_data = load_chat_data(chat_id)
+    chat_data["interval"] = interval
+    save_chat_data(chat_id, chat_data)
+
+    if 'selected_option' in chat_data:
+        selected_option = chat_data['selected_option']
+        if selected_option == 'sendgroup':
+            start_quiz(update, context)
+        elif selected_option == 'prequiz':
+            start_quiz(update, context)
+
+    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Starting quiz...")
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -68,18 +115,6 @@ def start_quiz(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
-def sendgroup(update: Update, context: CallbackContext):
-    if update.effective_chat.type in ["group", "supergroup"]:
-        start_quiz(update, context)
-    else:
-        update.message.reply_text("This command can only be used in a group chat.")
-
-def prequiz(update: Update, context: CallbackContext):
-    if update.effective_chat.type == "private":
-        start_quiz(update, context)
-    else:
-        update.message.reply_text("This command can only be used in a private chat.")
-
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     chat_data = load_chat_data(chat_id)
@@ -96,30 +131,6 @@ def stop_quiz(update: Update, context: CallbackContext):
         update.message.reply_text("Quiz stopped successfully.")
     else:
         update.message.reply_text("No active quiz to stop.")
-
-def set_interval(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-
-    if not context.args or not context.args[0].isdigit():
-        update.message.reply_text("Usage: /setinterval <seconds>")
-        return
-    
-    interval = int(context.args[0])
-    if interval < 10:
-        update.message.reply_text("Interval must be at least 10 seconds.")
-        return
-
-    chat_data = load_chat_data(chat_id)
-    chat_data["interval"] = interval
-    save_chat_data(chat_id, chat_data)
-
-    jobs = context.job_queue.jobs()
-    for job in jobs:
-        if job.context and job.context["chat_id"] == chat_id:
-            job.schedule_removal()
-
-    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Restarting quiz...")
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
 def pause_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -167,10 +178,8 @@ def main():
     dp = updater.dispatcher
     
     dp.add_handler(CommandHandler("start", start_command))
-    dp.add_handler(CommandHandler("sendgroup", sendgroup))
-    dp.add_handler(CommandHandler("prequiz", prequiz))
-    dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("setinterval", set_interval))
+    dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
     dp.add_handler(CallbackQueryHandler(button))
