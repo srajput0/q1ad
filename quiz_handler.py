@@ -12,12 +12,12 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 # MongoDB connection
-MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://your_mongo_uri"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
-
+message_status_collection = db["message_status"]
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
@@ -43,19 +43,30 @@ def send_quiz(context: CallbackContext):
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+    message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
     elif quizzes_sent["count"] < 10:
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
+        if message_status is None or not message_status.get("limit_reached", False):
+            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
         next_quiz_time = datetime.combine(datetime.now() + timedelta(days=1), datetime.min.time())
         context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
-        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
         return
 
     if not questions:
-        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+        if message_status is None or not message_status.get("no_questions", False):
+            context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_questions": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_questions": True}})
         return
 
     used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
@@ -63,7 +74,12 @@ def send_quiz(context: CallbackContext):
 
     available_questions = [q for q in questions if q['id'] not in used_question_ids]
     if not available_questions:
-        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
+        if message_status is None or not message_status.get("no_new_questions", False):
+            context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_new_questions": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_new_questions": True}})
         return
 
     question = random.choice(available_questions)
