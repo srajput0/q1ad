@@ -4,7 +4,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard, add_question
+from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
 
 # Enable logging
@@ -204,19 +204,6 @@ def restart_active_quizzes(context: CallbackContext):
         interval = quiz["data"].get("interval", DEFAULT_INTERVAL)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": quiz["data"].get("used_questions", [])})
 
-def add_question_command(update: Update, context: CallbackContext):
-    if not context.args or len(context.args) < 2:
-        update.message.reply_text("Usage: /addquestion <category> <question>")
-        return
-
-    category = context.args[0]
-    question = ' '.join(context.args[1:])
-
-    try:
-        add_question(category, question)
-        update.message.reply_text(f"Question added to category {category}.")
-    except Exception as e:
-        update.message.reply_text(str(e))
 
 def main():
     updater = Updater(TOKEN, use_context=True)
