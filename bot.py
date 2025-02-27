@@ -50,10 +50,22 @@ def button(update: Update, context: CallbackContext):
         # Inline buttons for selecting sendgroup or prequiz
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
-            [InlineKeyboardButton("Prequiz", callback_data='prequiz')]
+            [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
+            [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=f"Category selected: {category.upper()}\nPlease select an option:",
+                                reply_markup=reply_markup)
+    elif query.data == 'back_to_categories':
+        # Inline buttons for category selection
+        keyboard = [
+            [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+            [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+            [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+            [InlineKeyboardButton("RRB", callback_data='category_rrb')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
     elif query.data in ['sendgroup', 'prequiz']:
         # Send the set interval command
@@ -64,7 +76,7 @@ def button(update: Update, context: CallbackContext):
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
 
-        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30):")
+        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30), or it will default to 30 seconds:")
 
         # Save the selected option in chat data
         chat_data['selected_option'] = query.data
@@ -103,7 +115,7 @@ def start_quiz(update: Update, context: CallbackContext):
         update.message.reply_text("A quiz is already running in this chat!")
         return
 
-    interval = chat_data.get("interval", 30)
+    interval = chat_data.get("interval", 30)  # Default interval to 30 seconds if not set
     chat_data = {
         "active": True,
         "interval": interval,
