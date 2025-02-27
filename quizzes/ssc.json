@@ -1,120 +1,100 @@
 [
     {
-        "id": "ssc_1",
         "question": "Who was the first Prime Minister of India?",
         "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Indira Gandhi", "Lal Bahadur Shastri"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_2",
         "question": "What is the capital of India?",
         "options": ["Mumbai", "New Delhi", "Kolkata", "Chennai"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_3",
         "question": "Who wrote the national anthem of India?",
         "options": ["Rabindranath Tagore", "Bankim Chandra Chatterjee", "Sarojini Naidu", "Subhas Chandra Bose"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_4",
         "question": "Which planet is known as the Red Planet?",
         "options": ["Earth", "Mars", "Jupiter", "Saturn"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_5",
         "question": "Who invented the telephone?",
         "options": ["Alexander Graham Bell", "Isaac Newton", "Albert Einstein", "Nikola Tesla"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_6",
         "question": "What is the largest mammal in the world?",
         "options": ["Elephant", "Blue Whale", "Giraffe", "Shark"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_7",
         "question": "Who is known as the Father of the Nation in India?",
         "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_8",
         "question": "Which is the smallest state in India by area?",
         "options": ["Goa", "Sikkim", "Nagaland", "Tripura"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_9",
         "question": "What is the chemical symbol for water?",
         "options": ["H2O", "O2", "CO2", "H2"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_10",
         "question": "Who is the author of the Harry Potter series?",
         "options": ["J.K. Rowling", "J.R.R. Tolkien", "George R.R. Martin", "Agatha Christie"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_11",
         "question": "Which is the longest river in the world?",
         "options": ["Nile", "Amazon", "Ganga", "Yangtze"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_12",
         "question": "Who discovered penicillin?",
         "options": ["Alexander Fleming", "Marie Curie", "Louis Pasteur", "Gregor Mendel"],
         "correct_option_id": 0
     },
     {
-        "id": "ssc_13",
         "question": "What is the hardest natural substance on Earth?",
         "options": ["Gold", "Iron", "Diamond", "Platinum"],
         "correct_option_id": 2
     },
     {
-        "id": "ssc_14",
         "question": "Which Indian state has the longest coastline?",
         "options": ["Maharashtra", "Tamil Nadu", "Gujarat", "West Bengal"],
         "correct_option_id": 2
     },
     {
-        "id": "ssc_15",
         "question": "Who is the founder of Microsoft?",
         "options": ["Steve Jobs", "Bill Gates", "Mark Zuckerberg", "Elon Musk"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_16",
         "question": "What is the boiling point of water?",
         "options": ["90°C", "100°C", "110°C", "120°C"],
         "correct_option_id": 1
     },
     {
-        "id": "ssc_17",
         "question": "Who painted the Mona Lisa?",
         "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
         "correct_option_id": 2
     },
     {
-        "id": "ssc_18",
         "question": "Which country is known as the Land of the Rising Sun?",
         "options": ["China", "South Korea", "Japan", "Thailand"],
         "correct_option_id": 2
     },
     {
-        "id": "ssc_19",
         "question": "Which is the largest desert in the world?",
         "options": ["Sahara", "Gobi", "Arctic", "Antarctic"],
         "correct_option_id": 3
     },
     {
-        "id": "ssc_20",
         "question": "Who is known as the Iron Man of India?",
         "options": ["Jawaharlal Nehru", "Sardar Vallabhbhai Patel", "B.R. Ambedkar", "Lal Bahadur Shastri"],
         "correct_option_id": 1
