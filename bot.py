@@ -204,7 +204,6 @@ def restart_active_quizzes(context: CallbackContext):
         interval = quiz["data"].get("interval", DEFAULT_INTERVAL)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": quiz["data"].get("used_questions", [])})
 
-
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
