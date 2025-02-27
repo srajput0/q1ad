@@ -12,6 +12,7 @@ from bot_logging import logger
 
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
+DEFAULT_INTERVAL = 30  # Default interval in seconds
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -76,11 +77,29 @@ def button(update: Update, context: CallbackContext):
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
 
-        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30), or it will default to 30 seconds:")
-
         # Save the selected option in chat data
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
+
+        # Prompt to set interval or start with default interval
+        keyboard = [
+            [InlineKeyboardButton("Start with Default Interval (30 sec)", callback_data='start_default_interval')],
+            [InlineKeyboardButton("Back", callback_data='back_to_categories')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30), or start with the default interval:",
+                                reply_markup=reply_markup)
+    elif query.data == 'start_default_interval':
+        chat_data = load_chat_data(chat_id)
+        chat_data["interval"] = DEFAULT_INTERVAL
+        save_chat_data(chat_id, chat_data)
+
+        if 'selected_option' in chat_data:
+            selected_option = chat_data['selected_option']
+            if selected_option == 'sendgroup':
+                start_quiz(update, context)
+            elif selected_option == 'prequiz':
+                start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -115,7 +134,7 @@ def start_quiz(update: Update, context: CallbackContext):
         update.message.reply_text("A quiz is already running in this chat!")
         return
 
-    interval = chat_data.get("interval", 30)  # Default interval to 30 seconds if not set
+    interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
     chat_data = {
         "active": True,
         "interval": interval,
@@ -173,7 +192,7 @@ def resume_quiz(update: Update, context: CallbackContext):
     chat_data["paused"] = False
     save_chat_data(chat_id, chat_data)
 
-    interval = chat_data.get("interval", 30)
+    interval = chat_data.get("interval", DEFAULT_INTERVAL)
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
     update.message.reply_text("Quiz resumed successfully.")
@@ -182,7 +201,7 @@ def restart_active_quizzes(context: CallbackContext):
     active_quizzes = get_active_quizzes()
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
-        interval = quiz["data"].get("interval", 30)
+        interval = quiz["data"].get("interval", DEFAULT_INTERVAL)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": quiz["data"].get("used_questions", [])})
 
 def main():
