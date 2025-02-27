@@ -1,16 +1,22 @@
 import logging
 from telegram import Update
 from telegram.ext import CallbackContext
-from chat_data_handler import load_chat_data
+from chat_data_handler import load_chat_data, save_chat_data
 from leaderboard_handler import add_score, get_top_scores
 import random
 import json
 import os
+from pymongo import MongoClient
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
 # MongoDB connection
-
+MONGO_URI = "mongodb+srv://your_mongo_uri"
+client = MongoClient(MONGO_URI)
+db = client["telegram_bot"]
+quizzes_sent_collection = db["quizzes_sent"]
+used_quizzes_collection = db["used_quizzes"]
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
@@ -25,16 +31,41 @@ def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
     chat_data = load_chat_data(chat_id)
-    
+
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
+
+    today = datetime.now().date()
+    quizzes_sent = quizzes_sent_collection.find_one({"date": today})
+
+    if quizzes_sent is None:
+        quizzes_sent_collection.insert_one({"date": today, "count": 1})
+    elif quizzes_sent["count"] < 10:
+        quizzes_sent_collection.update_one({"date": today}, {"$inc": {"count": 1}})
+    else:
+        next_quiz_time = datetime.combine(today + timedelta(days=1), datetime.min.time())
+        context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
+        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+        return
 
     if not questions:
         context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
         return
 
-    question = random.choice([q for q in questions if q not in used_questions])
-    used_questions.append(question)
+    used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
+    used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
+
+    available_questions = [q for q in questions if q['id'] not in used_question_ids]
+    if not available_questions:
+        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
+        return
+
+    question = random.choice(available_questions)
+    used_questions.append(question['id'])
+    if used_question_ids:
+        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question['id']}})
+    else:
+        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question['id']]})
 
     message = context.bot.send_poll(
         chat_id=chat_id,
@@ -88,6 +119,3 @@ def show_leaderboard(update: Update, context: CallbackContext):
         message += f"{rank_display} *{username}* - {score} points\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
-
-def add_question(category, question):
-    questions_collection.insert_one({"category": category, "question": question})
