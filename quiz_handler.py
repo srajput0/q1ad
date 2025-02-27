@@ -61,7 +61,7 @@ def handle_poll_answer(update: Update, context: CallbackContext):
 
     correct_option_id = poll_data['correct_option_id']
     chat_id = poll_data['chat_id']
-    chat_data = load_chat_data(chat_id)
+    leaderboard = load_leaderboard()
 
     if 'scores' not in chat_data:
         chat_data['scores'] = {}
@@ -72,12 +72,10 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     # Update the score
     if selected_option == correct_option_id:
         chat_data['scores'][user_id] += 1
-
-    save_chat_data(chat_id, chat_data)
+        save_leaderboard(leaderboard)
 
 def show_leaderboard(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    chat_data = load_chat_data(chat_id)
+     leaderboard = load_leaderboard()
 
     if 'scores' not in chat_data or not chat_data['scores']:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
