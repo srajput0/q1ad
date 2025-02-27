@@ -1,1 +1,12 @@
-
+[
+    {
+        "question": "What is the capital of India?",
+        "options": ["Mumbai", "Kolkata", "New Delhi", "Chennai"],
+        "correct_option_id": 2
+    },
+    {
+        "question": "Who is known as the Iron Man of India?",
+        "options": ["Mahatma Gandhi", "Jawaharlal Nehru", "Sardar Vallabhbhai Patel", "Subhas Chandra Bose"],
+        "correct_option_id": 2
+    }
+]
