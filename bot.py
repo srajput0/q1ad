@@ -150,12 +150,7 @@ def start_quiz(update: Update, context: CallbackContext):
         return
 
     interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
-    chat_data = {
-        "active": True,
-        "interval": interval,
-        "category": chat_data.get("category", "general"),
-        "used_questions": []
-    }
+    chat_data["active"] = True
     save_chat_data(chat_id, chat_data)
 
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
