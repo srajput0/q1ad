@@ -1,12 +1,122 @@
 [
     {
-        "question": "Which river is known as the lifeline of Bihar?",
-        "options": ["Ganga", "Yamuna", "Saraswati", "Narmada"],
+        "id": "bpsc_1",
+        "question": "Who was the first Chief Minister of Bihar?",
+        "options": ["Nitish Kumar", "Karpoori Thakur", "S.K. Sinha", "Krishna Singh"],
+        "correct_option_id": 3
+    },
+    {
+        "id": "bpsc_2",
+        "question": "Which river flows through the state of Bihar?",
+        "options": ["Ganga", "Yamuna", "Narmada", "Tapti"],
         "correct_option_id": 0
     },
     {
-        "question": "Who is the current Chief Minister of Bihar (as of 2025)?",
-        "options": ["Nitish Kumar", "Tejashwi Yadav", "Ram Vilas Paswan", "Sushil Kumar Modi"],
+        "id": "bpsc_3",
+        "question": "Who founded the city of Patna?",
+        "options": ["Ashoka", "Chandragupta Maurya", "Sher Shah Suri", "Akbar"],
+        "correct_option_id": 2
+    },
+    {
+        "id": "bpsc_4",
+        "question": "Which is the largest district in Bihar by area?",
+        "options": ["Patna", "Gaya", "Purnia", "Muzaffarpur"],
         "correct_option_id": 1
+    },
+    {
+        "id": "bpsc_5",
+        "question": "Who is known as the Bihar Vibhuti?",
+        "options": ["Rajendra Prasad", "Anugrah Narayan Sinha", "Jayaprakash Narayan", "Babu Kunwar Singh"],
+        "correct_option_id": 1
+    },
+    {
+        "id": "bpsc_6",
+        "question": "Which ancient university was located in Bihar?",
+        "options": ["Nalanda", "Takshashila", "Vikramshila", "Mithila"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_7",
+        "question": "Who was the first Governor of Bihar?",
+        "options": ["Sir Hugh Dow", "Lord Willingdon", "Satyendra Prasanna Sinha", "Syed Mahmud"],
+        "correct_option_id": 2
+    },
+    {
+        "id": "bpsc_8",
+        "question": "Which festival is celebrated with great fervor in Bihar?",
+        "options": ["Diwali", "Holi", "Chhath Puja", "Eid"],
+        "correct_option_id": 2
+    },
+    {
+        "id": "bpsc_9",
+        "question": "Which wildlife sanctuary is located in Bihar?",
+        "options": ["Kaziranga", "Sundarbans", "Valmiki", "Gir"],
+        "correct_option_id": 2
+    },
+    {
+        "id": "bpsc_10",
+        "question": "Who is known as the architect of modern Bihar?",
+        "options": ["Nitish Kumar", "Lalu Prasad Yadav", "Jagannath Mishra", "Sri Krishna Sinha"],
+        "correct_option_id": 3
+    },
+    {
+        "id": "bpsc_11",
+        "question": "What is the state animal of Bihar?",
+        "options": ["Tiger", "Elephant", "Gaur", "Leopard"],
+        "correct_option_id": 2
+    },
+    {
+        "id": "bpsc_12",
+        "question": "Which is the official language of Bihar?",
+        "options": ["Hindi", "Bhojpuri", "Maithili", "Magahi"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_13",
+        "question": "Who was the first woman Chief Minister of Bihar?",
+        "options": ["Rabri Devi", "Indira Gandhi", "Sheila Dikshit", "Mayawati"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_14",
+        "question": "Which is the main crop grown in Bihar?",
+        "options": ["Wheat", "Rice", "Sugarcane", "Cotton"],
+        "correct_option_id": 1
+    },
+    {
+        "id": "bpsc_15",
+        "question": "Who is known as the Gandhi of Bihar?",
+        "options": ["Jayaprakash Narayan", "Rajendra Prasad", "Anugrah Narayan Sinha", "Bihar Kesari"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_16",
+        "question": "Which is the largest city in Bihar?",
+        "options": ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_17",
+        "question": "Who is the current Chief Minister of Bihar?",
+        "options": ["Nitish Kumar", "Lalu Prasad Yadav", "Sushil Kumar Modi", "Tejashwi Yadav"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_18",
+        "question": "Which is the state bird of Bihar?",
+        "options": ["Peacock", "House Sparrow", "Indian Roller", "Greater Adjutant Stork"],
+        "correct_option_id": 3
+    },
+    {
+        "id": "bpsc_19",
+        "question": "Who is known as the Bihar Kesari?",
+        "options": ["Sri Krishna Sinha", "Anugrah Narayan Sinha", "Jayaprakash Narayan", "Babu Kunwar Singh"],
+        "correct_option_id": 0
+    },
+    {
+        "id": "bpsc_20",
+        "question": "Which is the oldest university in Bihar?",
+        "options": ["Nalanda University", "Patna University", "Magadh University", "Tilka Manjhi Bhagalpur University"],
+        "correct_option_id": 0
     }
 ]
