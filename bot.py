@@ -101,13 +101,7 @@ def button(update: Update, context: CallbackContext):
         chat_data = load_chat_data(chat_id)
         chat_data["interval"] = DEFAULT_INTERVAL
         save_chat_data(chat_id, chat_data)
-
-        if 'selected_option' in chat_data:
-            selected_option = chat_data['selected_option']
-            if selected_option == 'sendgroup':
-                start_quiz(update, context)
-            elif selected_option == 'prequiz':
-                start_quiz(update, context)
+        start_quiz(query, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
