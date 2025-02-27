@@ -6,8 +6,16 @@ from leaderboard_handler import add_score, get_top_scores
 import random
 import json
 import os
+from pymongo import MongoClient
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
+
+# MongoDB connection
+MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+client = MongoClient(MONGO_URI)
+db = client["telegram_bot"]
+quizzes_sent_collection = db["quizzes_sent"]
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
@@ -19,6 +27,20 @@ def load_quizzes(category):
         return []
 
 def send_quiz(context: CallbackContext):
+    today = datetime.now().date()
+    quizzes_sent = quizzes_sent_collection.find_one({"date": today})
+
+    if quizzes_sent is None:
+        quizzes_sent_collection.insert_one({"date": today, "count": 1})
+    elif quizzes_sent["count"] < 100:
+        quizzes_sent_collection.update_one({"date": today}, {"$inc": {"count": 1}})
+    else:
+        # Schedule the next quiz after 24 hours
+        next_quiz_time = datetime.now() + timedelta(days=1)
+        context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
+        context.bot.send_message(chat_id=context.job.context['chat_id'], text="Daily quiz limit reached. The next quiz will be sent automatically after 24 hours.")
+        return
+
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
     chat_data = load_chat_data(chat_id)
@@ -85,3 +107,6 @@ def show_leaderboard(update: Update, context: CallbackContext):
         message += f"{rank_display} *{username}* - {score} points\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
+
+def add_question(category, question):
+    questions_collection.insert_one({"category": category, "question": question})
