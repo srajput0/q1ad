@@ -6,7 +6,8 @@ from telegram.ext import (
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
-from datetime import datetime  # Import the datetime module
+from datetime import datetime
+from pymongo import MongoClient  # Import MongoClient
 
 # Enable logging
 from bot_logging import logger
@@ -14,6 +15,12 @@ from bot_logging import logger
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 DEFAULT_INTERVAL = 30  # Default interval in seconds
+
+# MongoDB connection
+MONGO_URI = "mongodb+srv://your_mongo_uri"
+client = MongoClient(MONGO_URI)
+db = client["telegram_bot"]
+quizzes_sent_collection = db["quizzes_sent"]
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
