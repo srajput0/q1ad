@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 # MongoDB connection
-MONGO_URI = "MONGO_URI", "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://your_mongo_uri"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
@@ -23,12 +23,7 @@ def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
     if os.path.exists(file_path):
         with open(file_path, 'r') as f:
-            questions = json.load(f)
-            # Ensure each question has a unique ID
-            for idx, question in enumerate(questions):
-                if 'id' not in question:
-                    question['id'] = f"{category}_{idx}"
-            return questions
+            return json.load(f)
     else:
         logger.error(f"Quiz file for category '{category}' not found.")
         return []
@@ -47,7 +42,7 @@ def send_quiz(context: CallbackContext):
 
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < 20:
+    elif quizzes_sent["count"] < 10:
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
         if message_status is None or not message_status.get("limit_reached", False):
@@ -72,7 +67,7 @@ def send_quiz(context: CallbackContext):
     used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
     used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
 
-    available_questions = [q for q in questions if q['id'] not in used_question_ids]
+    available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
         if message_status is None or not message_status.get("no_new_questions", False):
             context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
@@ -83,11 +78,11 @@ def send_quiz(context: CallbackContext):
         return
 
     question = random.choice(available_questions)
-    used_questions.append(question['id'])
+    used_questions.append(question)
     if used_question_ids:
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question['id']}})
+        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
     else:
-        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question['id']]})
+        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
 
     message = context.bot.send_poll(
         chat_id=chat_id,
