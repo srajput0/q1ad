@@ -95,7 +95,7 @@ def stop_quiz(update: Update, context: CallbackContext):
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
 
-    if not context.args or not context.args[0].isdigit()):
+    if not context.args or not context.args[0].isdigit():
         update.message.reply_text("Usage: /setinterval <seconds>")
         return
     
