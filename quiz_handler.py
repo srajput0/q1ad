@@ -1,7 +1,7 @@
 import logging
 from telegram import Update
 from telegram.ext import CallbackContext
-from chat_data_handler import load_chat_data
+from chat_data_handler import load_chat_data, save_chat_data
 import random
 import json
 import os
@@ -37,43 +37,52 @@ def send_quiz(context: CallbackContext):
         question=question['question'],
         options=question['options'],
         type='quiz',
-        correct_option_id=question['correct_option_id']
+        correct_option_id=question['correct_option_id'],
+        is_anonymous=False
     )
 
-def handle_poll_answer(update, context):
-    from leaderboard import load_leaderboard, save_leaderboard
-    poll_answer = update.poll_answer
-    user_id = str(poll_answer.user.id)
-    selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
-    leaderboard = load_leaderboard()
-
-    for quiz in quizzes:
-        correct_option = quiz["options"].index(quiz["answer"])
-        if selected_option == correct_option:
-            leaderboard[user_id] = leaderboard.get(user_id, 0) + 1
-            save_leaderboard(leaderboard)
-            return
-
-def show_leaderboard(update, context):
-    from leaderboard import load_leaderboard
-    leaderboard = load_leaderboard()
-
-    if not leaderboard:
-        update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+def handle_poll_answer(update: Update, context: CallbackContext):
+    answer = update.poll_answer
+    user_id = answer.user.id
+    poll_id = answer.poll_id
+    selected_option_id = answer.option_ids[0]
+    
+    # Retrieve the poll data
+    poll_data = context.bot_data.get(poll_id)
+    
+    if not poll_data:
         return
+    
+    correct_option_id = poll_data['correct_option_id']
+    chat_id = poll_data['chat_id']
+    chat_data = load_chat_data(chat_id)
+    
+    if 'scores' not in chat_data:
+        chat_data['scores'] = {}
+    
+    if user_id not in chat_data['scores']:
+        chat_data['scores'][user_id] = 0
+    
+    # Update the score
+    if selected_option_id == correct_option_id:
+        chat_data['scores'][user_id] += 1
+    
+    save_chat_data(chat_id, chat_data)
 
-    sorted_scores = sorted(leaderboard.items(), key=lambda x: x[1], reverse=True)
-    message = "🏆 *Quiz Leaderboard* 🏆\n\n"
-    medals = ["🥇", "🥈", "🥉"]
-
-    for rank, (user_id, score) in enumerate(sorted_scores[:10], start=1):
-        try:
-            user = context.bot.get_chat(int(user_id))
-            username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
-        except Exception:
-            username = f"User {user_id}"
-
-        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
-        message += f"{rank_display} *{username}* - {score} points\n"
-
-    update.message.reply_text(message, parse_mode="Markdown")
+def show_leaderboard(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    chat_data = load_chat_data(chat_id)
+    
+    if 'scores' not in chat_data or not chat_data['scores']:
+        update.message.reply_text("No scores available.")
+        return
+    
+    scores = chat_data['scores']
+    leaderboard = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    
+    leaderboard_text = "Leaderboard:\n\n"
+    for user_id, score in leaderboard:
+        user = context.bot.get_chat_member(chat_id, user_id).user
+        leaderboard_text += f"{user.first_name} {user.last_name or ''}: {score}\n"
+    
+    update.message.reply_text(leaderboard_text)
