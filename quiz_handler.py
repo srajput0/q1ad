@@ -112,3 +112,27 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     correct_option_id = poll_data['correct_option_id']
 
     # Update the score
+    if selected_option == correct_option_id:
+        add_score(user_id, 1)
+
+def show_leaderboard(update: Update, context: CallbackContext):
+    top_scores = get_top_scores(10)
+
+    if not top_scores:
+        update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+        return
+
+    message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+    medals = ["🥇", "🥈", "🥉"]
+
+    for rank, (user_id, score) in enumerate(top_scores, start=1):
+        try:
+            user = context.bot.get_chat(int(user_id))
+            username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+        except Exception:
+            username = f"User {user_id}"
+
+        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+        message += f"{rank_display} *{username}* - {score} points\n"
+
+    update.message.reply_text(message, parse_mode="Markdown")
