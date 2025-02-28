@@ -101,33 +101,30 @@ def button(update: Update, context: CallbackContext):
         chat_data = load_chat_data(chat_id)
         chat_data["interval"] = DEFAULT_INTERVAL
         save_chat_data(chat_id, chat_data)
-        if 'selected_option' in chat_data:
-            selected_option = chat_data['selected_option']
-            if selected_option == 'sendgroup':
-                start_quiz(update, context)
-            elif selected_option == 'prequiz':
-                start_quiz(update, context)
-# def start_quiz_from_button(update: Update, context: CallbackContext):
-#     chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
-#     chat_data = load_chat_data(chat_id)
+        context.bot.send_message(chat_id=chat_id, text="The quiz will start with the default interval of 30 seconds. Please wait...")
+        start_quiz_from_button(query, context)
 
-#     today = datetime.now().date().isoformat()  # Convert date to string
-#     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+def start_quiz_from_button(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
+    chat_data = load_chat_data(chat_id)
 
-#     if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
-#         context.bot.send_message(chat_id=chat_id, text="You have reached your daily limit. The next quiz will be sent tomorrow.")
-#         return
+    today = datetime.now().date().isoformat()  # Convert date to string
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-#     if chat_data.get("active", False):
-#         context.bot.send_message(chat_id=chat_id, text="A quiz is already running in this chat!")
-#         return
+    if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
+        context.bot.send_message(chat_id=chat_id, text="You have reached your daily limit. The next quiz will be sent tomorrow.")
+        return
 
-#     interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
-#     chat_data["active"] = True
-#     save_chat_data(chat_id, chat_data)
+    if chat_data.get("active", False):
+        context.bot.send_message(chat_id=chat_id, text="A quiz is already running in this chat!")
+        return
 
-#     context.bot.send_message(chat_id=chat_id, text=f"Quiz started! Interval: {interval} seconds.")
-#     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+    interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
+    chat_data["active"] = True
+    save_chat_data(chat_id, chat_data)
+
+    context.bot.send_message(chat_id=chat_id, text=f"Quiz started! Interval: {interval} seconds.")
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -145,14 +142,16 @@ def set_interval(update: Update, context: CallbackContext):
     chat_data["interval"] = interval
     save_chat_data(chat_id, chat_data)
 
-    if 'selected_option' in chat_data:
-        selected_option = chat_data['selected_option']
-        if selected_option == 'sendgroup':
-            start_quiz(update, context)
-        elif selected_option == 'prequiz':
-            start_quiz(update, context)
-
-    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Starting quiz...")
+    # If quiz is already running, update the interval immediately
+    if chat_data.get("active", False):
+        update.message.reply_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
+        jobs = context.job_queue.jobs()
+        for job in jobs:
+            if job.context and job.context["chat_id"] == chat_id:
+                job.schedule_removal()
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+    else:
+        update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
