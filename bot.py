@@ -14,7 +14,6 @@ from bot_logging import logger
 
 TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-DEFAULT_INTERVAL = 30  # Default interval in seconds
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -89,18 +88,23 @@ def button(update: Update, context: CallbackContext):
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
 
-        # Prompt to set interval or start with default interval
+        # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("Start with Default Interval (30 sec)", callback_data='start_default_interval')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+            [InlineKeyboardButton("1 min", callback_data='interval_60')],
+            [InlineKeyboardButton("5 min", callback_data='interval_300')],
+            [InlineKeyboardButton("20 min", callback_data='interval_1200')],
+            [InlineKeyboardButton("30 min", callback_data='interval_1800')],
+            [InlineKeyboardButton("60 min", callback_data='interval_3600')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30), or start with the default interval:",
-                                reply_markup=reply_markup)
-    elif query.data == 'start_default_interval':
-        chat_data["interval"] = DEFAULT_INTERVAL
+        query.edit_message_text(text="Please select the interval for the quiz:", reply_markup=reply_markup)
+    elif query.data.startswith('interval_'):
+        interval = int(query.data.split('_')[1])
+        chat_data["interval"] = interval
         save_chat_data(chat_id, chat_data)
-        context.bot.send_message(chat_id=chat_id, text="The quiz will start with the default interval of 30 seconds. Please wait...")
+        context.bot.send_message(chat_id=chat_id, text=f"The quiz will start with an interval of {interval} seconds. Please wait...")
         start_quiz_from_button(query, context)
 
 def start_quiz_from_button(update: Update, context: CallbackContext):
@@ -118,7 +122,7 @@ def start_quiz_from_button(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=chat_id, text="A quiz is already running in this chat!")
         return
 
-    interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
+    interval = chat_data.get("interval", 30)  # Default interval to 30 seconds if not set
     chat_data["active"] = True
     save_chat_data(chat_id, chat_data)
 
@@ -168,7 +172,7 @@ def start_quiz(update: Update, context: CallbackContext):
         update.message.reply_text("A quiz is already running in this chat!")
         return
 
-    interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
+    interval = chat_data.get("interval", 30)  # Default interval to 30 seconds if not set
     chat_data["active"] = True
     save_chat_data(chat_id, chat_data)
 
@@ -221,7 +225,7 @@ def resume_quiz(update: Update, context: CallbackContext):
     chat_data["paused"] = False
     save_chat_data(chat_id, chat_data)
 
-    interval = chat_data.get("interval", DEFAULT_INTERVAL)
+    interval = chat_data.get("interval", 30)
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
     update.message.reply_text("Quiz resumed successfully.")
@@ -230,7 +234,7 @@ def restart_active_quizzes(context: CallbackContext):
     active_quizzes = get_active_quizzes()
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
-        interval = quiz["data"].get("interval", DEFAULT_INTERVAL)
+        interval = quiz["data"].get("interval", 30)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": quiz["data"].get("used_questions", [])})
 
 def main():
