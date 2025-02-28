@@ -125,6 +125,31 @@ def start_quiz_from_button(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=chat_id, text=f"Quiz started! Interval: {interval} seconds.")
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
+# def set_interval(update: Update, context: CallbackContext):
+#     chat_id = str(update.effective_chat.id)
+
+#     if not context.args or not context.args[0].isdigit():
+#         update.message.reply_text("Usage: /setinterval <seconds>")
+#         return
+    
+#     interval = int(context.args[0])
+#     if interval < 10:
+#         update.message.reply_text("Interval must be at least 10 seconds.")
+#         return
+
+#     chat_data = load_chat_data(chat_id)
+#     chat_data["interval"] = interval
+#     save_chat_data(chat_id, chat_data)
+
+#     if 'selected_option' in chat_data:
+#         selected_option = chat_data['selected_option']
+#         if selected_option == 'sendgroup':
+#             start_quiz(update, context)
+#         elif selected_option == 'prequiz':
+#             start_quiz(update, context)
+
+#     update.message.reply_text(f"Quiz interval updated to {interval} seconds. Starting quiz...")
+
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
 
@@ -141,14 +166,14 @@ def set_interval(update: Update, context: CallbackContext):
     chat_data["interval"] = interval
     save_chat_data(chat_id, chat_data)
 
-    if 'selected_option' in chat_data:
-        selected_option = chat_data['selected_option']
-        if selected_option == 'sendgroup':
-            start_quiz(update, context)
-        elif selected_option == 'prequiz':
-            start_quiz(update, context)
+    jobs = context.job_queue.jobs()
+    for job in jobs:
+        if job.context and job.context["chat_id"] == chat_id:
+            job.schedule_removal()
 
-    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Starting quiz...")
+    update.message.reply_text(f"Quiz interval updated to {interval} seconds. Restarting quiz...")
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+    
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
