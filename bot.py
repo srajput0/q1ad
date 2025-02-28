@@ -98,7 +98,6 @@ def button(update: Update, context: CallbackContext):
         query.edit_message_text(text="Please set the interval for the quiz in seconds (e.g., /setinterval 30), or start with the default interval:",
                                 reply_markup=reply_markup)
     elif query.data == 'start_default_interval':
-        chat_data = load_chat_data(chat_id)
         chat_data["interval"] = DEFAULT_INTERVAL
         save_chat_data(chat_id, chat_data)
         context.bot.send_message(chat_id=chat_id, text="The quiz will start with the default interval of 30 seconds. Please wait...")
