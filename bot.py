@@ -104,9 +104,8 @@ def button(update: Update, context: CallbackContext):
         interval = int(query.data.split('_')[1])
         chat_data["interval"] = interval
         save_chat_data(chat_id, chat_data)
-        context.bot.send_message(chat_id=chat_id, text=f"The quiz will start with an interval of {interval} seconds. Please wait...")
-        start_quiz(update, context)
-        # start_quiz_from_button(query, context)
+        context.bot.send_message(chat_id=chat_id, text=f"The quiz will start immediately and then follow an interval of {interval} seconds. Please wait...")
+        start_quiz_from_button(query, context)
 
 def start_quiz_from_button(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
@@ -119,16 +118,61 @@ def start_quiz_from_button(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=chat_id, text="You have reached your daily limit. The next quiz will be sent tomorrow.")
         return
 
-    if chat_data.get("active", False):
-        context.bot.send_message(chat_id=chat_id, text="A quiz is already running in this chat!")
-        return
-
-    interval = chat_data.get("interval", 30)  # Default interval to 30 seconds if not set
+    interval = chat_data.get("interval", 30)
     chat_data["active"] = True
     save_chat_data(chat_id, chat_data)
 
-    context.bot.send_message(chat_id=chat_id, text=f"Quiz started! Interval: {interval} seconds.")
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+    # Send the first quiz immediately
+    send_quiz_immediately(context, chat_id)
+
+    # Schedule subsequent quizzes at the specified interval
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
+
+def send_quiz_immediately(context: CallbackContext, chat_id: str):
+    chat_data = load_chat_data(chat_id)
+
+    category = chat_data.get('category', 'general')  # Default category if not set
+    questions = load_quizzes(category)
+
+    today = datetime.now().date().isoformat()  # Convert date to string
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+
+    if quizzes_sent is None:
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
+    elif quizzes_sent["count"] < 10:
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
+    else:
+        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+        return
+
+    if not questions:
+        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+        return
+
+    used_question_ids = chat_data.get("used_questions", [])
+    available_questions = [q for q in questions if q not in used_question_ids]
+    if not available_questions:
+        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
+        return
+
+    question = random.choice(available_questions)
+    used_question_ids.append(question)
+    chat_data["used_questions"] = used_question_ids
+    save_chat_data(chat_id, chat_data)
+
+    message = context.bot.send_poll(
+        chat_id=chat_id,
+        question=question['question'],
+        options=question['options'],
+        type='quiz',
+        correct_option_id=question['correct_option_id'],
+        is_anonymous=False
+    )
+
+    context.bot_data[message.poll.id] = {
+        'chat_id': chat_id,
+        'correct_option_id': question['correct_option_id']
+    }
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -153,7 +197,7 @@ def set_interval(update: Update, context: CallbackContext):
         for job in jobs:
             if job.context and job.context["chat_id"] == chat_id:
                 job.schedule_removal()
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
@@ -178,7 +222,12 @@ def start_quiz(update: Update, context: CallbackContext):
     save_chat_data(chat_id, chat_data)
 
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
+
+    # Send the first quiz immediately
+    send_quiz_immediately(context, chat_id)
+
+    # Schedule subsequent quizzes at the specified interval
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
 
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -257,5 +306,5 @@ def main():
 
     updater.idle()
 
-if __name__ == '__main__':
+if __name__ == '__n__':
     main()
