@@ -101,10 +101,7 @@ def button(update: Update, context: CallbackContext):
         chat_data = load_chat_data(chat_id)
         chat_data["interval"] = DEFAULT_INTERVAL
         save_chat_data(chat_id, chat_data)
-        context.bot.send_message(chat_id=chat_id, text="The quiz will start with the default interval of 30 seconds. Please wait...")
-        
         start_quiz(update, context)
-        # start_quiz_from_button(query, context)
 
 def start_quiz_from_button(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
