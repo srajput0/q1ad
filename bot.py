@@ -99,11 +99,14 @@ def button(update: Update, context: CallbackContext):
                                 reply_markup=reply_markup)
     elif query.data == 'start_default_interval':
         chat_data = load_chat_data(chat_id)
+        chat_data["interval"] = DEFAULT_INTERVAL
         save_chat_data(chat_id, chat_data)
-        interval = chat_data.get("interval", DEFAULT_INTERVAL)
-        
-        start_quiz(update, context)
-
+        if 'selected_option' in chat_data:
+            selected_option = chat_data['selected_option']
+            if selected_option == 'sendgroup':
+                start_quiz(update, context)
+            elif selected_option == 'prequiz':
+                start_quiz(update, context)
 # def start_quiz_from_button(update: Update, context: CallbackContext):
 #     chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
 #     chat_data = load_chat_data(chat_id)
