@@ -105,25 +105,25 @@ def button(update: Update, context: CallbackContext):
         start_quiz_from_button(query, context)
 
 def start_quiz_from_button(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
+    chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
     chat_data = load_chat_data(chat_id)
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
     if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
-        update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
+        context.bot.send_message(chat_id=chat_id, text="You have reached your daily limit. The next quiz will be sent tomorrow.")
         return
 
     if chat_data.get("active", False):
-        update.message.reply_text("A quiz is already running in this chat!")
+        context.bot.send_message(chat_id=chat_id, text="A quiz is already running in this chat!")
         return
 
     interval = chat_data.get("interval", DEFAULT_INTERVAL)  # Default interval to 30 seconds if not set
     chat_data["active"] = True
     save_chat_data(chat_id, chat_data)
 
-    update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
+    context.bot.send_message(chat_id=chat_id, text=f"Quiz started! Interval: {interval} seconds.")
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
 def set_interval(update: Update, context: CallbackContext):
