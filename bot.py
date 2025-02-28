@@ -152,6 +152,7 @@ def set_interval(update: Update, context: CallbackContext):
         context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
+        start_quiz(update, context)
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
