@@ -106,7 +106,7 @@ def button(update: Update, context: CallbackContext):
         chat_data = load_chat_data(chat_id)
         save_chat_data(chat_id, chat_data)
         # If quiz is already running, update the interval immediately
-    if chat_data.get("active", False):
+    elif chat_data.get("active", False):
         update.message.reply_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
         jobs = context.job_queue.jobs()
         for job in jobs:
