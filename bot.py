@@ -60,6 +60,7 @@ def button(update: Update, context: CallbackContext):
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
             [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
+            [InlineKeyboardButton("Set Interval", callback_data='set_interval')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -76,20 +77,22 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
-    elif query.data in ['sendgroup', 'prequiz']:
-        # Send the set interval command
-        if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
-            query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
-            return
-        elif query.data == 'prequiz' and update.effective_chat.type != 'private':
-            query.edit_message_text(text="The Prequiz option is only available in private chats.")
-            return
-
-        # Save the selected option in chat data
-        chat_data['selected_option'] = query.data
-        save_chat_data(chat_id, chat_data)
-        
-        query.edit_message_text(text=f"Option selected: {query.data.upper()}")
+    elif query.data == 'set_interval':
+        # Inline buttons for interval selection
+        keyboard = [
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+            [InlineKeyboardButton("1 min", callback_data='interval_60')],
+            [InlineKeyboardButton("5 min", callback_data='interval_300')],
+            [InlineKeyboardButton("10 min", callback_data='interval_600')],
+            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Please select the interval for quizzes:",
+                                reply_markup=reply_markup)
+    elif query.data.startswith('interval_'):
+        interval = int(query.data.split('_')[1])
+        context.args = [str(interval)]
+        set_interval(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
