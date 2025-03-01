@@ -2,7 +2,7 @@ import logging
 from telegram import Update
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
-from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest
+from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
 
 logger = logging.getLogger(__name__)
 
@@ -50,15 +50,17 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             if "-pin" in message.text:
                 try:
                     sent_message.pin(disable_notification=True)
-                except:
+                except Exception as e:
+                    logger.warning(f"Failed to pin message in chat {chat_id}: {e}")
                     continue
             elif "-pinloud" in message.text:
                 try:
                     sent_message.pin(disable_notification=False)
-                except:
+                except Exception as e:
+                    logger.warning(f"Failed to pin message with notification in chat {chat_id}: {e}")
                     continue
             sent_chats += 1
-        except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
+        except (TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized) as e:
             logger.error(f"Error broadcasting to chat {chat_id}: {e}")
             continue
 
@@ -71,7 +73,7 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             else:
                 bot.send_message(chat_id=user_id, text=text_content, reply_markup=reply_markup)
             sent_users += 1
-        except (TimedOut, NetworkError, RetryAfter, BadRequest) as e:
+        except (TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized) as e:
             logger.error(f"Error broadcasting to user {user_id}: {e}")
             continue
 
