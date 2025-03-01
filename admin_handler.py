@@ -4,7 +4,6 @@ from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
 from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest
 
-
 logger = logging.getLogger(__name__)
 
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
@@ -40,13 +39,13 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
     sent_chats = 0
     sent_users = 0
 
-    chat_data = load_chat_data()
-    for chat_id in chat_data.keys():
+    for chat in get_served_chats():
+        chat_id = chat["chat_id"]
         try:
             if content_type == 'photo':
-                sent_message = bot.send_photo(chat_id=int(chat_id), photo=file_id, caption=text_content, reply_markup=reply_markup)
+                sent_message = bot.send_photo(chat_id=chat_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
             else:
-                sent_message = bot.send_message(chat_id=int(chat_id), text=text_content, reply_markup=reply_markup)
+                sent_message = bot.send_message(chat_id=chat_id, text=text_content, reply_markup=reply_markup)
             
             if "-pin" in message.text:
                 try:
@@ -64,8 +63,8 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             continue
 
     # Broadcasting to users
-    users = [int(user["user_id"]) for user in get_served_users()]
-    for user_id in users:
+    for user in get_served_users():
+        user_id = user["user_id"]
         try:
             if content_type == 'photo':
                 bot.send_photo(chat_id=user_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
