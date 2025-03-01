@@ -112,7 +112,7 @@ def button(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
-        start_quiz_from_button(query, context)
+        # start_quiz_from_button(query, context)
 
 # def start_quiz_from_button(update: Update, context: CallbackContext):
 #     chat_id = str(update.effective_chat.id if update.effective_chat else update.message.chat.id)
