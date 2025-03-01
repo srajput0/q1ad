@@ -45,6 +45,7 @@ def start_command(update: Update, context: CallbackContext):
     )
 
 def button(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
     query = update.callback_query
     query.answer()
     chat_id = str(query.message.chat.id)
