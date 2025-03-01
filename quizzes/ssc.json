@@ -1,102 +1,237 @@
 [
     {
-        "question": "Who was the first Prime Minister of India?",
-        "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Indira Gandhi", "Lal Bahadur Shastri"],
-        "correct_option_id": 0
+        "question": "What is the value of the gravitational constant (G)?",
+        "options": ["6.674×10^-11 N m^2/kg^2", "9.8 m/s^2", "3.14", "1.602×10^-19 C"],
+        "answer": "6.674×10^-11 N m^2/kg^2"
     },
     {
-        "question": "What is the capital of India?",
-        "options": ["Mumbai", "New Delhi", "Kolkata", "Chennai"],
-        "correct_option_id": 1
+        "question": "In which year did the Battle of Waterloo take place?",
+        "options": ["1815", "1812", "1805", "1820"],
+        "answer": "1815"
     },
     {
-        "question": "Who wrote the national anthem of India?",
-        "options": ["Rabindranath Tagore", "Bankim Chandra Chatterjee", "Sarojini Naidu", "Subhas Chandra Bose"],
-        "correct_option_id": 0
+        "question": "What is the derivative of sin(x)?",
+        "options": ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
+        "answer": "cos(x)"
     },
     {
-        "question": "Which planet is known as the Red Planet?",
-        "options": ["Earth", "Mars", "Jupiter", "Saturn"],
-        "correct_option_id": 1
+        "question": "Who wrote 'War and Peace'?",
+        "options": ["Leo Tolstoy", "Fyodor Dostoevsky", "Charles Dickens", "Jane Austen"],
+        "answer": "Leo Tolstoy"
     },
     {
-        "question": "Who invented the telephone?",
-        "options": ["Alexander Graham Bell", "Isaac Newton", "Albert Einstein", "Nikola Tesla"],
-        "correct_option_id": 0
+        "question": "What is the atomic number of Uranium?",
+        "options": ["92", "90", "94", "96"],
+        "answer": "92"
     },
     {
-        "question": "What is the largest mammal in the world?",
-        "options": ["Elephant", "Blue Whale", "Giraffe", "Shark"],
-        "correct_option_id": 1
+        "question": "What is the integral of e^x?",
+        "options": ["e^x + C", "e^x", "x e^x", "ln(e^x)"],
+        "answer": "e^x + C"
     },
     {
-        "question": "Who is known as the Father of the Nation in India?",
-        "options": ["Jawaharlal Nehru", "Mahatma Gandhi", "Subhas Chandra Bose", "Bhagat Singh"],
-        "correct_option_id": 1
+        "question": "Which planet has the highest density in our solar system?",
+        "options": ["Earth", "Jupiter", "Venus", "Mars"],
+        "answer": "Earth"
     },
     {
-        "question": "Which is the smallest state in India by area?",
-        "options": ["Goa", "Sikkim", "Nagaland", "Tripura"],
-        "correct_option_id": 0
+        "question": "Who discovered the neutron?",
+        "options": ["James Chadwick", "Niels Bohr", "Ernest Rutherford", "J.J. Thomson"],
+        "answer": "James Chadwick"
     },
     {
-        "question": "What is the chemical symbol for water?",
-        "options": ["H2O", "O2", "CO2", "H2"],
-        "correct_option_id": 0
+        "question": "What is the capital of Kazakhstan?",
+        "options": ["Astana", "Almaty", "Tashkent", "Bishkek"],
+        "answer": "Astana"
     },
     {
-        "question": "Who is the author of the Harry Potter series?",
-        "options": ["J.K. Rowling", "J.R.R. Tolkien", "George R.R. Martin", "Agatha Christie"],
-        "correct_option_id": 0
+        "question": "Solve the equation: 2x^2 - 4x + 2 = 0",
+        "options": ["x = 1", "x = -1", "x = 0", "x = 2"],
+        "answer": "x = 1"
     },
     {
-        "question": "Which is the longest river in the world?",
-        "options": ["Nile", "Amazon", "Ganga", "Yangtze"],
-        "correct_option_id": 0
+        "question": "In which year did the Titanic sink?",
+        "options": ["1912", "1905", "1915", "1920"],
+        "answer": "1912"
     },
     {
-        "question": "Who discovered penicillin?",
-        "options": ["Alexander Fleming", "Marie Curie", "Louis Pasteur", "Gregor Mendel"],
-        "correct_option_id": 0
+        "question": "What is the capital of Cyprus?",
+        "options": ["Nicosia", "Athens", "Ankara", "Valletta"],
+        "answer": "Nicosia"
     },
     {
-        "question": "What is the hardest natural substance on Earth?",
-        "options": ["Gold", "Iron", "Diamond", "Platinum"],
-        "correct_option_id": 2
+        "question": "Which gas is used in the preparation of soda water?",
+        "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+        "answer": "Carbon dioxide"
     },
     {
-        "question": "Which Indian state has the longest coastline?",
-        "options": ["Maharashtra", "Tamil Nadu", "Gujarat", "West Bengal"],
-        "correct_option_id": 2
+        "question": "What is the sum of the interior angles of a hexagon?",
+        "options": ["720 degrees", "540 degrees", "360 degrees", "480 degrees"],
+        "answer": "720 degrees"
     },
     {
-        "question": "Who is the founder of Microsoft?",
-        "options": ["Steve Jobs", "Bill Gates", "Mark Zuckerberg", "Elon Musk"],
-        "correct_option_id": 1
+        "question": "Who is the author of 'Pride and Prejudice'?",
+        "options": ["Jane Austen", "Charlotte Bronte", "George Eliot", "Mary Shelley"],
+        "answer": "Jane Austen"
     },
     {
-        "question": "What is the boiling point of water?",
-        "options": ["90°C", "100°C", "110°C", "120°C"],
-        "correct_option_id": 1
+        "question": "What is the chemical formula for Acetic Acid?",
+        "options": ["C2H4O2", "C3H6O2", "C2H6O", "C3H8O"],
+        "answer": "C2H4O2"
     },
     {
-        "question": "Who painted the Mona Lisa?",
-        "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
-        "correct_option_id": 2
+        "question": "Which country has the longest coastline in the world?",
+        "options": ["Canada", "Australia", "Russia", "USA"],
+        "answer": "Canada"
     },
     {
-        "question": "Which country is known as the Land of the Rising Sun?",
-        "options": ["China", "South Korea", "Japan", "Thailand"],
-        "correct_option_id": 2
+        "question": "What is the square root of 256?",
+        "options": ["16", "14", "12", "18"],
+        "answer": "16"
     },
     {
-        "question": "Which is the largest desert in the world?",
-        "options": ["Sahara", "Gobi", "Arctic", "Antarctic"],
-        "correct_option_id": 3
+        "question": "Who painted the ceiling of the Sistine Chapel?",
+        "options": ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"],
+        "answer": "Michelangelo"
     },
     {
-        "question": "Who is known as the Iron Man of India?",
-        "options": ["Jawaharlal Nehru", "Sardar Vallabhbhai Patel", "B.R. Ambedkar", "Lal Bahadur Shastri"],
-        "correct_option_id": 1
+        "question": "Which element is represented by the symbol 'Pb'?",
+        "options": ["Lead", "Tin", "Platinum", "Palladium"],
+        "answer": "Lead"
+    },
+    {
+        "question": "What is the value of Pi (π) up to two decimal places?",
+        "options": ["3.14", "3.15", "3.13", "3.16"],
+        "answer": "3.14"
+    },
+    {
+        "question": "Who developed the theory of relativity?",
+        "options": ["Albert Einstein", "Isaac Newton", "Galileo Galilei", "Nikola Tesla"],
+        "answer": "Albert Einstein"
+    },
+    {
+        "question": "What is the currency of South Korea?",
+        "options": ["Won", "Yen", "Dollar", "Peso"],
+        "answer": "Won"
+    },
+    {
+        "question": "Which organ in the human body produces insulin?",
+        "options": ["Pancreas", "Liver", "Kidney", "Spleen"],
+        "answer": "Pancreas"
+    },
+    {
+        "question": "What is the derivative of x^2?",
+        "options": ["2x", "x", "x^2", "2x^2"],
+        "answer": "2x"
+    },
+    {
+        "question": "Who wrote 'The Odyssey'?",
+        "options": ["Homer", "Virgil", "Sophocles", "Euripides"],
+        "answer": "Homer"
+    },
+    {
+        "question": "What is the atomic number of Helium?",
+        "options": ["2", "4", "6", "8"],
+        "answer": "2"
+    },
+    {
+        "question": "What is the capital of Bhutan?",
+        "options": ["Thimphu", "Kathmandu", "Colombo", "Dhaka"],
+        "answer": "Thimphu"
+    },
+    {
+        "question": "Solve the equation: x^2 - 4x + 4 = 0",
+        "options": ["x = 2", "x = 4", "x = -2", "x = 0"],
+        "answer": "x = 2"
+    },
+    {
+        "question": "In which year did the Berlin Wall fall?",
+        "options": ["1989", "1985", "1991", "1993"],
+        "answer": "1989"
+    },
+    {
+        "question": "What is the largest organ in the human body?",
+        "options": ["Skin", "Liver", "Heart", "Lungs"],
+        "answer": "Skin"
+    },
+    {
+        "question": "Which gas is used in the process of photosynthesis?",
+        "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+        "answer": "Carbon dioxide"
+    },
+    {
+        "question": "What is the capital of Canada?",
+        "options": ["Ottawa", "Toronto", "Vancouver", "Montreal"],
+        "answer": "Ottawa"
+    },
+    {
+        "question": "What is the cube root of 27?",
+        "options": ["3", "6", "9", "12"],
+        "answer": "3"
+    },
+    {
+        "question": "Who wrote 'The Great Gatsby'?",
+        "options": ["F. Scott Fitzgerald", "Ernest Hemingway", "Mark Twain", "John Steinbeck"],
+        "answer": "F. Scott Fitzgerald"
+    },
+    {
+        "question": "What is the chemical symbol for Sodium?",
+        "options": ["Na", "S", "N", "K"],
+        "answer": "Na"
+    },
+    {
+        "question": "Which planet is known as the 'Morning Star'?",
+        "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+        "answer": "Venus"
+    },
+    {
+        "question": "Who discovered radioactivity?",
+        "options": ["Henri Becquerel", "Marie Curie", "Isaac Newton", "Albert Einstein"],
+        "answer": "Henri Becquerel"
+    },
+    {
+        "question": "What is the capital of Switzerland?",
+        "options": ["Bern", "Zurich", "Geneva", "Basel"],
+        "answer": "Bern"
+    },
+    {
+        "question": "Solve the equation: 3x + 4 = 19",
+        "options": ["x = 5", "x = 3", "x = 7", "x = 4"],
+        "answer": "x = 5"
+    },
+    {
+        "question": "In which year did the American Civil War begin?",
+        "options": ["1861", "1857", "1865", "1870"],
+        "answer": "1861"
+    },
+    {
+        "question": "What is the largest desert in the world?",
+        "options": ["Sahara Desert", "Arabian Desert", "Gobi Desert", "Kalahari Desert"],
+        "answer": "Sahara Desert"
+    },
+    {
+        "question": "What is the boiling point of water at sea level?",
+        "options": ["100°C", "90°C", "110°C", "120°C"],
+        "answer": "100°C"
+    },
+    {
+        "question": "Who wrote 'The Catcher in the Rye'?",
+        "options": ["J.D. Salinger", "F. Scott Fitzgerald", "Ernest Hemingway", "John Steinbeck"],
+        "answer": "J.D. Salinger"
+    },
+    {
+        "question": "What is the chemical formula for Methane?",
+        "options": ["CH4", "C2H6", "C2H4", "C3H8"],
+        "answer": "CH4"
+    },
+    {
+        "question": "Which planet is known as the 'Blue Planet'?",
+        "options": ["Earth", "Neptune", "Uranus", "Saturn"],
+        "answer": "Earth"
+    },
+    {
+        "question": "Who is the author of 'To Kill a Mockingbird'?",
+        "options": ["Harper Lee", "Mark Twain", "John Steinbeck", "Ernest Hemingway"],
+        "answer": "Harper Lee"
     }
 ]
