@@ -4,7 +4,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, handle_poll_answer, show_leaderboard
+from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
 from datetime import datetime
 from pymongo import MongoClient  # Import MongoClient
@@ -128,52 +128,6 @@ def start_quiz_from_button(update: Update, context: CallbackContext):
     # Schedule subsequent quizzes at the specified interval
     context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
 
-def send_quiz_immediately(context: CallbackContext, chat_id: str):
-    chat_data = load_chat_data(chat_id)
-
-    category = chat_data.get('category', 'general')  # Default category if not set
-    questions = load_quizzes(category)
-
-    today = datetime.now().date().isoformat()  # Convert date to string
-    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
-
-    if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < 10:
-        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
-    else:
-        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
-        return
-
-    if not questions:
-        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
-        return
-
-    used_question_ids = chat_data.get("used_questions", [])
-    available_questions = [q for q in questions if q not in used_question_ids]
-    if not available_questions:
-        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
-        return
-
-    question = random.choice(available_questions)
-    used_question_ids.append(question)
-    chat_data["used_questions"] = used_question_ids
-    save_chat_data(chat_id, chat_data)
-
-    message = context.bot.send_poll(
-        chat_id=chat_id,
-        question=question['question'],
-        options=question['options'],
-        type='quiz',
-        correct_option_id=question['correct_option_id'],
-        is_anonymous=False
-    )
-
-    context.bot_data[message.poll.id] = {
-        'chat_id': chat_id,
-        'correct_option_id': question['correct_option_id']
-    }
-
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
 
@@ -197,6 +151,8 @@ def set_interval(update: Update, context: CallbackContext):
         for job in jobs:
             if job.context and job.context["chat_id"] == chat_id:
                 job.schedule_removal()
+        # Send the first quiz immediately and then schedule subsequent quizzes
+        send_quiz_immediately(context, chat_id)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
