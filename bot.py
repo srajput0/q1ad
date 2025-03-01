@@ -104,7 +104,6 @@ def button(update: Update, context: CallbackContext):
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data["interval"] = interval
-        chat_data = load_chat_data(chat_id)
         save_chat_data(chat_id, chat_data)
         context.bot.send_message(chat_id=chat_id, text=f"The quiz will start immediately and then follow an interval of {interval} seconds. Please wait...")
         if chat_data.get("active", False):
@@ -119,7 +118,6 @@ def button(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
-       
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
