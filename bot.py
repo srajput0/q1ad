@@ -91,7 +91,7 @@ def button(update: Update, context: CallbackContext):
         
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_10')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
             [InlineKeyboardButton("10 min", callback_data='interval_600')],
@@ -103,7 +103,6 @@ def button(update: Update, context: CallbackContext):
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data["interval"] = interval
-        chat_data = load_chat_data(chat_id)
         save_chat_data(chat_id, chat_data)
         
         if chat_data.get("active", False):
@@ -113,11 +112,11 @@ def button(update: Update, context: CallbackContext):
                 if job.context and job.context["chat_id"] == chat_id:
                     job.schedule_removal()
             # Send the first quiz immediately and then schedule subsequent quizzes
-        send_quiz_immediately(context, chat_id)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
-    else:
-        query.edit_message_text(f"Quiz interval updated to {interval} seconds.")
-        start_quiz(update, context)
+            send_quiz_immediately(context, chat_id)
+            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        else:
+            query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
+            start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
