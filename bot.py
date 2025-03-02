@@ -245,31 +245,31 @@ def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
     score = get_user_score(user_id)
     update.message.reply_text(f"Your current score is: {score} points.")
-
+    
 def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
     
     # Send loading messages
     def send_loading_messages():
         message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
-        for i in range(2, 5):
-            time.sleep(1)  # Wait for 1 second before sending the next message
-            context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading... {i}")
+        for i in range(1, 20):
+            time.sleep(0.1)  # Wait for 1 second before sending the next message
+            context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading top 20 master minds {i}")
         return message
     
     loading_thread = threading.Thread(target=send_loading_messages)
     loading_thread.start()
 
     # Fetch and display the leaderboard
-    top_scores = get_top_scores(10)
+    top_scores = get_top_scores(20)
     loading_thread.join()  # Wait for the loading messages to finish
 
     if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
         return
 
-    # Ensure the loading message is deleted
-    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
+    # Delete the loading message
+    loading_message = send_loading_messages()
     context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
 
     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
@@ -282,7 +282,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
         except Exception:
             username = f"User {user_id}"
 
-        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}"
         message += f"{rank_display} *{username}* - {score} points\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
