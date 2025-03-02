@@ -103,13 +103,16 @@ def button(update: Update, context: CallbackContext):
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data["interval"] = interval
+        chat_data = load_chat_data(chat_id)
         save_chat_data(chat_id, chat_data)
 
         # If quiz is already running, update the interval immediately
         if chat_data.get("active", False):
             query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
             jobs = context.job_queue.jobs()
+            
             for job in jobs:
+                
                 if job.context and job.context["chat_id"] == chat_id:
                     job.schedule_removal()
             # Send the first quiz immediately and then schedule subsequent quizzes
