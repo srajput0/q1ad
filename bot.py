@@ -14,7 +14,7 @@ import threading  # Import threading to allow concurrent execution
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
+TOKEN = "7882173382:AAGtuO4Q7qk54Vr6V16yu2bQsrPHzxRpnC8"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
