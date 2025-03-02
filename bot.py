@@ -269,8 +269,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
         return
 
     # Delete the loading message
-    loading_message = send_loading_messages()
-    context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+    # loading_message = send_loading_messages()
+    context.bot.delete_message(chat_id=chat_id, message_id=message.message_id)
 
     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
     medals = ["🥇", "🥈", "🥉"]
