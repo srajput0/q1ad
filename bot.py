@@ -256,8 +256,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
             time.sleep(0.1)  # Wait for 1 second before sending the next message
             context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading top 20 master minds {i}")
         return message
-    
-    loading_thread = threading.Thread(target=send_loading_message)
+
+    loading_thread = threading.Thread(target=send_loading_messages)
     loading_thread.start()
 
     # Fetch and display the leaderboard
@@ -269,8 +269,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
         return
 
     # Delete the loading message
-    loading_message = send_loading_messages()
-    context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+    # loading_message = send_loading_messages()
+    context.bot.delete_message(chat_id=chat_id, message_id=message.message_id)
 
     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
     medals = ["🥇", "🥈", "🥉"]
