@@ -251,14 +251,14 @@ def show_leaderboard(update: Update, context: CallbackContext):
     
     # Send loading messages
     def send_loading_messages():
-        message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
-        for i in range(1, 20):
+        message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading top 20 master minds {i}")
+        for i in range(2, 21):
             time.sleep(0.1)  # Wait for 1 second before sending the next message
             context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading top 20 master minds {i}")
         return message
     
-    loading_thread = threading.Thread(target=send_loading_messages)
-    loading_thread.start()
+    # loading_thread = threading.Thread(target=send_loading_messages)
+    # loading_thread.start()
 
     # Fetch and display the leaderboard
     top_scores = get_top_scores(20)
