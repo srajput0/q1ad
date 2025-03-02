@@ -257,8 +257,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
             context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading top 20 master minds {i}")
         return message
     
-    # loading_thread = threading.Thread(target=send_loading_messages)
-    
+    loading_thread = threading.Thread(target=loading_messages)
     loading_thread.start()
 
     # Fetch and display the leaderboard
