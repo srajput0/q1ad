@@ -253,7 +253,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
     def send_loading_messages():
         message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
         for i in range(2, 5):
-            time.sleep(1)  # Wait for 1 second before sending the next message
+            time.sleep(0.5)  # Wait for 1 second before sending the next message
             context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading... {i}")
     
     loading_thread = threading.Thread(target=send_loading_messages)
