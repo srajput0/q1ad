@@ -6,6 +6,7 @@ from telegram.ext import (
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
+from leaderboard_handler import get_user_score
 from datetime import datetime
 from pymongo import MongoClient  # Import MongoClient
 
@@ -238,6 +239,11 @@ def restart_active_quizzes(context: CallbackContext):
         used_questions = quiz["data"].get("used_questions", [])
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
 
+def check_stats(update: Update, context: CallbackContext):
+    user_id = str(update.effective_user.id)
+    score = get_user_score(user_id)
+    update.message.reply_text(f"Your current score is: {score} points.")
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -251,6 +257,7 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
+    dp.add_handler(CommandHandler("stats", check_stats))
     
     updater.start_polling()
     updater.job_queue.run_once(restart_active_quizzes, 0)
