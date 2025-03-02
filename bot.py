@@ -12,7 +12,7 @@ from pymongo import MongoClient  # Import MongoClient
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "5554891157:AAFG4gZzQ26-ynwQVEnyv1NlZ9Dx0Sx42Hg"
+TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
@@ -88,38 +88,36 @@ def button(update: Update, context: CallbackContext):
         # Save the selected option in chat data
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
-
+        
         # Inline buttons for interval selection
         keyboard = [
             [InlineKeyboardButton("30 sec", callback_data='interval_30')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
-            [InlineKeyboardButton("20 min", callback_data='interval_1200')],
-            [InlineKeyboardButton("30 min", callback_data='interval_1800')],
-            [InlineKeyboardButton("60 min", callback_data='interval_3600')],
-            [InlineKeyboardButton("Back", callback_data='back_to_categories')]
+            [InlineKeyboardButton("10 min", callback_data='interval_600')],
+            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for the quiz:", reply_markup=reply_markup)
+        query.edit_message_text(text="Please select the interval for quizzes:",
+                                reply_markup=reply_markup)
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data["interval"] = interval
-        chat_data = load_chat_data(chat_id)
         save_chat_data(chat_id, chat_data)
-        context.bot.send_message(chat_id=chat_id, text=f"The quiz will start immediately and then follow an interval of {interval} seconds. Please wait...")
+
+        # If quiz is already running, update the interval immediately
         if chat_data.get("active", False):
-            update.message.reply_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
+            query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
             jobs = context.job_queue.jobs()
             for job in jobs:
                 if job.context and job.context["chat_id"] == chat_id:
                     job.schedule_removal()
-                    send_quiz_immediately(context, chat_id)
-                    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
-    else:
-        
-        update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
-        start_quiz(update, context)
-       
+            # Send the first quiz immediately and then schedule subsequent quizzes
+            send_quiz_immediately(context, chat_id)
+            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        else:
+            query.edit_message_text(f"Quiz interval updated to {interval} seconds.")
+            start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -234,7 +232,8 @@ def restart_active_quizzes(context: CallbackContext):
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
         interval = quiz["data"].get("interval", 30)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": quiz["data"].get("used_questions", [])})
+        used_questions = quiz["data"].get("used_questions", [])
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
 
 def main():
     updater = Updater(TOKEN, use_context=True)
