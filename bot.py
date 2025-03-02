@@ -255,6 +255,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
         for i in range(2, 21):
             time.sleep(0.01)  # Wait for 1 second before sending the next message
             context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading top 20 master minds {i}")
+            context.bot.delete_message(chat_id=chat_id, message_id=message.message_id)
         return message
 
     loading_thread = threading.Thread(target=send_loading_messages)
@@ -263,8 +264,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
     # Fetch and display the leaderboard
     top_scores = get_top_scores(20)
     loading_thread.join()  # Wait for the loading messages to finish
-    context.bot.delete_message(chat_id=chat_id, message_id=message.message_id)
-
+    
     if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
         return
