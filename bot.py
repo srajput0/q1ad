@@ -89,35 +89,7 @@ def button(update: Update, context: CallbackContext):
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
         
-        # Inline buttons for interval selection
-        keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
-            [InlineKeyboardButton("1 min", callback_data='interval_60')],
-            [InlineKeyboardButton("5 min", callback_data='interval_300')],
-            [InlineKeyboardButton("10 min", callback_data='interval_600')],
-            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for quizzes:",
-                                reply_markup=reply_markup)
-    elif query.data.startswith('interval_'):
-        interval = int(query.data.split('_')[1])
-        chat_data["interval"] = interval
-        chat_data = load_chat_data(chat_id)
-        save_chat_data(chat_id, chat_data)
-
-        # If quiz is already running, update the interval immediately
-        if chat_data.get("active", False):
-            query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
-            jobs = context.job_queue.jobs()
-            for job in jobs:
-                if job.context and job.context["chat_id"] == chat_id:
-                    job.schedule_removal()
-                    send_quiz_immediately(context, chat_id)
-                    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
-                else:
-                    query.edit_message_text(f"Quiz interval updated to {interval} seconds.")
-                    start_quiz(update, context)
+        query.edit_message_text(text=f"Option selected: {query.data.upper()}")
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
