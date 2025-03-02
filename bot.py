@@ -254,7 +254,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
         message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
         for i in range(2, 5):
             time.sleep(0.5)  # Wait for 1 second before sending the next message
-            context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is loading... {i}")
+            context.bot.edit_message_text(chat_id=chat_id, message_id=message.message_id, text=f"Leaderboard is wait... {i}")
+        return message
     
     loading_thread = threading.Thread(target=send_loading_messages)
     loading_thread.start()
@@ -266,6 +267,10 @@ def show_leaderboard(update: Update, context: CallbackContext):
     if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
         return
+
+    # Delete the loading message
+    loading_message = send_loading_messages()
+    context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
 
     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
     medals = ["🥇", "🥈", "🥉"]
