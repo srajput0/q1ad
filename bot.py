@@ -118,9 +118,9 @@ def button(update: Update, context: CallbackContext):
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
-     else:
-         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
-         start_quiz(update, context)
+     # else:
+     #     query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
+     #     start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
