@@ -162,7 +162,20 @@ def handle_poll_answer(update: Update, context: CallbackContext):
         add_score(user_id, 1)
 
 def show_leaderboard(update: Update, context: CallbackContext):
+    chat_id = update.message.chat_id
+    
+    # Send loading messages
+    def send_loading_messages():
+        for i in range(1, 6):
+            context.bot.send_message(chat_id=chat_id, text=f"Leaderboard is loading... {i}")
+            time.sleep(1)  # Wait for 1 second before sending the next message
+    
+    loading_thread = threading.Thread(target=send_loading_messages)
+    loading_thread.start()
+
+    # Fetch and display the leaderboard
     top_scores = get_top_scores(20)
+    loading_thread.join()  # Wait for the loading messages to finish
 
     if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
