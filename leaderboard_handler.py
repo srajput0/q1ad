@@ -26,6 +26,10 @@ def add_score(user_id, score):
     else:
         leaderboard_collection.insert_one({"user_id": user_id, "score": score})
 
-def get_top_scores(n=10):
+def get_top_scores(n=20):
     top_scores = leaderboard_collection.find().sort("score", -1).limit(n)
     return [(entry["user_id"], entry["score"]) for entry in top_scores]
+
+def get_user_score(user_id):
+    user = leaderboard_collection.find_one({"user_id": user_id})
+    return user["score"] if user else 0
