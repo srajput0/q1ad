@@ -162,7 +162,7 @@ def handle_poll_answer(update: Update, context: CallbackContext):
         add_score(user_id, 1)
 
 def show_leaderboard(update: Update, context: CallbackContext):
-    top_scores = get_top_scores(10)
+    top_scores = get_top_scores(20)
 
     if not top_scores:
         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
@@ -178,7 +178,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
         except Exception:
             username = f"User {user_id}"
 
-        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}"
         message += f"{rank_display} *{username}* - {score} points\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
