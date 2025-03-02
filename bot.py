@@ -6,14 +6,15 @@ from telegram.ext import (
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, show_leaderboard
 from admin_handler import broadcast
-from leaderboard_handler import get_user_score
+from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
 from pymongo import MongoClient  # Import MongoClient
+import threading  # Import threading to allow concurrent execution
 
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7882173382:AAGtuO4Q7qk54Vr6V16yu2bQsrPHzxRpnC8"
+TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
@@ -243,6 +244,41 @@ def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
     score = get_user_score(user_id)
     update.message.reply_text(f"Your current score is: {score} points.")
+
+def show_leaderboard(update: Update, context: CallbackContext):
+    chat_id = update.message.chat_id
+    
+    # Send loading messages
+    def send_loading_messages():
+        for i in range(1, 6):
+            context.bot.send_message(chat_id=chat_id, text=f"Leaderboard is loading... {i}")
+            time.sleep(1)  # Wait for 1 second before sending the next message
+    
+    loading_thread = threading.Thread(target=send_loading_messages)
+    loading_thread.start()
+
+    # Fetch and display the leaderboard
+    top_scores = get_top_scores(10)
+    loading_thread.join()  # Wait for the loading messages to finish
+
+    if not top_scores:
+        update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+        return
+
+    message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+    medals = ["🥇", "🥈", "🥉"]
+
+    for rank, (user_id, score) in enumerate(top_scores, start=1):
+        try:
+            user = context.bot.get_chat(int(user_id))
+            username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+        except Exception:
+            username = f"User {user_id}"
+
+        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+        message += f"{rank_display} *{username}* - {score} points\n"
+
+    update.message.reply_text(message, parse_mode="Markdown")
 
 def main():
     updater = Updater(TOKEN, use_context=True)
