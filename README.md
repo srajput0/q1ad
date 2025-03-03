@@ -1,4 +1,4 @@
-# Telegram Quiz Bot
+# Aarush Telegram Quiz Bot
 
 A Telegram bot that conducts quizzes in group and private chats. It keeps track of leaderboard scores and allows for broadcasting messages.
 
