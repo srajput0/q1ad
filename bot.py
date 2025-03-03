@@ -284,8 +284,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
         except Exception:
             username = f"User {user_id}"
 
-        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}"
-        message += f"{rank_display}.  *{username}* - {score} Points\n\n"
+        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
+        message += f"{rank_display}  *{username}* - {score} Points\n\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
 
