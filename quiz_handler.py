@@ -150,8 +150,11 @@ def handle_poll_answer(update: Update, context: CallbackContext):
             add_score(user_id, 10)  # Add 10 points for correct answers
             context.bot.send_message(chat_id=chat_id, text=f"Correct answer by {answer.user.first_name}!")
 
-def send_channel_quiz(context: CallbackContext, channel_id: str):
+def send_channel_quiz(context: CallbackContext):
+    channel_id = context.job.context['channel_id']
+    used_questions = context.job.context['used_questions']
     chat_data = load_chat_data(channel_id)
+
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
 
@@ -171,7 +174,7 @@ def send_channel_quiz(context: CallbackContext, channel_id: str):
             else:
                 message_status_collection.update_one({"chat_id": channel_id, "date": today}, {"$set": {"limit_reached": True}})
         next_quiz_time = datetime.combine(datetime.now() + timedelta(days=1), datetime.min.time())
-        context.job_queue.run_once(send_channel_quiz, next_quiz_time, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+        context.job_queue.run_once(send_channel_quiz, next_quiz_time, context={"channel_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
         return
 
     if not questions:
