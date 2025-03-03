@@ -250,19 +250,19 @@ def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
 
     # Send initial loading message
-    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... 1")
+    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading... **1**")
     
     # Send loading updates in a separate thread
     def send_loading_messages(message_id):
-        for i in range(2, 5):
+        for i in range(2, 4):
             time.sleep(1)  # Wait for 1 second before sending the next message
-            context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading... {i}")
+            context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading... **{i}**")
 
     loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
     loading_thread.start()
 
     # Fetch and display the leaderboard
-    top_scores = get_top_scores(10)
+    top_scores = get_top_scores(20)
     loading_thread.join()  # Wait for the loading messages to finish
 
     if not top_scores:
@@ -284,8 +284,8 @@ def show_leaderboard(update: Update, context: CallbackContext):
         except Exception:
             username = f"User {user_id}"
 
-        rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
-        message += f"{rank_display} *{username}* - {score} points\n"
+        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}"
+        message += f"{rank_display} *{username}* - {score} Points\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
 
