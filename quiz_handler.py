@@ -212,11 +212,11 @@ def send_channel_quiz(context: CallbackContext, channel_id: str):
         is_anonymous=False
     )
 
-# def broadcast_to_channel(context: CallbackContext, channel_id: str, text_content: str, content_type: str = 'text', file_id: str = None, reply_markup = None):
-#     try:
-#         if content_type == 'photo':
-#             context.bot.send_photo(chat_id=channel_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
-#         else:
-#             context.bot.send_message(chat_id=channel_id, text=text_content, reply_markup=reply_markup)
-#     except Exception as e:
-#         logger.error(f"Error broadcasting to channel {channel_id}: {e}")
+def broadcast_to_channel(context: CallbackContext, channel_id: str, text_content: str, content_type: str = 'text', file_id: str = None, reply_markup = None):
+    try:
+        if content_type == 'photo':
+            context.bot.send_photo(chat_id=channel_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
+        else:
+            context.bot.send_message(chat_id=channel_id, text=text_content, reply_markup=reply_markup)
+    except Exception as e:
+        logger.error(f"Error broadcasting to channel {channel_id}: {e}")
