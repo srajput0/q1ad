@@ -285,7 +285,7 @@ def show_leaderboard(update: Update, context: CallbackContext):
             username = f"User {user_id}"
 
         rank_display = medals[rank - 1] if rank <= 3 else f"{rank}"
-        message += f"{rank_display} *{username}* - {score} Points\n\n"
+        message += f"{rank_display}.  *{username}* - {score} Points\n\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
 
