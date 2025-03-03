@@ -1,7 +1,8 @@
 import logging
 from telegram import Update
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, CommandHandler
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
+from quiz_handler import broadcast_to_channel
 from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
 
 logger = logging.getLogger(__name__)
@@ -78,3 +79,25 @@ def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, mes
             continue
 
     return sent_chats, sent_users
+
+def broadcast_channel(update: Update, context: CallbackContext):
+    if update.effective_user.id != ADMIN_ID:
+        update.message.reply_text("You are not authorized to use this command.")
+        return
+
+    if len(context.args) < 2:
+        update.message.reply_text("Usage: /broadcastchannel <channel_id> <message>")
+        return
+
+    channel_id = context.args[0]
+    message = ' '.join(context.args[1:])
+    try:
+        broadcast_to_channel(context, channel_id, message)
+        update.message.reply_text(f"Broadcast message sent to the channel with ID {channel_id}.")
+    except Exception as e:
+        logger.error(f"Error broadcasting to channel {channel_id}: {e}")
+        update.message.reply_text(f"Failed to send broadcast message to the channel with ID {channel_id}.")
+
+def add_admin_handlers(dispatcher):
+    dispatcher.add_handler(CommandHandler("broadcast", broadcast))
+    dispatcher.add_handler(CommandHandler("broadcastchannel", broadcast_channel))
