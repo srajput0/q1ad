@@ -4,7 +4,8 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, PollAnswerHandler, CallbackContext
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, send_channel_quiz
+from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, send_channel_quiz, broadcast_to_channel
+from admin_handler import broadcast, broadcast_channel
 from admin_handler import broadcast, broadcast_channel
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
