@@ -1,7 +1,7 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Updater, CommandHandler, CallbackQueryHandler, PollAnswerHandler, CallbackContext
+    Updater, CommandHandler, CallbackQueryHandler, PollAnswerHandler, MessageHandler, Filters, CallbackContext
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
 from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, send_channel_quiz, broadcast_to_channel
@@ -20,7 +20,6 @@ ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
@@ -94,17 +93,21 @@ def button(update: Update, context: CallbackContext):
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
         
-        # Inline buttons for interval selection
-        keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
-            [InlineKeyboardButton("1 min", callback_data='interval_60')],
-            [InlineKeyboardButton("5 min", callback_data='interval_300')],
-            [InlineKeyboardButton("10 min", callback_data='interval_600')],
-            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for quizzes:",
-                                reply_markup=reply_markup)
+        if query.data == 'sendchannel':
+            query.message.reply_text("Please enter the channel ID where you want to send quizzes:")
+            context.user_data["awaiting_channel_id"] = True
+        else:
+            # Inline buttons for interval selection
+            keyboard = [
+                [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+                [InlineKeyboardButton("1 min", callback_data='interval_60')],
+                [InlineKeyboardButton("5 min", callback_data='interval_300')],
+                [InlineKeyboardButton("10 min", callback_data='interval_600')],
+                [InlineKeyboardButton("30 min", callback_data='interval_1800')]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            query.edit_message_text(text="Please select the interval for quizzes:",
+                                    reply_markup=reply_markup)
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data = load_chat_data(chat_id)
@@ -112,14 +115,13 @@ def button(update: Update, context: CallbackContext):
         save_chat_data(chat_id, chat_data)
         
         if chat_data.get("selected_option") == 'sendchannel':
-            # Inline buttons for entering the channel ID
-            keyboard = [
-                [InlineKeyboardButton("Enter Channel ID", callback_data='enter_channel_id')],
-                [InlineKeyboardButton("Back", callback_data='back_to_intervals')]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            query.edit_message_text(text="Please enter the channel ID:",
-                                    reply_markup=reply_markup)
+            channel_id = chat_data.get("channel_id")
+            if channel_id:
+                send_channel_quiz(context, channel_id)
+                context.job_queue.run_repeating(send_channel_quiz, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+                query.edit_message_text(f"Quizzes will now be sent to the channel with ID {channel_id} at an interval of {interval} seconds.")
+            else:
+                query.message.reply_text("Please enter the channel ID first.")
         else:
             if chat_data.get("active", False):
                 query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
@@ -132,6 +134,28 @@ def button(update: Update, context: CallbackContext):
             send_quiz_immediately(context, chat_id)
             context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
             query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
+
+def handle_channel_id(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    chat_data = load_chat_data(chat_id)
+
+    if context.user_data.get("awaiting_channel_id"):
+        channel_id = update.message.text
+        chat_data["channel_id"] = channel_id
+        save_chat_data(chat_id, chat_data)
+        context.user_data["awaiting_channel_id"] = False
+
+        # Inline buttons for interval selection
+        keyboard = [
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+            [InlineKeyboardButton("1 min", callback_data='interval_60')],
+            [InlineKeyboardButton("5 min", callback_data='interval_300')],
+            [InlineKeyboardButton("10 min", callback_data='interval_600')],
+            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        update.message.reply_text("Please select the interval for quizzes:",
+                                  reply_markup=reply_markup)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -325,6 +349,7 @@ def main():
     dp.add_handler(CommandHandler("broadcastchannel", broadcast_channel))
     dp.add_handler(CommandHandler("stats", check_stats))
     dp.add_handler(CommandHandler("sendchannel", send_channel))
+    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_channel_id))
     
     updater.start_polling()
     updater.job_queue.run_once(restart_active_quizzes, 0)
