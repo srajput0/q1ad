@@ -20,7 +20,7 @@ TOKEN = "YOUR_BOT_TOKEN"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
-MONGO_URI = "mongodb+srv://YOUR_MONGODB_URI"
+MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
