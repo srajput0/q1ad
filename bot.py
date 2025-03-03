@@ -1,11 +1,11 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
+    Updater, CommandHandler, CallbackQueryHandler, PollAnswerHandler, CallbackContext
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer
-from admin_handler import broadcast
+from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, send_channel_quiz
+from admin_handler import broadcast, broadcast_channel
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
 from pymongo import MongoClient  # Import MongoClient
@@ -15,11 +15,11 @@ import time  # Import time to use sleep
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7882173382:AAGtuO4Q7qk54Vr6V16yu2bQsrPHzxRpnC8"
+TOKEN = "YOUR_BOT_TOKEN"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
-MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://YOUR_MONGODB_URI"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
@@ -94,7 +94,7 @@ def button(update: Update, context: CallbackContext):
         
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_10')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
             [InlineKeyboardButton("10 min", callback_data='interval_600')],
@@ -120,10 +120,6 @@ def button(update: Update, context: CallbackContext):
         send_quiz_immediately(context, chat_id)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
-        start_quiz(update, context)
-     # else:
-     #     query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
-     #     start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -250,13 +246,13 @@ def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
 
     # Send initial loading message
-    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading..1 ")
-    
+    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
+
     # Send loading updates in a separate thread
     def send_loading_messages(message_id):
         for i in range(2, 4):
             time.sleep(1)  # Wait for 1 second before sending the next message
-            context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading..{i} ")
+            context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading...{i}")
 
     loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
     loading_thread.start()
@@ -289,6 +285,18 @@ def show_leaderboard(update: Update, context: CallbackContext):
 
     update.message.reply_text(message, parse_mode="Markdown")
 
+def send_channel(update: Update, context: CallbackContext):
+    if not context.args:
+        update.message.reply_text("Usage: /sendchannel <channel_id>")
+        return
+
+    channel_id = context.args[0]
+    chat_data = load_chat_data(channel_id)
+    chat_data["channel_id"] = channel_id
+    save_chat_data(channel_id, chat_data)
+    send_channel_quiz(context, channel_id)
+    update.message.reply_text(f"Quizzes will now be sent to the channel with ID {channel_id}.")
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -302,7 +310,9 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
+    dp.add_handler(CommandHandler("broadcastchannel", broadcast_channel))
     dp.add_handler(CommandHandler("stats", check_stats))
+    dp.add_handler(CommandHandler("sendchannel", send_channel))
     
     updater.start_polling()
     updater.job_queue.run_once(restart_active_quizzes, 0)
