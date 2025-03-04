@@ -144,6 +144,52 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
         'correct_option_id': question['correct_option_id']
     }
 
+def send_quiz_to_channel(context: CallbackContext, channel_id: str):
+    chat_data = load_chat_data(channel_id)
+
+    category = chat_data.get('category', 'general')  # Default category if not set
+    questions = load_quizzes(category)
+
+    today = datetime.now().date().isoformat()  # Convert date to string
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": channel_id, "date": today})
+
+    if quizzes_sent is None:
+        quizzes_sent_collection.insert_one({"chat_id": channel_id, "date": today, "count": 1})
+    elif quizzes_sent["count"] < 40:
+        quizzes_sent_collection.update_one({"chat_id": channel_id, "date": today}, {"$inc": {"count": 1}})
+    else:
+        context.bot.send_message(chat_id=channel_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+        return
+
+    if not questions:
+        context.bot.send_message(chat_id=channel_id, text="No questions available for this category.")
+        return
+
+    used_question_ids = chat_data.get("used_questions", [])
+    available_questions = [q for q in questions if q not in used_question_ids]
+    if not available_questions:
+        context.bot.send_message(chat_id=channel_id, text="No more new questions available.")
+        return
+
+    question = random.choice(available_questions)
+    used_question_ids.append(question)
+    chat_data["used_questions"] = used_question_ids
+    save_chat_data(channel_id, chat_data)
+
+    message = context.bot.send_poll(
+        chat_id=channel_id,
+        question=question['question'],
+        options=question['options'],
+        type='quiz',
+        correct_option_id=question['correct_option_id'],
+        is_anonymous=False
+    )
+
+    context.bot_data[message.poll.id] = {
+        'chat_id': channel_id,
+        'correct_option_id': question['correct_option_id']
+    }
+
 def handle_poll_answer(update: Update, context: CallbackContext):
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
