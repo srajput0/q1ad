@@ -165,9 +165,9 @@ def send_quiz_to_channel(context: CallbackContext, channel_id: str):
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": channel_id, "date": today})
 
     if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"chat_id": channel_id, "date": today, "count": 1})
+        quizzes_sent_collection.insert_one({"channel_id": channel_id, "date": today, "count": 1})
     elif quizzes_sent["count"] < 40:
-        quizzes_sent_collection.update_one({"chat_id": channel_id, "date": today}, {"$inc": {"count": 1}})
+        quizzes_sent_collection.update_one({"channel_id": channel_id, "date": today}, {"$inc": {"count": 1}})
     else:
         context.bot.send_message(chat_id=channel_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
         return
