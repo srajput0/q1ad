@@ -1,21 +1,19 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
-    Updater, CommandHandler, CallbackQueryHandler, PollAnswerHandler, MessageHandler, Filters, CallbackContext
+    Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, send_channel_quiz, broadcast_to_channel
-from admin_handler import broadcast, broadcast_channel
-from leaderboard_handler import get_user_score, get_top_scores
+from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer
+from admin_handler import broadcast
+from leaderboard_handler import get_user_score
 from datetime import datetime
 from pymongo import MongoClient  # Import MongoClient
-import threading  # Import threading to allow concurrent execution
-import time  # Import time to use sleep
 
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7882173382:AAGtuO4Q7qk54Vr6V16yu2bQsrPHzxRpnC8"
+TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
@@ -59,11 +57,10 @@ def button(update: Update, context: CallbackContext):
         chat_data['category'] = category
         save_chat_data(chat_id, chat_data)
 
-        # Inline buttons for selecting sendgroup, prequiz, or sendchannel
+        # Inline buttons for selecting sendgroup or prequiz
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
             [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
-            [InlineKeyboardButton("Send Channel", callback_data='sendchannel')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -80,7 +77,7 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
-    elif query.data in ['sendgroup', 'prequiz', 'sendchannel']:
+    elif query.data in ['sendgroup', 'prequiz']:
         # Send the set interval command
         if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
             query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
@@ -93,69 +90,38 @@ def button(update: Update, context: CallbackContext):
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
         
-        if query.data == 'sendchannel':
-            query.message.reply_text("Please enter the channel ID where you want to send quizzes:")
-            context.user_data["awaiting_channel_id"] = True
-        else:
-            # Inline buttons for interval selection
-            keyboard = [
-                [InlineKeyboardButton("30 sec", callback_data='interval_30')],
-                [InlineKeyboardButton("1 min", callback_data='interval_60')],
-                [InlineKeyboardButton("5 min", callback_data='interval_300')],
-                [InlineKeyboardButton("10 min", callback_data='interval_600')],
-                [InlineKeyboardButton("30 min", callback_data='interval_1800')]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            query.edit_message_text(text="Please select the interval for quizzes:",
-                                    reply_markup=reply_markup)
-    elif query.data.startswith('interval_'):
-        interval = int(query.data.split('_')[1])
-        chat_data = load_chat_data(chat_id)
-        chat_data["interval"] = interval
-        save_chat_data(chat_id, chat_data)
-        
-        if chat_data.get("selected_option") == 'sendchannel':
-            channel_id = chat_data.get("channel_id")
-            if channel_id:
-                send_channel_quiz(context, channel_id)
-                context.job_queue.run_repeating(send_channel_quiz, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
-                query.edit_message_text(f"Quizzes will now be sent to the channel with ID {channel_id} at an interval of {interval} seconds.")
-            else:
-                query.message.reply_text("Please enter the channel ID first.")
-        else:
-            if chat_data.get("active", False):
-                query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
-                jobs = context.job_queue.jobs()
-                for job in jobs:
-                    if job.context and job.context["chat_id"] == chat_id:
-                        job.schedule_removal()
-                        
-                # Send the first quiz immediately and then schedule subsequent quizzes
-            send_quiz_immediately(context, chat_id)
-            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
-            query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
-
-def handle_channel_id(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    chat_data = load_chat_data(chat_id)
-
-    if context.user_data.get("awaiting_channel_id"):
-        channel_id = update.message.text
-        chat_data["channel_id"] = channel_id
-        save_chat_data(chat_id, chat_data)
-        context.user_data["awaiting_channel_id"] = False
-
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_10')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
             [InlineKeyboardButton("10 min", callback_data='interval_600')],
             [InlineKeyboardButton("30 min", callback_data='interval_1800')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        update.message.reply_text("Please select the interval for quizzes:",
-                                  reply_markup=reply_markup)
+        query.edit_message_text(text="Please select the interval for quizzes:",
+                                reply_markup=reply_markup)
+    elif query.data.startswith('interval_'):
+        interval = int(query.data.split('_')[1])
+        chat_data = load_chat_data(chat_id)
+        chat_data["interval"] = interval
+        save_chat_data(chat_id, chat_data)
+        
+        if chat_data.get("active", False):
+            query.edit_message_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
+            jobs = context.job_queue.jobs()
+            for job in jobs:
+                if job.context and job.context["chat_id"] == chat_id:
+                    job.schedule_removal()
+                    
+            # Send the first quiz immediately and then schedule subsequent quizzes
+        send_quiz_immediately(context, chat_id)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
+        start_quiz(update, context)
+     # else:
+     #     query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
+     #     start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
