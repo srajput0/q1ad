@@ -8,6 +8,7 @@ import json
 import os
 from pymongo import MongoClient
 from datetime import datetime, timedelta
+from telegram.error import BadRequest
 
 logger = logging.getLogger(__name__)
 
@@ -84,14 +85,19 @@ def send_quiz(context: CallbackContext):
     else:
         used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
 
-    message = context.bot.send_poll(
-        chat_id=chat_id,
-        question=question['question'],
-        options=question['options'],
-        type='quiz',
-        correct_option_id=question['correct_option_id'],
-        is_anonymous=False
-    )
+    try:
+        message = context.bot.send_poll(
+            chat_id=chat_id,
+            question=question['question'],
+            options=question['options'],
+            type='quiz',
+            correct_option_id=question['correct_option_id'],
+            is_anonymous=False
+        )
+    except BadRequest as e:
+        logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
+        context.bot.send_message(chat_id=chat_id, text="Failed to send quiz. Please check the chat ID and permissions.")
+        return
 
     context.bot_data[message.poll.id] = {
         'chat_id': chat_id,
@@ -130,14 +136,19 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     chat_data["used_questions"] = used_question_ids
     save_chat_data(chat_id, chat_data)
 
-    message = context.bot.send_poll(
-        chat_id=chat_id,
-        question=question['question'],
-        options=question['options'],
-        type='quiz',
-        correct_option_id=question['correct_option_id'],
-        is_anonymous=False
-    )
+    try:
+        message = context.bot.send_poll(
+            chat_id=chat_id,
+            question=question['question'],
+            options=question['options'],
+            type='quiz',
+            correct_option_id=question['correct_option_id'],
+            is_anonymous=False
+        )
+    except BadRequest as e:
+        logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
+        context.bot.send_message(chat_id=chat_id, text="Failed to send quiz. Please check the chat ID and permissions.")
+        return
 
     context.bot_data[message.poll.id] = {
         'chat_id': chat_id,
@@ -176,14 +187,19 @@ def send_quiz_to_channel(context: CallbackContext, channel_id: str):
     chat_data["used_questions"] = used_question_ids
     save_chat_data(channel_id, chat_data)
 
-    message = context.bot.send_poll(
-        chat_id=channel_id,
-        question=question['question'],
-        options=question['options'],
-        type='quiz',
-        correct_option_id=question['correct_option_id'],
-        is_anonymous=False
-    )
+    try:
+        message = context.bot.send_poll(
+            chat_id=channel_id,
+            question=question['question'],
+            options=question['options'],
+            type='quiz',
+            correct_option_id=question['correct_option_id'],
+            is_anonymous=False
+        )
+    except BadRequest as e:
+        logger.error(f"Failed to send quiz to channel {channel_id}: {e}")
+        context.bot.send_message(chat_id=channel_id, text="Failed to send quiz. Please check the channel ID and permissions.")
+        return
 
     context.bot_data[message.poll.id] = {
         'chat_id': channel_id,
