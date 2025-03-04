@@ -2,7 +2,6 @@ import logging
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
-# from quiz_handler import broadcast_to_channel
 from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
 
 logger = logging.getLogger(__name__)
@@ -101,3 +100,11 @@ def broadcast_channel(update: Update, context: CallbackContext):
 def add_admin_handlers(dispatcher):
     dispatcher.add_handler(CommandHandler("broadcast", broadcast))
     dispatcher.add_handler(CommandHandler("broadcastchannel", broadcast_channel))
+
+def broadcast_to_channel(context, channel_id, message):
+    bot = context.bot
+    try:
+        bot.send_message(chat_id=channel_id, text=message)
+    except Exception as e:
+        logger.error(f"Failed to send message to channel {channel_id}: {e}")
+        raise
