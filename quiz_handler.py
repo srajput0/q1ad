@@ -98,28 +98,37 @@ def send_quiz(context: CallbackContext):
         'correct_option_id': question['correct_option_id']
     }
 
-def send_quiz_immediately(context: CallbackContext, chat_id):
+def send_quiz_immediately(context: CallbackContext, chat_id: str):
     chat_data = load_chat_data(chat_id)
+
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
+
+    today = datetime.now().date().isoformat()  # Convert date to string
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+
+    if quizzes_sent is None:
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
+    elif quizzes_sent["count"] < 40:
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
+    else:
+        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+        return
 
     if not questions:
         context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
         return
 
-    used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
-    used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
-
+    used_question_ids = chat_data.get("used_questions", [])
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
         context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
         return
 
     question = random.choice(available_questions)
-    if used_question_ids:
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
-    else:
-        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
+    used_question_ids.append(question)
+    chat_data["used_questions"] = used_question_ids
+    save_chat_data(chat_id, chat_data)
 
     message = context.bot.send_poll(
         chat_id=chat_id,
@@ -136,90 +145,40 @@ def send_quiz_immediately(context: CallbackContext, chat_id):
     }
 
 def handle_poll_answer(update: Update, context: CallbackContext):
-    answer = update.poll_answer
-    poll_id = answer.poll_id
-    selected_option = answer.option_ids[0]
+    poll_answer = update.poll_answer
+    user_id = str(poll_answer.user.id)
+    selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
 
-    if poll_id in context.bot_data:
-        quiz_data = context.bot_data[poll_id]
-        chat_id = quiz_data['chat_id']
-        correct_option_id = quiz_data['correct_option_id']
+    poll_id = poll_answer.poll_id
+    poll_data = context.bot_data.get(poll_id)
 
-        if selected_option == correct_option_id:
-            user_id = answer.user.id
-            add_score(user_id, 10)  # Add 10 points for correct answers
-            context.bot.send_message(chat_id=chat_id, text=f"Correct answer by {answer.user.first_name}!")
-
-def send_channel_quiz(context: CallbackContext):
-    channel_id = context.job.context['channel_id']
-    used_questions = context.job.context['used_questions']
-    chat_data = load_chat_data(channel_id)
-
-    category = chat_data.get('category', 'general')  # Default category if not set
-    questions = load_quizzes(category)
-
-    today = datetime.now().date().isoformat()  # Convert date to string
-    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": channel_id, "date": today})
-    message_status = message_status_collection.find_one({"chat_id": channel_id, "date": today})
-
-    if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"chat_id": channel_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < 40:
-        quizzes_sent_collection.update_one({"chat_id": channel_id, "date": today}, {"$inc": {"count": 1}})
-    else:
-        if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=channel_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": channel_id, "date": today, "limit_reached": True})
-            else:
-                message_status_collection.update_one({"chat_id": channel_id, "date": today}, {"$set": {"limit_reached": True}})
-        next_quiz_time = datetime.combine(datetime.now() + timedelta(days=1), datetime.min.time())
-        context.job_queue.run_once(send_channel_quiz, next_quiz_time, context={"channel_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+    if not poll_data:
         return
 
-    if not questions:
-        if message_status is None or not message_status.get("no_questions", False):
-            context.bot.send_message(chat_id=channel_id, text="No questions available for this category.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": channel_id, "date": today, "no_questions": True})
-            else:
-                message_status_collection.update_one({"chat_id": channel_id, "date": today}, {"$set": {"no_questions": True}})
-        return
+    correct_option_id = poll_data['correct_option_id']
 
-    used_question_ids = used_quizzes_collection.find_one({"chat_id": channel_id})
-    used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
+    # Update the score
+    if selected_option == correct_option_id:
+        add_score(user_id, 1)
 
-    available_questions = [q for q in questions if q not in used_question_ids]
-    if not available_questions:
-        if message_status is None or not message_status.get("no_new_questions", False):
-            context.bot.send_message(chat_id=channel_id, text="No more new questions available.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": channel_id, "date": today, "no_new_questions": True})
-            else:
-                message_status_collection.update_one({"chat_id": channel_id, "date": today}, {"$set": {"no_new_questions": True}})
-        return
+# def show_leaderboard(update: Update, context: CallbackContext):
+#     top_scores = get_top_scores(10)
 
-    question = random.choice(available_questions)
-    used_questions.append(question)
-    if used_question_ids:
-        used_quizzes_collection.update_one({"chat_id": channel_id}, {"$push": {"used_questions": question}})
-    else:
-        used_quizzes_collection.insert_one({"chat_id": channel_id, "used_questions": [question]})
+#     if not top_scores:
+#         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+#         return
 
-    context.bot.send_poll(
-        chat_id=channel_id,
-        question=question['question'],
-        options=question['options'],
-        type='quiz',
-        correct_option_id=question['correct_option_id'],
-        is_anonymous=False
-    )
+#     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+#     medals = ["🥇", "🥈", "🥉"]
 
-def broadcast_to_channel(context: CallbackContext, channel_id: str, text_content: str, content_type: str = 'text', file_id: str = None, reply_markup = None):
-    try:
-        if content_type == 'photo':
-            context.bot.send_photo(chat_id=channel_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
-        else:
-            context.bot.send_message(chat_id=channel_id, text=text_content, reply_markup=reply_markup)
-    except Exception as e:
-        logger.error(f"Error broadcasting to channel {channel_id}: {e}")
+#     for rank, (user_id, score) in enumerate(top_scores, start=1):
+#         try:
+#             user = context.bot.get_chat(int(user_id))
+#             username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+#         except Exception:
+#             username = f"User {user_id}"
+
+#         rank_display = medals[rank - 1] if rank <= 3 else f"#{rank}"
+#         message += f"{rank_display} *{username}* - {score} points\n"
+
+#     update.message.reply_text(message, parse_mode="Markdown")
