@@ -87,9 +87,6 @@ def button(update: Update, context: CallbackContext):
         elif query.data == 'prequiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
-        elif query.data == 'channel_quiz' and update.effective_chat.type != 'private':
-            query.edit_message_text(text="The Channel Quiz option is only available in channels.")
-            return
 
         # Save the selected option in chat data
         chat_data['selected_option'] = query.data
@@ -125,8 +122,13 @@ def button(update: Update, context: CallbackContext):
                     job.schedule_removal()
                     
             # Send the first quiz immediately and then schedule subsequent quizzes
-        send_quiz_immediately(context, chat_id)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
+            channel_id = chat_data['channel_id']
+            send_quiz_to_channel(context, channel_id)
+            context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+        else:
+            send_quiz_immediately(context, chat_id)
+            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
 
@@ -154,8 +156,13 @@ def set_interval(update: Update, context: CallbackContext):
             if job.context and job.context["chat_id"] == chat_id:
                 job.schedule_removal()
         # Send the first quiz immediately and then schedule subsequent quizzes
-        send_quiz_immediately(context, chat_id)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
+            channel_id = chat_data['channel_id']
+            send_quiz_to_channel(context, channel_id)
+            context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+        else:
+            send_quiz_immediately(context, chat_id)
+            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
@@ -165,13 +172,27 @@ def set_channel(update: Update, context: CallbackContext):
         update.message.reply_text("Please use the button to select 'Channel Quiz' first.")
         return
 
+    if not context.args or not context.args[0].isdigit():
+        update.message.reply_text("Usage: /setchannel <channel_id>")
+        return
+        
     channel_id = context.args[0]
     user_id = str(update.effective_user.id)
     chat_data = load_chat_data(user_id)
     chat_data['channel_id'] = channel_id
     save_chat_data(user_id, chat_data)
     context.user_data['setting_channel'] = False
-    update.message.reply_text(f"Channel ID set to {channel_id}. You can now set the interval using the buttons.")
+
+    # Inline buttons for interval selection
+    keyboard = [
+        [InlineKeyboardButton("30 sec", callback_data='interval_10')],
+        [InlineKeyboardButton("1 min", callback_data='interval_60')],
+        [InlineKeyboardButton("5 min", callback_data='interval_300')],
+        [InlineKeyboardButton("10 min", callback_data='interval_600')],
+        [InlineKeyboardButton("30 min", callback_data='interval_1800')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text(f"Channel ID set to {channel_id}. Please select the interval for quizzes:", reply_markup=reply_markup)
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -195,10 +216,13 @@ def start_quiz(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
 
     # Send the first quiz immediately
-    send_quiz_immediately(context, chat_id)
-
-    # Schedule subsequent quizzes at the specified interval
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
+    if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
+        channel_id = chat_data['channel_id']
+        send_quiz_to_channel(context, channel_id)
+        context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
+    else:
+        send_quiz_immediately(context, chat_id)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
 
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -306,7 +330,6 @@ def show_leaderboard(update: Update, context: CallbackContext):
         message += f"{rank_display}  *{username}* - {score} Points\n\n"
 
     update.message.reply_text(message, parse_mode="Markdown")
-
 
 def main():
     updater = Updater(TOKEN, use_context=True)
