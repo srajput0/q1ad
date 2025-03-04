@@ -314,6 +314,7 @@ def main():
     
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("setinterval", set_interval))
+    dp.add_handler(CommandHandler("setchannel", set_channel))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
