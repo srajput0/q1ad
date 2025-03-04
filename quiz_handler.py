@@ -182,7 +182,7 @@ def send_quiz_to_channel(context: CallbackContext, channel_id: str):
         options=question['options'],
         type='quiz',
         correct_option_id=question['correct_option_id'],
-        # is_anonymous=False
+        is_anonymous=False
     )
 
     context.bot_data[message.poll.id] = {
