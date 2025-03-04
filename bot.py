@@ -87,7 +87,7 @@ def button(update: Update, context: CallbackContext):
         elif query.data == 'prequiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
-        elif query.data == 'channel_quiz' and update.effective_chat.type != 'channel':
+        elif query.data == 'channel_quiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Channel Quiz option is only available in channels.")
             return
 
