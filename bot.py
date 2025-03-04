@@ -172,7 +172,7 @@ def set_channel(update: Update, context: CallbackContext):
         update.message.reply_text("Please use the button to select 'Channel Quiz' first.")
         return
 
-    if not context.args or not context.args[0].isdigit():
+    if not context.args or not context.args[0].startswith('-100'):
         update.message.reply_text("Usage: /setchannel <channel_id>")
         return
         
