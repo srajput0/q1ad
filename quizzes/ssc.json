@@ -234,4 +234,9 @@
         "options": ["Mark Twain", "John Steinbeck", "Ernest Hemingway", "Harper Lee"],
         "correct_option_id": 3
     }
+    {
+        "question": "",
+        "options": ["", "", "", ""],
+        "correct_option_id": 
+    }
 ]
