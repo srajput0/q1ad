@@ -62,6 +62,7 @@ def button(update: Update, context: CallbackContext):
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
             [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
+            [InlineKeyboardButton("channel quiz", callback_data='channle')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -78,13 +79,16 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
-    elif query.data in ['sendgroup', 'prequiz']:
+    elif query.data in ['sendgroup', 'prequiz', 'channle']:
         # Send the set interval command
         if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
             query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
             return
         elif query.data == 'prequiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
+            return
+        elif query.data == 'channle' and update.effective_chat.type != 'private':
+            query.edit_message_text(text="The channle option is only available in channle quizzes.")
             return
 
         # Save the selected option in chat data
