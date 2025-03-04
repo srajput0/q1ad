@@ -302,7 +302,7 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_channel_id))
+
     
     updater.start_polling()
     updater.job_queue.run_once(restart_active_quizzes, 0)
