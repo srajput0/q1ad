@@ -8,8 +8,8 @@ from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
-from pymongo import MongoClient  # Import MongoClient
-import threading  # Import threading to allow concurrent execution
+from pymongo import MongoClient
+import threading
 import time
 # Enable logging
 from bot_logging import logger
@@ -62,7 +62,7 @@ def button(update: Update, context: CallbackContext):
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
             [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
-            [InlineKeyboardButton("channel quiz", callback_data='channle')],
+            [InlineKeyboardButton("Channel Quiz", callback_data='channel_quiz')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -79,7 +79,7 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
-    elif query.data in ['sendgroup', 'prequiz', 'channle']:
+    elif query.data in ['sendgroup', 'prequiz', 'channel_quiz']:
         # Send the set interval command
         if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
             query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
@@ -87,14 +87,19 @@ def button(update: Update, context: CallbackContext):
         elif query.data == 'prequiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
-        elif query.data == 'channle' and update.effective_chat.type != 'private':
-            query.edit_message_text(text="The channle option is only available in channle quizzes.")
+        elif query.data == 'channel_quiz' and update.effective_chat.type != 'channel':
+            query.edit_message_text(text="The Channel Quiz option is only available in channels.")
             return
 
         # Save the selected option in chat data
         chat_data['selected_option'] = query.data
         save_chat_data(chat_id, chat_data)
-        
+
+        if query.data == 'channel_quiz':
+            query.edit_message_text(text="Please provide the channel ID using /setchannel <channel_id>")
+            context.user_data['setting_channel'] = True
+            return
+
         # Inline buttons for interval selection
         keyboard = [
             [InlineKeyboardButton("30 sec", callback_data='interval_10')],
@@ -124,9 +129,6 @@ def button(update: Update, context: CallbackContext):
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
-     # else:
-     #     query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
-     #     start_quiz(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -157,6 +159,19 @@ def set_interval(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
+
+def set_channel(update: Update, context: CallbackContext):
+    if 'setting_channel' not in context.user_data or not context.user_data['setting_channel']:
+        update.message.reply_text("Please use the button to select 'Channel Quiz' first.")
+        return
+
+    channel_id = context.args[0]
+    user_id = str(update.effective_user.id)
+    chat_data = load_chat_data(user_id)
+    chat_data['channel_id'] = channel_id
+    save_chat_data(user_id, chat_data)
+    context.user_data['setting_channel'] = False
+    update.message.reply_text(f"Channel ID set to {channel_id}. You can now set the interval using the buttons.")
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
