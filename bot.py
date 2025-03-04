@@ -287,17 +287,6 @@ def show_leaderboard(update: Update, context: CallbackContext):
 
     update.message.reply_text(message, parse_mode="Markdown")
 
-def send_channel(update: Update, context: CallbackContext):
-    if not context.args:
-        update.message.reply_text("Usage: /sendchannel <channel_id>")
-        return
-
-    channel_id = context.args[0]
-    chat_data = load_chat_data(channel_id)
-    chat_data["channel_id"] = channel_id
-    save_chat_data(channel_id, chat_data)
-    send_channel_quiz(context, channel_id)
-    update.message.reply_text(f"Quizzes will now be sent to the channel with ID {channel_id}.")
 
 def main():
     updater = Updater(TOKEN, use_context=True)
@@ -312,9 +301,7 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
-    dp.add_handler(CommandHandler("broadcastchannel", broadcast_channel))
     dp.add_handler(CommandHandler("stats", check_stats))
-    dp.add_handler(CommandHandler("sendchannel", send_channel))
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_channel_id))
     
     updater.start_polling()
