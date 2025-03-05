@@ -4,7 +4,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately, send_quiz_to_channel, handle_poll_answer
+from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
@@ -62,7 +62,6 @@ def button(update: Update, context: CallbackContext):
         keyboard = [
             [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
             [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
-            [InlineKeyboardButton("Channel Quiz", callback_data='channel_quiz')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -88,18 +87,9 @@ def button(update: Update, context: CallbackContext):
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
 
-        # Save the selected option in chat data
-        chat_data['selected_option'] = query.data
-        save_chat_data(chat_id, chat_data)
-
-        if query.data == 'channel_quiz':
-            query.edit_message_text(text="Please provide the channel ID using /setchannel <channel_id>")
-            context.user_data['setting_channel'] = True
-            return
-
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_10')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
             [InlineKeyboardButton("10 min", callback_data='interval_600')],
@@ -166,33 +156,6 @@ def set_interval(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
-
-def set_channel(update: Update, context: CallbackContext):
-    if 'setting_channel' not in context.user_data or not context.user_data['setting_channel']:
-        update.message.reply_text("Please use the button to select 'Channel Quiz' first.")
-        return
-
-    if not context.args or not context.args[0].startswith('-100'):
-        update.message.reply_text("Usage: /setchannel <channel_id>")
-        return
-        
-    channel_id = context.args[0]
-    user_id = str(update.effective_user.id)
-    chat_data = load_chat_data(user_id)
-    chat_data['channel_id'] = channel_id
-    save_chat_data(user_id, chat_data)
-    context.user_data['setting_channel'] = False
-
-    # Inline buttons for interval selection
-    keyboard = [
-        [InlineKeyboardButton("30 sec", callback_data='interval_30')],
-        [InlineKeyboardButton("1 min", callback_data='interval_60')],
-        [InlineKeyboardButton("5 min", callback_data='interval_300')],
-        [InlineKeyboardButton("10 min", callback_data='interval_600')],
-        [InlineKeyboardButton("30 min", callback_data='interval_1800')]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text(f"Channel ID set to {channel_id}. Please select the interval for quizzes:", reply_markup=reply_markup)
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -337,7 +300,6 @@ def main():
     
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("setinterval", set_interval))
-    dp.add_handler(CommandHandler("setchannel", set_channel))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
