@@ -78,7 +78,7 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
                                 reply_markup=reply_markup)
-    elif query.data in ['sendgroup', 'prequiz', 'channel_quiz']:
+    elif query.data in ['sendgroup', 'prequiz']:
         # Send the set interval command
         if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
             query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
@@ -87,6 +87,10 @@ def button(update: Update, context: CallbackContext):
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
 
+        # Save the selected option in chat data
+        chat_data['selected_option'] = query.data
+        save_chat_data(chat_id, chat_data)
+        
         # Inline buttons for interval selection
         keyboard = [
             [InlineKeyboardButton("30 sec", callback_data='interval_10')],
@@ -111,14 +115,9 @@ def button(update: Update, context: CallbackContext):
                 if job.context and job.context["chat_id"] == chat_id:
                     job.schedule_removal()
                     
-            # Send the first quiz immediately and then schedule subsequent quizzes
-        if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
-            channel_id = chat_data['channel_id']
-            send_quiz_to_channel(context, channel_id)
-            context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
-        else:
-            send_quiz_immediately(context, chat_id)
-            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        # Send the first quiz immediately and then schedule subsequent quizzes
+        send_quiz_immediately(context, chat_id)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
 
@@ -146,13 +145,8 @@ def set_interval(update: Update, context: CallbackContext):
             if job.context and job.context["chat_id"] == chat_id:
                 job.schedule_removal()
         # Send the first quiz immediately and then schedule subsequent quizzes
-        if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
-            channel_id = chat_data['channel_id']
-            send_quiz_to_channel(context, channel_id)
-            context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
-        else:
-            send_quiz_immediately(context, chat_id)
-            context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+        send_quiz_immediately(context, chat_id)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
@@ -164,7 +158,7 @@ def start_quiz(update: Update, context: CallbackContext):
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-    if quizzes_sent and quizzes_sent.get("count", 0) >= 40:
+    if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
         update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
         return
 
@@ -179,13 +173,10 @@ def start_quiz(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
 
     # Send the first quiz immediately
-    if chat_data.get('selected_option') == 'channel_quiz' and 'channel_id' in chat_data:
-        channel_id = chat_data['channel_id']
-        send_quiz_to_channel(context, channel_id)
-        context.job_queue.run_repeating(send_quiz_to_channel, interval=interval, first=interval, context={"chat_id": channel_id, "used_questions": chat_data.get("used_questions", [])})
-    else:
-        send_quiz_immediately(context, chat_id)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
+    send_quiz_immediately(context, chat_id)
+
+    # Schedule subsequent quizzes at the specified interval
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
 
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -245,6 +236,7 @@ def restart_active_quizzes(context: CallbackContext):
         interval = quiz["data"].get("interval", 30)
         used_questions = quiz["data"].get("used_questions", [])
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
+
 
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
