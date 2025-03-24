@@ -2120,16 +2120,6 @@
     "correct_option_id": 0
   },
   {
-    "question": "In the given series some letters are missing. Select the correct alternative. $b\_d\_a\_b\_daba\_$",
-    "options": [
-      "abbaa",
-      "ababa",
-      "aabba",
-      "baabb"
-    ],
-    "correct_option_id": 2
-  },
-  {
     "question": "What is the average of all the prime numbers up to 30?",
     "options": [
       "12.9",
