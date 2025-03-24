@@ -40,11 +40,6 @@
     "correct_option_id": 2
   },
   {
-    "question": "If the angles of a triangle are in the ratio of 1:2:3, then find the value of the largest angle.",
-    "options": ["$30^{\circ}$", "$60^{\circ}$", "$90^{\circ}$", "120"],
-    "correct_option_id": 2
-  },
-  {
     "question": "Read the given statements carefully and answer the question. Statement: Though the school bags policy has been announced, it is not clear how many schools are following it. The state Government is also clueless whether schools have implemented the rules. Which of the following is true according to the giver statement?",
     "options": ["School bags policy has been implemented by the Govanrnent.", "Schools are not interested in following the rules.", "There is no monitoring system.", "State Government is not interested in follow-up."],
     "correct_option_id": 2
@@ -58,11 +53,6 @@
     "question": "The mean of 22 observations is 10. Two more observations are included and the new mean becomes 11. The mean of two new observations is",
     "options": ["19", "20", "21", "22"],
     "correct_option_id": 3
-  },
-  {
-    "question": "An angle is $10^{\circ}$ more than its complement. Find the greater angle.",
-    "options": ["$30^{\circ}$", "$60^{\circ}$", "50", "75"],
-    "correct_option_id": 2
   },
   {
     "question": "Neelam and Manisha starting from the same place run at a rate of 7 kmph and 9 kmph respectively. What time will they take to be 12 km apart, If they walk in the same direction?",
@@ -169,21 +159,25 @@
     "options": ["Nitrogen & oxygen: Air", "Sulphur & Phosphorous: Match stick", "Hydrogen & Oxygen: Water", "Magnesium & Silver: Stainless steel"],
     "correct_option_id": 3
   },
+  
   {
     "question": " was the first Geographical Indication (GI) tagged product in India.",
     "options": ["Darjeeling Tea", "Solapuri Chaddar", "Nagpur Orange", "Orissa Ikat"],
     "correct_option_id": 0
   },
+  
   {
     "question": "Freezing point of water is",
     "options": ["$40^{\circ}$ F", "$42^{\circ}$ F", "$34^{\circ}F$", "$32^{\circ}F$"],
     "correct_option_id": 3
   },
+
   {
     "question": "ADGJ, CFIL, EHKN, ?",
     "options": ["FILO", "HKNQ", "DGJM", "GJMP"],
     "correct_option_id": 3
   },
+
   {
     "question": "If the rate of interest is 8% per annum and Rs. 10000 lent at the compound interest half yearly then calculate the equivalent simple rate of interest for the first year?",
     "options": ["8.16%", "9%", "7%", "10%"],
@@ -338,5 +332,320 @@
     "question": "A shopkeeper earns a profit of 20% on selling an article at a certain price. If he charges Rs. 4 more, he would gain 40%. Find the cost price of the article.",
     "options": ["Rs. 18", "Rs. 20", "Rs. 22", "Rs. 24"],
     "correct_option_id": 1
-  }
+  },
+  {
+    "question": "In 2016 world's first, fastest reactive anti-rabies vaccine was launched in which country?",
+    "options": ["India", "England", "South Africa", "Germany"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Saffron is produced in which of the following Indian states",
+    "options": ["Jammu and Kashmir", "Uttar Pradesh", "Assam", "Sikkim"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "If A=1 and EAT=26 then SEAT =?",
+    "options": ["45", "44", "46", "47"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "A certain amount is invested at a certain simple interest rate for a period of 6 years. If the amount is invested at 3% more rate then it has fetched Rs 900 more. Find the principle Amount.",
+    "options": ["Rs 3500", "Rs 4000", "Rs 4500", "Rs 5000"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "After the Program is used by the users/the creators. Which of the following program can't be modified in computer",
+    "options": ["EPROM", "ROM", "EEPROM", "ROM"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "What does CRISPR means?",
+    "options": [
+      "Categorically Regularly Interspaced Short Palindromic",
+      "Categorically Regularly Interspaced Short Palindromic Repeats",
+      "Clustered Regularly Interspaced Short Palindromic Repeats",
+      "Categorically Regularly Interspaced Short Palindromic Repeats"
+    ],
+    "correct_option_id": 2
+  },
+  {
+    "question": "What will be the amount after 2 years when a principle of Rs 80,000 is given at 20% compounded half yearly?",
+    "options": ["Rs 97,240", "Rs 117,128", "Rs 115,200", "Rs 120,000"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "If HEALTH is coded as IDBKUG then HOSPITAL is coded as",
+    "options": ["IQUQKRBK", "IMTNJRBJ", "IPTQJUBM", "INTOJSBK"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Anita is the only daughter of Arjun's Maternal uncle's father. How Anita is related with Arjun?",
+    "options": ["Sister", "Mother", "Paternal Aunt", "Daughter"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "If STUDENT is coded as NVPFZPO then TEACHER is Coded as:",
+    "options": ["OGVECGM", "OZVXCBM", "VGCEJGT", "VZCXJBT"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Who was the chief architect of Indian Parliament situated in New Delhi",
+    "options": [
+      "Sir Edwin Lutens and Sir Herbert Baker",
+      "Duke of Connaught",
+      "Sir John Archer and Sir Edward Batley",
+      "Sir Claude Batley and Sir John Begg"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Brahmputra river doesn't flow from which of the following countries?",
+    "options": ["China", "Bangladesh", "India", "Nepal"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Select the pair related to the given options in the first pair. UAE DIRHAM :: KOREA :",
+    "options": ["LIRA", "KYAT", "WON", "TAKA"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "If COIL = 315912 and POLICE = 161512935 then PRICE = ?",
+    "options": ["1516824", "1517824", "1618935", "1718935"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "P Purchase an item for 1200 and sold it on a profit of 10%. If he sells it at 1380 the calculate his increase in profit percentage.",
+    "options": ["5%", "10%", "12%", "15%"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Genome of which animal was published in November who can survive for 10 years without food and also known as flesh Pigbets?",
+    "options": [
+      "Deathstalker Scorpion",
+      "Mountain Goat",
+      "Tardigrade",
+      "Black Mamba"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Which of the following planets doesn't have a satellite?",
+    "options": ["Jupiter", "Mars", "Venus", "Neptune"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Who was the first person to travel to the outer space?",
+    "options": ["Neil Armstrong", "Yuri Gagrin", "Buzz Eldrin", "John Glenn"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "A two digit number is four times the sum of its digits. If 27 is added then it becomes seven times the sum of its digits. The two digit number is",
+    "options": ["24", "12", "48", "36"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "In the following fractions which one is true?",
+    "options": [
+      "13/21 < 57/97 < 52/94 < 36/79",
+      "36/79 < 57/97 < 52/94 < 13/21",
+      "36/79 < 52/94 < 13/21 < 57/97",
+      "36/79 < 52/94 < 57/97 < 13/21"
+    ],
+    "correct_option_id": 3
+  },
+  {
+    "question": "John said, 'Sharon is the daughter of only son of my Grandmother'. How Sharon is related with John?",
+    "options": ["Sister", "Maternal Aunt", "Cousin", "Mother"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Srilanka got independence as Dominion of Ceylon in which year?",
+    "options": ["1948", "1972", "1947", "1968"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Asoka the great was associated with which dynasty?",
+    "options": ["Maurya Dynasty", "Mughal Dynasty", "Gupta Dynasty", "Chola Dynasty"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Vijay introduced Sharmila as the daughter of only Granddaughter of his maternal Grandmother. How is Vijay related with Sharmila.",
+    "options": ["Father", "Cousin", "Grand father", "Maternal Uncle"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "The pillars of 12 m and 17 m long are standing on the ground. If the distance between their feet is 12 m then find the distance between their top.",
+    "options": ["11 m", "12 m", "13 m", "14 m"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Which of the following Mosques was built by Mughal Emperor Shahjahan.",
+    "options": [
+      "Jama Masjid, Delhi",
+      "Badshahi Masjid, Lahore",
+      "Kabuli Bagh Masjid, Haryana",
+      "Quila-e-Kuhna Masjid, Delhi"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Select the pair related to the given options in the first pair. LION: ROAR :: OWL:",
+    "options": ["HOWL", "GRUNT", "HOOT", "CROAK"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "In the sport of Badminton which of these is a hard hit overhead shot in which shuttle goes at a very fast pace towards floor in opponents court.",
+    "options": ["Smash", "Wood shot", "Hairpin shot", "Drive"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Most of the Animal species are on the verge of extinction due to",
+    "options": ["Loss in Habitat", "Acid Rain", "Poaching", "Scarcity of water"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Which of the following is true?",
+    "options": [
+      "Image formed at retina is inverted",
+      "Image formed at retina is twice of original image",
+      "Image formed at retina is similar or Original Image",
+      "Image formed at retina is small"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Scientific Name Homo Sapiens Means?",
+    "options": ["Simple human", "Tall human", "Intelligent human", "Working human"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Which country got Independence in 2011?",
+    "options": ["Eritrea", "South Sudan", "Slovakia", "Brunel"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Which country will host the 2019 Rugby world cup?",
+    "options": ["New Zealand", "Australia", "England", "Japan"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "3.26 x 7.2 = ?",
+    "options": ["20.342", "23.472", "22.012", "21.432"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Which of the following satellite was launched in February 2015 from space X to monitor exclusive radiation from sun which is likely to effect power grid, Telecom system and satellites stationed near earth.",
+    "options": ["DSOLAR", "DISCOVER", "XPLR", "DLAR"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Who was the first scientist to prepare periodic table for chemical elements",
+    "options": ["Henry Moseley", "Robert Boyle", "Dmitri Mendeleev", "John Newlands"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "NaCl is chemical formula of",
+    "options": ["Ammonia", "Water", "Salt", "Sugar"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Sum of digits of a 2-digit number is 13. If the digits are interchanged then the new number is 27 less then the original number. Find the new number.",
+    "options": ["85", "76", "67", "58"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Simplify  (2/5 + 2/9) / (2/5 + 5/9)",
+    "options": ["28/45", "28/43", "27/34", "7/17"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Select related to related options given in the first pair of words. BIHAR: PATNA : GUJARAT :",
+    "options": ["Gandhi Nagar", "Jaipur", "Ahmedabad", "Daman"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Who ordered the Jallianwallah Bagh Massacare?",
+    "options": [
+      "Colonel Reginald Dyer",
+      "Michael O' Dwyer",
+      "H. H. Asquith",
+      "Winston Churchill"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Ramkheliya is the Folk Dance of which state?",
+    "options": ["Haryana", "Kerala", "Bihar", "Madhya Pradesh"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "A boat travels against the current from city X to city Y and with the current from city Y to city X. If the speed of boat in still water is 40 km/hr and speed of current is 10 km/hr then find the average speed of the boat for the entire journey.",
+    "options": ["36.5 km/hr", "34.5 km/hr", "37.5 km/hr", "33.33 km/hr"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Find the symbols which completes the equation from the given options. 84 12 5 6 = 41",
+    "options": ["x, -, ÷", "+, *, -", "+, -, ÷", "÷, x, +"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Which of the following German Scientist invented X-ray.",
+    "options": [
+      "Wilhelm Roentgen",
+      "Philipp Lenard",
+      "Marie Curie",
+      "William Crookes"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Some statements and conclusions are given below. Consider the statement as true however it might not match with the general facts and decide which conclusion follows the statement. Statement: June September are months of Rainy season in India. Conclusion: I. India always rains in these 4 months. II. Rain occurs only in Rainy season in India.",
+    "options": [
+      "Only conclusion I follows",
+      "Only conclusion II follows",
+      "Both conclusion I and II follows",
+      "Neither I nor II follows"
+    ],
+    "correct_option_id": 3
+  },
+  {
+    "question": "This Yemeni Journalist and Politician has been awarded with Nobel Peace prize in 2011 for his work towards Human Right. She is:",
+    "options": [
+      "Leymah Gbowee",
+      "Tawakkol Karman",
+      "Ellen Sirleaf",
+      "Shirin Ebadi"
+    ],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Which of the following isn't a source of water pollution",
+    "options": ["Ocean Dumping", "Domestic Waste", "Fishing in Sea", "Oil Spill"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Find the odd one out",
+    "options": ["Sirius", "Mars", "Neptune", "Saturn"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Find the mode of 72, 74, 75, 76, 75, 74, 73, 75, 73, 71 and 77.",
+    "options": ["73", "74", "75", "72"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "If '+' means 'x', '-' means '÷', 'x' means '+' and '÷' means '+' then find the value of 35 - 5 + 6 x 7",
+    "options": ["45", "49", "55", "51"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Find the average of first 20 multiples of 8",
+    "options": ["78", "80", "84", "82"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Solve 0.00081 ÷ 0.09",
+    "options": ["0.09", "0.009", "0.9", "0.0009"],
+    "correct_option_id": 1
+  },
 ]
