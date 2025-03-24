@@ -1,5 +1,290 @@
 [
   {
+    "question": "Compute:  66447÷321÷23",
+    "options": ["90", "4761", "9", "4716"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Four words are given below out of which three are alike in some manner and one is different. Which is different from the rest?",
+    "options": ["Fox", "Wolf", "Jackal", "Deer"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Pointing to a photograph, Sangeeta says, \"\"This man's son's sister is my mother-in-law.\"\" How is the Sangeeta's husband related to the man in the photograph?",
+    "options": ["Grandson", "Son", "Son-in-law", "Nephew"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "In December 2015, who won the Hero Hockey World League?",
+    "options": ["India", "Belgium", "Netherlands", "Australia"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "The variance of a set of data is 49. Then the standard deviation of the data is:",
+    "options": ["±7", "7", "9", "49"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Which among the following statements is true?",
+    "options": [
+      "Jharkhand is the largest mica producing state in India",
+      "Copper is found in Orissa",
+      "Limestone is found in Maharashtra",
+      "India is largest producer of Iron ore"
+    ],
+    "correct_option_id": 1
+  },
+  {
+    "question": "The mode of the data 7, 21, 2, 17, 3, 13, 7, 4, 9, 7, 9 is",
+    "options": ["9", "7", "21", "4"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Compute: 2912364÷2",
+    "options": ["-6", "6", "181", "1456"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "The 100th amendment in our Constitution is related to which of the following?",
+    "options": [
+      "Protection of livelihood and regulation of street vending",
+      "Acquiring of territories by India and transfer of certain territories to Bangladesh",
+      "Emoluments, Allowances and Privileges to the Governors",
+      "The reorganisation of the state of Andhra Pradesh"
+    ],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Consider the following information: $ means +, # means ÷, @ means x and - means then find the value of 16 $ 4 @ 5 # 72 - 8:",
+    "options": ["26", "27", "29", "36"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Read the statements and select a Conclusion from the given alternatives:  Statements : Some bottles are boxes. Some boxes are crows. Some crows are red.  Conclusions :  1) Some bottles are red 2) No box is red 3) No bottle is red 4) Some boxes are red",
+    "options": [
+      "Either 2 or 4 follows",
+      "Only 1 and 2 follow",
+      "Either 1 or 3 and either 2 or 4 follow",
+      "Either 1 or 3 follows"
+    ],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Which of the following statements is/are true?  I. Laurent Fabius was the President of the COP 21 UN Climate Change Conference held recently  II. Mr. Fabius is the Foreign Minister of France  III. Mr. Fabius is the Environment Minister of France",
+    "options": ["Only 1", "Only 2", "1 and 2", "1 and 3"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "If two plane mirrors are kept at an angle of 120° to each other, then how many images will be formed?",
+    "options": ["3", "4", "2", "6"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Given k = -3, m = 1 and n = -4. Find the value of  <span class="math-inline">m\\\\sqrt\{\(k\-n\)\}</span>",
+    "options": ["±1", "1", "-1", "0"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Direction: Study the following figure and answer the questions given below:  By which letter, the Unmarried Professors who live in nuclear family are represented?",
+    "options": ["R", "Q", "S", "P"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "By which letter, the people who live in nuclear family but are neither Unmarried nor Professors are represented?",
+    "options": ["T", "R", "Q", "S"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "By which letter, the Unmarried people who live in nuclear family but not are College Professors are represented?",
+    "options": ["R", "U", "S", "P"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Which of the following companies recently introduced portal for satellite monitoring of pipelines?",
+    "options": ["IOCL", "ONGC", "GAIL", "Reliance"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "If <span class="math-inline">cot\~x \= 5/12</span>, then $sin^2~x + 1 = $?",
+    "options": ["313/169", "216/65", "194/169", "313/169"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Simplify : y(3y - 1) - (3y - 1)",
+    "options": ["<span class="math-inline">3y^2 \+ 4y \- 1</span>", "<span class="math-inline">3y^2 \- 4y \- 1</span>", "<span class="math-inline">3y^2 \+ 4y \+ 1</span>", "<span class="math-inline">3y^2 \- 4y \+ 1</span>"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "The value of <span class="math-inline">\(0\.1\)^4 ÷ 0\.1</span> is",
+    "options": ["0.1", "0.01", "0.001", "1"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "The Forex reserves in 1997-1998 was how many times that in 1994-1995?",
+    "options": ["0.7", "1.2", "1.4", "1.5"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "The Forex reserves in 1996-1997 were approximately what per cent of the average Forex reserves over the period under review?",
+    "options": ["95%", "110%", "115%", "125%"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "For which year, the per cent increase of Forex reserves over the previous year, is the highest?",
+    "options": ["1992-1993", "1993-1994", "1994-1995", "1996-1997"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Which is the world's first ever Dengue fever vaccine approved by Mexican Government?",
+    "options": ["Dengue vaccine", "Dengvaxia", "Dengfev", "Dengucure"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Consider the following information: '÷' means 'x', 'x' means '+', '+' means '-' and '-' means '÷' then find the value of  16 x 3 + 5 - 2 ÷ 4 = ?",
+    "options": ["9", "10", "19", "20"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Two numbers are in the ratio 7:9 and their HCF is 12. Their LCM is :",
+    "options": ["756", "84", "108", "765"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "The cash difference between the selling price of an article at a profit of 8% and 14% is Rs. 3. The ratio of two selling prices is:",
+    "options": ["18:19", "17:19", "19:21", "18:21"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Protein synthesis occurs in which of the following?",
+    "options": [
+      "Endoplasmic reticulum",
+      "Nucleolus",
+      "Ribosome",
+      "Lysosomes"
+    ],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Read the statements and select a Conclusion from the given alternatives:  Statements : Steel Authority of India Limited Company has moved India from a position of shortage to self-sufficiency in the steel.  Conclusions :  I. Previously India had to import Steel  II. In this regard, it can soon become a foreign exchange earner.",
+    "options": [
+      "Only Conclusion I follows",
+      "Only Conclusion II follows",
+      "Either I or II follows",
+      "Neither I nor II follows"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Which of the following is a part of study of human sciences?",
+    "options": ["Ornithology", "Anthropology", "Ichthyology", "Cosmetology"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "A shopkeeper cheats to the extent of 23% while buying and selling fruits, by using tampered weights. His total gain in percentage is",
+    "options": ["51.25", "51.29", "51.75", "51.5"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Mr. Sinha invested money in FD. How much will he get on maturity. If Rs. 15500 is invested at 20% per annum compound interest for 6 months, compounded quarterly?",
+    "options": ["Rs. 17088.5", "Rs. 17088.75", "Rs. 17088.35", "Rs. 17088"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Which of the following states has a bicameral legislature?",
+    "options": ["Chhattisgarh", "Goa", "Jharkhand", "Maharashtra"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Two buses start from a house with a speed of 4km/hr at interval of 6 minutes. With how much more speed (km/hr.) the woman coming from the opposite direction towards the house has to travel to meet the buses at an interval of 4 minutes?",
+    "options": ["5", "3", "2", "4"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Consider the following information: A stands for +, B stands for ÷, C stands for x then find the value of (10 C 4) A (4 C 4) B 6?",
+    "options": ["60", "56", "50", "46"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "According to the recent survey on 'Index of Ignorance' conducted by IPSOS, India is placed at which position among the most ignorant nations in the world?",
+    "options": ["3rd", "4th", "5th", "2nd"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "The Kudankulam nuclear plant has 2 reactors to generate of power.",
+    "options": ["500 MW", "1000 MW", "2000 MW", "1500 MW"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "Read the statements and select a Conclusion from the given alternatives:  Statements:  Today in the world population of several thousand billion, the majority of women have to live under men who refuse them personal liberty and the right to dissent.  Conclusions :  I. Women are indifferent to personal liberty and right to dissent  II. Women desire personal liberty and right to dissent.",
+    "options": [
+      "Only Conclusion I follows",
+      "Only Conclusion II follows",
+      "Either I or II follows",
+      "Neither I nor II follows"
+    ],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Choose the figure which is different from the rest three : [Four images of geometric shapes]",
+    "options": ["1", "2", "3", "4"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "Choose the figure which is different from the rest three : [Four images of arrows]",
+    "options": ["1", "2", "3", "4"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "A small city with limited geographical area generally uses _________ for computer networking.",
+    "options": ["CAN", "MAN", "LAN", "WAN"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Which of the given four numbers is a prime?",
+    "options": ["77", "87", "83", "81"],
+    "correct_option_id": 2
+  },
+  {
+    "question": "The mean of first 49 natural numbers is:",
+    "options": ["25.5", "25", "26", "26.5"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "If <span class="math-inline">sin A \= 4/5</span> and <span class="math-inline">sin B \= 5/13</span>, then cos (A + B) = ?",
+    "options": ["16/65", "63/65", "33/65", "56/65"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "In a certain language, SEVEN is coded as TFWFO, how is EIGHT coded in that code?",
+    "options": ["HUIFJ", "FJHIU", "IUFJH", "UIFJH"],
+    "correct_option_id": 3
+  },
+  {
+    "question": "In a certain code language, if GREECE is coded as 634454 and PART is coded as 7231, then TERRACE will be coded as?",
+    "options": ["1433524", "1433254", "4133254", "4133425"],
+    "correct_option_id": 1
+  },
+  {
+    "question": "Four words are given below out which three are alike in some manner and one is different. Which is different from the rest?",
+    "options": ["Cap", "Turban", "Helmet", "Veil"],
+    "correct_option_id": 0
+  },
+  {
+    "question": "Which of the following statements is true?",
+    "options": [
+      "Manures are generally added before the seeds are sown",
+      "Manures can cause harmful effects to the soil",
+      "Fertilizers can be used for any crop",
+      "Manures are non-voluminous"
+    ],
+    "correct_option_id": 0
+  },
+  {
+    "question": "In a certain code language, if BOARD is coded as 45136 and CHALK is coded as 78129, then BLOCK will be coded as",
+    "options": ["42579", "42597", "47925", "47952"],
+    "correct_option_id": 1
+  },
+  {
     "question": "If 'summer is hot' is coded as 'de fe ba' and 'come cold summer' as 'ja ha ba' and 'winter is cold' as 'pa ja de' then 'come hot winter' is coded as",
     "options": ["de ha ja", "te ha pa", "ba pa ha", "pa ha fe"],
     "correct_option_id": 3
@@ -633,3 +918,4 @@
     "correct_option_id": 1
   },
 ]
+
