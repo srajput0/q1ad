@@ -370,11 +370,6 @@
     "correct_option_id": 2
   },
   {
-    "question": "Given k = -3, m = 1 and n = -4. Find the value of  <span class="math-inline">m\\\\sqrt\{\(k\-n\)\}</span>",
-    "options": ["±1", "1", "-1", "0"],
-    "correct_option_id": 1
-  },
-  {
     "question": "Direction: Study the following figure and answer the questions given below:  By which letter, the Unmarried Professors who live in nuclear family are represented?",
     "options": ["R", "Q", "S", "P"],
     "correct_option_id": 0
@@ -392,21 +387,6 @@
   {
     "question": "Which of the following companies recently introduced portal for satellite monitoring of pipelines?",
     "options": ["IOCL", "ONGC", "GAIL", "Reliance"],
-    "correct_option_id": 2
-  },
-  {
-    "question": "If <span class="math-inline">cot\~x \= 5/12</span>, then $sin^2~x + 1 = $?",
-    "options": ["313/169", "216/65", "194/169", "313/169"],
-    "correct_option_id": 3
-  },
-  {
-    "question": "Simplify : y(3y - 1) - (3y - 1)",
-    "options": ["<span class="math-inline">3y^2 \+ 4y \- 1</span>", "<span class="math-inline">3y^2 \- 4y \- 1</span>", "<span class="math-inline">3y^2 \+ 4y \+ 1</span>", "<span class="math-inline">3y^2 \- 4y \+ 1</span>"],
-    "correct_option_id": 3
-  },
-  {
-    "question": "The value of <span class="math-inline">\(0\.1\)^4 ÷ 0\.1</span> is",
-    "options": ["0.1", "0.01", "0.001", "1"],
     "correct_option_id": 2
   },
   {
@@ -538,11 +518,6 @@
     "question": "The mean of first 49 natural numbers is:",
     "options": ["25.5", "25", "26", "26.5"],
     "correct_option_id": 1
-  },
-  {
-    "question": "If <span class="math-inline">sin A \= 4/5</span> and <span class="math-inline">sin B \= 5/13</span>, then cos (A + B) = ?",
-    "options": ["16/65", "63/65", "33/65", "56/65"],
-    "correct_option_id": 0
   },
   {
     "question": "In a certain language, SEVEN is coded as TFWFO, how is EIGHT coded in that code?",
