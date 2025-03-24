@@ -391,21 +391,6 @@
     "correct_option_id": 2
   },
   {
-    "question": "If <span class="math-inline">cot\~x \= 5/12</span>, then $sin^2~x + 1 = $?",
-    "options": ["313/169", "216/65", "194/169", "313/169"],
-    "correct_option_id": 3
-  },
-  {
-    "question": "Simplify : y(3y - 1) - (3y - 1)",
-    "options": ["<span class="math-inline">3y^2 \+ 4y \- 1</span>", "<span class="math-inline">3y^2 \- 4y \- 1</span>", "<span class="math-inline">3y^2 \+ 4y \+ 1</span>", "<span class="math-inline">3y^2 \- 4y \+ 1</span>"],
-    "correct_option_id": 3
-  },
-  {
-    "question": "The value of <span class="math-inline">\(0\.1\)^4 ÷ 0\.1</span> is",
-    "options": ["0.1", "0.01", "0.001", "1"],
-    "correct_option_id": 2
-  },
-  {
     "question": "The Forex reserves in 1997-1998 was how many times that in 1994-1995?",
     "options": ["0.7", "1.2", "1.4", "1.5"],
     "correct_option_id": 3
