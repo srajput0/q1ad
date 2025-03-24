@@ -1670,14 +1670,6 @@
     "correct_option_id": 3
   },
   {
-    "question": "An angle is $10^{\circ}$ more than its complement. Find the greater angle.",
-    "options": ["$30^{\circ}$", "$60^{\circ}$",
-      "50",
-      "75"
-    ],
-    "correct_option_id": 2
-  },
-  {
     "question": "Neelam and Manisha starting from the same place run at a rate of 7 kmph and 9 kmph respectively. What time will they take to be 12 km apart, If they walk in the same direction?",
     "options": [
       "3 hours",
