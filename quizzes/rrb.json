@@ -165,13 +165,6 @@
     "options": ["Darjeeling Tea", "Solapuri Chaddar", "Nagpur Orange", "Orissa Ikat"],
     "correct_option_id": 0
   },
-  
-  {
-    "question": "Freezing point of water is",
-    "options": ["$40^{\circ}$ F", "$42^{\circ}$ F", "$34^{\circ}F$", "$32^{\circ}F$"],
-    "correct_option_id": 3
-  },
-
   {
     "question": "ADGJ, CFIL, EHKN, ?",
     "options": ["FILO", "HKNQ", "DGJM", "GJMP"],
@@ -224,11 +217,6 @@
     "correct_option_id": 0
   },
   {
-    "question": "The shadow of a standing tower of height $25\sqrt{3}m$ in is found to be 50 m longer when the sun's elevation Changes from $60^{\circ}$ to X. Find the measure of X?",
-    "options": ["$45^{\circ}$", "$30^{\circ}$", "$75^{\circ}$", "$90^{\circ}$"],
-    "correct_option_id": 1
-  },
-  {
     "question": "30 persons can finish a job in 20 days. After 6 days how many persons should leave the job so that work is completed in a total of 26 days?",
     "options": ["9", "12", "8", "7"],
     "correct_option_id": 0
@@ -238,6 +226,7 @@
     "options": ["Rs. 10000", "Rs. 15000", "Rs. 20000", "RS. 12000"],
     "correct_option_id": 2
   },
+  
   {
     "question": "The distance between the two poles of length 16 m and 9 m, is Xm. If two angles of elevation of their respective top from the bottom of the other ate complementary to each other then the value X is?",
     "options": ["10m", "15m", "16m", "12m"],
@@ -292,11 +281,6 @@
     "question": "The average of 8 numbers is 20. The average of first two numbers is 15.5 and the average of next three numbers is $21\frac{1}{3}$. If the 6th number is 4 and 7 are less than the 8th number respectively, then find the 8th number.",
     "options": ["25", "26", "27", "28"],
     "correct_option_id": 0
-  },
-  {
-    "question": "In the given series some letters are missing. Select the correct alternative. $b\_d\_a\_b\_daba\_$",
-    "options": ["abbaa", "ababa", "aabba", "baabb"],
-    "correct_option_id": 2
   },
   {
     "question": "What is the average of all the prime numbers up to 30?",
