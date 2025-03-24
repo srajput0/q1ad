@@ -1640,13 +1640,6 @@
     "correct_option_id": 2
   },
   {
-    "question": "If the angles of a triangle are in the ratio of 1:2:3, then find the value of the largest angle.",
-    "options": ["$30^{\circ}$", "$60^{\circ}$", "$90^{\circ}$",
-      "120"
-    ],
-    "correct_option_id": 2
-  },
-  {
     "question": "Read the given statements carefully and answer the question. Statement: Though the school bags policy has been announced, it is not clear how many schools are following it. The state Government is also clueless whether schools have implemented the rules. Which of the following is true according to the giver statement?",
     "options": [
       "School bags policy has been implemented by the Govanrnent.",
@@ -1905,12 +1898,6 @@
     "correct_option_id": 0
   },
   {
-    "question": "Freezing point of water is",
-    "options": ["$40^{\circ}$ F", "$42^{\circ}$ F", "$34^{\circ}F$", "$32^{\circ}F$"
-    ],
-    "correct_option_id": 3
-  },
-  {
     "question": "ADGJ, CFIL, EHKN, ?",
     "options": [
       "FILO",
@@ -2009,12 +1996,6 @@
       "Rs. 360"
     ],
     "correct_option_id": 0
-  },
-  {
-    "question": "The shadow of a standing tower of height $25\sqrt{3}m$ in is found to be 50 m longer when the sun's elevation Changes from $60^{\circ}$ to X. Find the measure of X?",
-    "options": ["$45^{\circ}$", "$30^{\circ}$", "$75^{\circ}$", "$90^{\circ}$"
-    ],
-    "correct_option_id": 1
   },
   {
     "question": "30 persons can finish a job in 20 days. After 6 days how many persons should leave the job so that work is completed in a total of 26 days?",
