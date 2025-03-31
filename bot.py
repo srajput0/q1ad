@@ -31,21 +31,32 @@ def start_command(update: Update, context: CallbackContext):
     add_served_chat(chat_id)
     add_served_user(user_id)
 
-    # Inline buttons for category selection
+     # Inline buttons for language selection
     keyboard = [
-        [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-        [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-        [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
-        [InlineKeyboardButton("RRB", callback_data='category_rrb')]
+        [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
+        [InlineKeyboardButton("English", callback_data='language_english')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Send welcome message with category selection buttons
+    # Send welcome message with language selection buttons
     update.message.reply_text(
-        "Welcome to the Quiz Bot! Please select your category:",
+        "Welcome to the Quiz Bot! Please select your language:",
         reply_markup=reply_markup
     )
+    # Inline buttons for category selection
+    # keyboard = [
+    #     [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+    #     [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+    #     [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+    #     [InlineKeyboardButton("RRB", callback_data='category_rrb')]
+    # ]
+    # reply_markup = InlineKeyboardMarkup(keyboard)
 
+    # # Send welcome message with category selection buttons
+    # update.message.reply_text(
+    #     "Welcome to the Quiz Bot! Please select your category:",
+    #     reply_markup=reply_markup
+    # )
 def button(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     query = update.callback_query
@@ -53,7 +64,34 @@ def button(update: Update, context: CallbackContext):
     chat_id = str(query.message.chat.id)
     chat_data = load_chat_data(chat_id)
 
-    if query.data.startswith('category_'):
+    if query.data.startswith('language_'):
+        language = query.data.split('_')[1]
+        chat_data['language'] = language
+        save_chat_data(chat_id, chat_data)
+
+        # Inline buttons for category selection based on the chosen language
+        if language == 'hindi':
+            keyboard = [
+                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("Back", callback_data='back_to_languages')]
+            ]
+        elif language == 'english':
+            keyboard = [
+                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("Back", callback_data='back_to_languages')]
+            ]
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text=f"Language selected: {language.upper()}\nPlease select your category:",
+                                reply_markup=reply_markup)
+
+    elif query.data.startswith('category_'):
         category = query.data.split('_')[1]
         chat_data['category'] = category
         save_chat_data(chat_id, chat_data)
@@ -67,17 +105,32 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=f"Category selected: {category.upper()}\nPlease select an option:",
                                 reply_markup=reply_markup)
+
+    elif query.data == 'back_to_languages':
+        start_command(update, context)
+
     elif query.data == 'back_to_categories':
-        # Inline buttons for category selection
-        keyboard = [
-            [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-            [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-            [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
-            [InlineKeyboardButton("RRB", callback_data='category_rrb')]
-        ]
+        language = chat_data.get('language', 'english')
+        if language == 'hindi':
+            keyboard = [
+                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("Back", callback_data='back_to_languages')]
+            ]
+        elif language == 'english':
+            keyboard = [
+                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
+                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("Back", callback_data='back_to_languages')]
+            ]
+        
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Welcome to the Quiz Bot! Please select your category:",
-                                reply_markup=reply_markup)
+        query.edit_message_text(text="Please select your category:", reply_markup=reply_markup)
+
     elif query.data in ['sendgroup', 'prequiz']:
         # Send the set interval command
         if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
