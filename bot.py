@@ -37,8 +37,11 @@ def start_command(update: Update, context: CallbackContext):
     # Inline buttons for main menu
     keyboard = [
         [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
-        [InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard')],
-        [InlineKeyboardButton("Stats", callback_data='show_stats')]
+        [
+            InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard'),
+            InlineKeyboardButton("My Score", callback_data='show_stats')
+        ],
+        [InlineKeyboardButton("Commands", callback_data='show_commands')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -226,6 +229,20 @@ def button(update: Update, context: CallbackContext):
         user_id = str(update.effective_user.id)
         score = get_user_score(user_id)
         update.effective_message.reply_text(f"Your current score is: {score} points.")
+        
+    elif query.data == 'show_commands':
+        commands_description = """
+        /start - Start the bot and show the main menu
+        /setinterval - Set the interval for quizzes
+        /stopquiz - Stop the current quiz
+        /pause - Pause the current quiz
+        /resume - Resume a paused quiz
+        /leaderboard - Show the leaderboard
+        /broadcast - Broadcast a message to all users
+        /stats - Show your current stats
+        """
+        query.edit_message_text(text=f"Available Commands:\n{commands_description}")
+
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
