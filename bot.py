@@ -73,8 +73,8 @@ def button(update: Update, context: CallbackContext):
         if language == 'hindi':
             keyboard = [
                 [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("UPSC", callback_data='category_rrbb_hi')],
+                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
                 [InlineKeyboardButton("RRB", callback_data='category_rrb')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
@@ -82,7 +82,7 @@ def button(update: Update, context: CallbackContext):
             keyboard = [
                 [InlineKeyboardButton("SSC", callback_data='category_ssc')],
                 [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
                 [InlineKeyboardButton("RRB", callback_data='category_rrb')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
@@ -115,7 +115,7 @@ def button(update: Update, context: CallbackContext):
             keyboard = [
                 [InlineKeyboardButton("SSC", callback_data='category_ssc')],
                 [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
                 [InlineKeyboardButton("RRB", callback_data='category_rrb')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
@@ -123,7 +123,7 @@ def button(update: Update, context: CallbackContext):
             keyboard = [
                 [InlineKeyboardButton("SSC", callback_data='category_ssc')],
                 [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
+                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
                 [InlineKeyboardButton("RRB", callback_data='category_rrb')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
