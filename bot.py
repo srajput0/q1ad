@@ -72,8 +72,8 @@ def button(update: Update, context: CallbackContext):
         # Inline buttons for category selection based on the chosen language
         if language == 'hindi':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_ssc_hi')],
-                [InlineKeyboardButton("RRB", callback_data='category_rbb_hi')],
+                [InlineKeyboardButton("SSC", callback_data='category_SSCHi')],
+                [InlineKeyboardButton("RRB", callback_data='category_RRBHi')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         elif language == 'english':
