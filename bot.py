@@ -241,8 +241,23 @@ def button(update: Update, context: CallbackContext):
         /broadcast - Broadcast a message to all users
         /stats - Show your current stats
         """
-        query.edit_message_text(text=f"Available Commands:\n{commands_description}")
+         # Inline button to go back to the main menu
+        keyboard = [
+            [InlineKeyboardButton("Back", callback_data='back_to_main_menu')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text=f"Available Commands:\n{commands_description}", reply_markup=reply_markup)
 
+    elif query.data == 'back_to_main_menu':
+        # Inline buttons for main menu
+        keyboard = [
+            [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
+            [InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard')],
+            [InlineKeyboardButton("Stats", callback_data='show_stats')],
+            [InlineKeyboardButton("Show Commands", callback_data='show_commands')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
