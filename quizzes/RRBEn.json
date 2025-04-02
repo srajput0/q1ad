@@ -1,1 +1,1958 @@
-
+[
+    {
+      "question": "Which two signs should be interchanged to correct the given equation?\n$4\\div8+5-6\\times2=34$",
+      "options": [
+        "+, \\times",
+        "-, \\times",
+        "$\\div$, +",
+        "+, -"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Invested at a certain annual simple interest rate, a sum of money increases by 75% in 10 years. At the same annual simple interest rate, by what percentage will the same sum of money increase in 6 years?",
+      "options": [
+        "45%",
+        "48%",
+        "42%",
+        "38%"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The difference between the interests earned on a sum of money invested for three years at a rate of 20% per annum compounded annually and for the same period at a rate of 20% per annum simple interest is ₹448. Find the value of the sum invested.",
+      "options": [
+        "3,750",
+        "3,500",
+        "3,000",
+        "4,000"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following tropical cyclones hit the west coast of India in May 2021?",
+      "options": [
+        "Titli",
+        "Vardah",
+        "Hudhud",
+        "Tauktae"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The Constituent Assembly constituted a Drafting Committee under the chairmanship of Dr. B. R. Ambedkar to prepare the draft constitution for India on which date?",
+      "options": [
+        "August 20, 1947",
+        "August 25, 1947",
+        "August 18, 1947",
+        "August 29, 1947"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language, 'RELATIONS' is written as 'TSRONLIEA', and 'NUMBER' is written as 'URNMEB'. How will 'SPECULATION' be written in the same code language?",
+      "options": [
+        "UTSPONLIECA",
+        "OCAATNLIESP",
+        "UOCATNLIESP",
+        "UTNLIESPOCA"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "According to the modern periodic table, which of the following elements has an atomic number of 30?",
+      "options": [
+        "Fe",
+        "Zn",
+        "Co",
+        "Ni"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. AURT, BWSV, CYTX, ?",
+      "options": [
+        "DZUV",
+        "DAUZ",
+        "DZUY",
+        "DZUZ"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Ram gives a discount of 10% on the marked price of an article and still makes a profit of 12.5%. If he sells the article at the marked price only, then what would be his profit percentage?",
+      "options": [
+        "25%",
+        "27.5%",
+        "20%",
+        "22.5%"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In an examination held in a class, Ramesh's rank is 16th from the top and 21st from the bottom. If only 21 students passed the examination, then how many students in his class failed?",
+      "options": [
+        "19",
+        "17",
+        "15",
+        "21"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. MDT PAW :: RFQ UCT :: LSK:?",
+      "options": [
+        "HRN",
+        "JPH",
+        "ORH",
+        "OPN"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "According to the Renewable Fuel Association, which country was the world's largest ethanol producer in the year 2020?",
+      "options": [
+        "China",
+        "Canada",
+        "United States of America",
+        "Brazil"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In which state is the Bodo language mainly spoken in India?",
+      "options": [
+        "Jharkhand",
+        "Assam",
+        "Himachal Pradesh",
+        "Karnataka"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The Sahitya Akademi was formally inaugurated by the Government of India on 12 March in which year?",
+      "options": [
+        "1958",
+        "1952",
+        "1954",
+        "1956"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "How much time will a 450 m long train running at a speed of 54 km/h take to cross a person standing on the platform?",
+      "options": [
+        "28 seconds",
+        "25 seconds",
+        "30 seconds",
+        "32 seconds"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Find the value of the following expression.\n\n$1-\\frac{(4\\div5-1\\times3+2)\\times8}{3^{2}\\times8-4\\times2}$",
+      "options": [
+        "$\\frac{5}{8}$",
+        "$\\frac{41}{40}$",
+        "$\\frac{39}{40}$",
+        "0"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "What is sublimation?",
+      "options": [
+        "Change of a substance directly from solid to gaseous state",
+        "Change of a substance directly from gaseous to solid state",
+        "Change of a substance directly from gaseous to liquid state",
+        "Change of a substance directly from liquid to gaseous state"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Who defeated Mahmud Khalji in Chittorgarh and erected the Victory Tower?",
+      "options": [
+        "Rana Kumbha",
+        "Prithviraj Chauhan",
+        "Jai Chand Gadhwak",
+        "Rana Sangram Singh"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "If $y=\\sqrt[3]{6}-4\\sqrt[3]{6}$, then find the value of $y^{3}+12y^{2}+48y+100$.",
+      "options": [
+        "42",
+        "106",
+        "6",
+        "0"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In a certain code language, 'CONSUME' is written as 'CEMNOSU' and 'COMPEL' is written as 'CELMOP'. How will 'ENGLISH' be written in the same code language?",
+      "options": [
+        "EHGILNS",
+        "EHGLNSI",
+        "EGHNLSI",
+        "EGHILNS"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The editor of a women's magazine, 'Vambodhini Patrika' was ____.",
+      "options": [
+        "Debendranath Tagore",
+        "Umesh Chandra Dutta",
+        "Raja Ram Mohan Roy",
+        "Swami Vivekananda"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The average of 30 numbers is 55. The average of the first 15 numbers is 51 and the average of the last 12 numbers is 56. What will be the average of 68, 74 and the remaining 3 numbers?",
+      "options": [
+        "70",
+        "72",
+        "72.2",
+        "71"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following can be defined as 'the process in which the government sells the majority of its stakes to one or more companies, while still retaining ownership and remaining a minority stakeholder'?",
+      "options": [
+        "Delegation",
+        "Displacement",
+        "Divestment",
+        "Divergence"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Six persons - C, D, E, X, Y and Z, each of a different age. Only one person is younger than Y. X is older than E, but younger than D. E is older than Y. Neither D nor C is the oldest. How many persons are older than Z?",
+      "options": [
+        "Zero",
+        "Three",
+        "More than three",
+        "Two"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In a certain code language\n'see their dresses' is written as 'ti ve su',\n'dresses we see' is written as 'nx ti ve',\n'we see their party' is written as 'fs ve nx su'.\n(Note: All code words are coded as two-letter code words only)\nWhat is the possible code word for 'party dresses' in the given code language?",
+      "options": [
+        "ti fs",
+        "su na",
+        "na ti",
+        "ti ve"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following internet protocols allows us to access data on the World Wide Web?",
+      "options": [
+        "FTP",
+        "DNS",
+        "HTTP",
+        "SNMP"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Read the given statements and conclusions carefully. Considering that the information given in the statements is true, even if it seems to be different from commonly known facts, decide which of the given conclusions logically follow from the statements?\nStatements:\nAll camels are donkeys.\nSome cats are camels.\nAll dolphins are cats.\nConclusions:\nI. All dolphins are donkeys.\nII. Some dolphins are donkeys.\nIII. Some donkeys are cats.\nIV. All cats are donkeys.",
+      "options": [
+        "Both conclusions I and III follow.",
+        "Only conclusion IV follows.",
+        "Only conclusion III follows.",
+        "Both conclusions I and II follow."
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "A group of 6 persons A, B, C, D, E and F (not necessarily in the same order). D is taller than A and E. F is taller than B and C. E is taller than F. A is taller than F. Which of the following can be the shortest person?",
+      "options": [
+        "A or C",
+        "B or E",
+        "C or F a",
+        "B or C"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "One-tenth of a two-digit number is 15 less than half of that number. What will be the sum of the digits of that two-digit number?",
+      "options": [
+        "8",
+        "6",
+        "5",
+        "7"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Read the given statements and conclusions carefully. Considering that the information given in the statements is true, even if it seems to be different from commonly known facts, decide which of the given conclusions logically follow from the statements?\nStatements:\nAll salsas are jazz.\nNo jazz is kathak.\nConclusions:\nI. Some jazz are salsa.\nII. No salsa is kathak.",
+      "options": [
+        "Both conclusions follow.",
+        "Only conclusion II follows.",
+        "Only conclusion I follows.",
+        "Neither conclusion follows."
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "If 1st January 2017 was a Thursday, then which day of the week was 31st March in the same year?",
+      "options": [
+        "Friday",
+        "Wednesday",
+        "Thursday",
+        "Tuesday"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Eight colleagues - K, L, M, N, O, P, Q and R are sitting in a circular arrangement facing the center. N is sitting exactly between L and Q. P is sitting exactly between K and R. O is sitting second to the right of K. Which of the following is definitely true about M's position?",
+      "options": [
+        "Exactly in the middle of O and P",
+        "Exactly in the middle of K and O",
+        "Exactly in the middle of Q and R",
+        "Second to the left of L"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The world's largest river island, Majuli, is located on which of the following rivers?",
+      "options": [
+        "Ganga",
+        "Godavari",
+        "Sindhu",
+        "Brahmaputra"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Select the number from the given options that can replace the question mark (?) in the following series. 86, 74, 62, 54,?, 42, 38",
+      "options": [
+        "50",
+        "43",
+        "46",
+        "44"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Read the given statements and conclusions carefully. Considering that the information given in the statements is true, even if it seems to be different from commonly known facts, decide which of the given conclusions logically follow from the statements?\nStatements:\nSome athletes are businessmen.\nAll businessmen are rich.\nConclusions:\nI. Some athletes are rich.\nII. No athlete is rich.",
+      "options": [
+        "Both conclusions I and II follow.",
+        "Neither conclusion I nor II follows.",
+        "Only conclusion I follows.",
+        "Only conclusion II follows."
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "G, M, P, V, Z and D are six members of a family. Z is the son of V. M is the brother of V. D and V are a married couple. P is the daughter of D. D is the sister of G. What is the relation of Z to P?",
+      "options": [
+        "Mother",
+        "Sister",
+        "Father",
+        "Brother"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "For which of her novels was Valeria Luiselli awarded the International Dublin Literary Award 2021?",
+      "options": [
+        "Sidewalks",
+        "Lost Children Archive",
+        "The Story of My Teeth",
+        "Faces in the Crowd"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Refer to the following letter, number, symbol series and answer the question given below:\n(Left) KL % Y &4E23M &7SW#82HL (Right)\nIf all the numbers are removed from the series, then which of the following will be eighth from the right?",
+      "options": [
+        "E",
+        "&",
+        "W",
+        "M"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Simplify the following expression.\n\n$\\frac{12-6\\div2+4}{3^{2}\\times3-7+6}$",
+      "options": [
+        "$\\frac{11}{18}$",
+        "$\\frac{13}{18}$",
+        "$\\frac{11}{26}$",
+        "$\\frac{1}{2}$"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Giridhar was in a temple and his face was towards the west. He turns $45^{\\circ}$ in the clockwise direction to take a token, then turns another $180^{\\circ}$ in the clockwise direction. Then he turns $45^{\\circ}$ in the anticlockwise direction. Now in which direction is his face?",
+      "options": [
+        "North-west",
+        "East",
+        "West",
+        "South-west"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following works of Kalidasa is based on the context of the birth of Kartikeya, the son of Lord Shiva and Goddess Parvati?",
+      "options": [
+        "Raghuvamsha",
+        "Ritusamhara",
+        "Meghaduta",
+        "Kumarasambhava"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Eight persons M, N, P, S, T, V, X and Y are sitting in a straight line and all are facing north. N is sitting second from one of the ends of the line. Only three persons are sitting between M and N. P is sitting second to the right of M. As many persons are sitting to the right of P as are sitting to the left of S. Only three persons are sitting between T and S. T is not sitting at any of the ends of the line. Y is sitting to the immediate right of X. Who is sitting third to the left of V?",
+      "options": [
+        "Y",
+        "P",
+        "M",
+        "X"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "P, Q, R can do a piece of work in 40 days, 90 days and 36 days respectively. P starts the work. Q joins him after 7 days. If R joins them after 8 days from the beginning, then for how many days does R work?",
+      "options": [
+        "$11\\frac{8}{23}$",
+        "$15\\frac{8}{23}$",
+        "$13\\frac{8}{23}$",
+        "$12\\frac{8}{23}$"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The Central Pollution Control Board was established by the government in which year?",
+      "options": [
+        "1947",
+        "1974",
+        "1956",
+        "1965"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which institution was awarded the Africa Food Prize 2021 for the Tropical Legumes Project, which improved income and food production in sub-Saharan Africa?",
+      "options": [
+        "Central Arid Zone Research Institute (CAZRI)",
+        "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT)",
+        "National Rice Research Institute (NRRI)",
+        "Indian Institute of Sugarcane Research (IISR)"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "As per the information received till December 2021, what is the total number of nuclear power plants in India?",
+      "options": [
+        "6",
+        "10",
+        "7",
+        "9"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Who became India's 69th Chess Grandmaster at the Biel Masters Open on August 3, 2021?",
+      "options": [
+        "Dommaraju Gukesh",
+        "Nihal Sarin",
+        "Prithu Gupta",
+        "Harshit Raja"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language,\n'good deeds pay' is written as 'ag bi tr',\n'pay all bills' is written as 'od ez ag',\n'all your deeds count' is written as 'sn tr od um'.\n(Note: All code words are coded as two-letter code words only)\nHow is 'count' written in the same code language?",
+      "options": [
+        "ez",
+        "od",
+        "either 'sn' or 'um'",
+        "either 'od' or 'tr'"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Which of the following is the oldest production unit of Indian Railways?",
+      "options": [
+        "Diesel Locomotive Works",
+        "Integral Coach Factory",
+        "Rail Wheel Factory",
+        "Chittaranjan Locomotive Works"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which state inaugurated the 'Aqua Bazaar' and 'Aqua Hub' project on 21 November 2020 to enhance fish consumption?",
+      "options": [
+        "West Bengal",
+        "Kerala",
+        "Andhra Pradesh",
+        "Goa"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "If 2sin $y+cos~y=\\sqrt{5}sin~y$, then find the value of tan y.",
+      "options": [
+        "$\\sqrt{5}+2$",
+        "$\\sqrt{5}-1$",
+        "$\\sqrt{5}+1$",
+        "$\\sqrt{5}-2$"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Find the difference between the mode and mean of the following observations.\n$4,5,6,7,8,12,9,12,5,12$",
+      "options": [
+        "5.1",
+        "4",
+        "3",
+        "4.2"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "There are five girls in a group, each of a different height. H is shorter than only E. F is not as tall as P. P is shorter than G. Who among them is the shortest?",
+      "options": [
+        "G",
+        "P",
+        "F",
+        "E"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Which of the given options is the approximate nearest value that will come in place of the question mark (?) in the following equation? $499.37+1.95\\times4.79-2.87\\div19.70=?$",
+      "options": [
+        "365",
+        "290",
+        "750",
+        "510"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language, 'MUSIC' is written as 'LTTJD', and 'CONCEPT' is written as 'BNMDFQU'. How will 'SINGING' be written in the same code language?",
+      "options": [
+        "RHMHJOH",
+        "RHMFHOJ",
+        "TJOHHOF",
+        "RHOHJOF"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Fundamental duties were incorporated in the Indian Constitution in which year?",
+      "options": [
+        "1986",
+        "1966",
+        "1976",
+        "1996"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "A right circular cone is placed on top of a hemisphere. The base radius of the cone is equal to the radius of the hemisphere. The diameter of the hemisphere is 12 cm, while the height of the cone is 8 cm. Find the cost of painting the combined object, if the cost of painting is ₹25 per $\\pi~cm^{2}$.",
+      "options": [
+        "₹ 10,371",
+        "₹ 4,500",
+        "₹ 6,930",
+        "₹ 3,300"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "A person covers a certain distance at a certain speed. If he increases his speed by 30%, he takes 15 minutes less to cover the same distance. Find the time taken by him to cover the distance at his original speed.",
+      "options": [
+        "1 hour 12 minutes",
+        "1 hour 10 minutes",
+        "1 hour",
+        "1 hour 05 minutes"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "If $\\frac{1}{1+tan~\\theta}+\\frac{1}{1-tan~\\theta}=4$, where $0^{\\circ}<\\theta<90^{\\circ}$, then find the value of $(cosec^{2}\\theta+sec^{2}\\theta)$.",
+      "options": [
+        "$\\frac{5}{2}$",
+        "$\\frac{9}{2}$",
+        "$\\frac{8}{3}$",
+        "$\\frac{4}{3}$"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following is a writ or order issued by a superior court to a lower court or tribunal or public authority to perform a public duty that it has failed to perform?",
+      "options": [
+        "Quo Warranto",
+        "Certiorari",
+        "Habeas Corpus",
+        "Mandamus"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "According to the Human Development Index Ranking (2020), which of the following countries has the highest life expectancy at birth (in years)?",
+      "options": [
+        "Norway",
+        "Denmark",
+        "France",
+        "Hong Kong, China (SAR)"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "When did the Maharashtra government launch the 'Jail Tourism' initiative?",
+      "options": [
+        "May 2021",
+        "January 2021",
+        "August 2021",
+        "November 2021"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "In each of the given number-pairs, the second number is obtained by performing a certain mathematical operation on the first number. Three of the following number-pairs follow the same pattern and thus form a group. Select the number-pair that does not belong to that group.",
+      "options": [
+        "22, 34",
+        "11, 12",
+        "17, 24",
+        "25, 42"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The Champaran Satyagraha took place in which year?",
+      "options": [
+        "1912",
+        "1910",
+        "1915",
+        "1917"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Six persons A, B, C, D, E and F are sitting around a circular table facing the centre. B is sitting second to the right of E. C is sitting to the immediate left of E. F is sitting second to the right of D. Who is sitting third to the right of A?",
+      "options": [
+        "B",
+        "E",
+        "D",
+        "C"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In a class, every student secured a different rank. Aman's rank is 11th from the top and Nikhil's rank is 13th from the bottom. Only three students are ranked between Aman and Nikhil. If the total number of students is an odd number divisible by 3, then how many total students are there in the class?",
+      "options": [
+        "27",
+        "21",
+        "15",
+        "33"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Eight persons E, H, M, P, S, T, Y and Z are sitting in a straight line. All of them are facing north. E is sitting fourth from one of the ends of the line. H is sitting third to the right of E. As many persons are sitting to the right of H as are sitting to the left of M. Only one person is sitting between M and P. S is sitting to the immediate right of Z. Only one person is sitting between Z and T. How many persons are sitting to the left of Y?",
+      "options": [
+        "Two",
+        "One",
+        "Three",
+        "Zero"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The ratio of the marked price and the cost price of an article is 5:3. If the selling price of the article is ₹3,024 and the shopkeeper gives two successive discounts of 16% and 20% on it, then what is the profit or loss (in ₹)?",
+      "options": [
+        "Loss, ₹112",
+        "Profit, ₹324",
+        "Profit, ₹225",
+        "Loss, ₹216"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "On calculating the interest compounded annually, a certain sum invested at compound interest amounts to ₹56,180 after 2 years, and ₹59,550.80 after 3 years. Find the sum (in ₹).",
+      "options": [
+        "52,500",
+        "50,000",
+        "48,700",
+        "45,000"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "IPCC is the United Nations body for assessing the science related to climate change. What is the full form of IPCC?",
+      "options": [
+        "Intergovernmental Panel on Climate Change",
+        "International Panel on Climate Change",
+        "International Provision on Climate Change",
+        "Intergovernmental Provision on Climate Change"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "If $\\frac{2}{3}$ of y is equal to $\\frac{8}{15}$ of z, then find the value of y : z.",
+      "options": [
+        "$16:45$",
+        "$4:5$",
+        "$3:5$",
+        "$21: 25$"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following characters is used to create an absolute address in MS-Excel?",
+      "options": [
+        "Ampersand (&)",
+        "Hash (#)",
+        "Dollar ($)",
+        "Percent (%)"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "According to the 2020 data of the Organisation for Economic Co-operation and Development (OECD), which country has the highest total expenditure on health per capita?",
+      "options": [
+        "USA",
+        "Germany",
+        "Canada",
+        "Russia"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "What is the number of Melakarta ragas in contemporary Carnatic music?",
+      "options": [
+        "82",
+        "72",
+        "62",
+        "52"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following ritual folk dances of Puducherry, performed in the Villianur Temple of Puducherry, is related to the Hindu epic Ramayana?",
+      "options": [
+        "Hulivesha",
+        "Garadi",
+        "Tippani",
+        "Dalkhai"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following is the SI unit of electric charge that is equal to the charge contained in approximately $6\\times10^{18}$ electrons?",
+      "options": [
+        "Becquerel",
+        "Siemens",
+        "Coulomb",
+        "Henry"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Eight persons P, Q, R, S, T, U, V and W are sitting around a square table for dinner in such a way that 4 persons sit at each of the four corners and 4 persons sit at the middle positions of each of the four sides. All of them are facing the centre of the square. S is sitting to the immediate left of U. U is sitting to the immediate left of T. T is sitting at the middle position of one of the sides. R is sitting third to the right of U. P is sitting exactly between V and R. W is not sitting next to T.\n\nWhich of the following is sitting at one of the corners?",
+      "options": [
+        "R",
+        "S",
+        "Q",
+        "V"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Article 239 of the Indian Constitution relates to the administration of Union Territories by whom?",
+      "options": [
+        "Prime Minister",
+        "Cabinet Ministers",
+        "President",
+        "Lieutenant Governor"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In which of the following states of India is Padayani a religious dance form performed in the Bhadrakali temple?",
+      "options": [
+        "Karnataka",
+        "Kerala",
+        "Tamil Nadu",
+        "Maharashtra"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The first Industrial Policy Resolution of India was announced in which year?",
+      "options": [
+        "1952",
+        "1955",
+        "1948",
+        "1960"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Out of a total sum of ₹ 5,000, Danish invests a part of it at 12% annual simple interest rate and the remaining part at 10% annual simple interest rate. If the total interest received by Danish in two years is equal to ₹1072, then how much sum did Danish invest at 12% annual simple interest rate?",
+      "options": [
+        "1,800",
+        "2,150",
+        "1,750",
+        "2,000"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Find the HCF of 245, 175 and 385.",
+      "options": [
+        "35",
+        "7",
+        "25",
+        "5"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. CKO: FNL :: FLP IOM :: DPQ: ?",
+      "options": [
+        "GST",
+        "HRT",
+        "GSN",
+        "HRN"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Padma Shri Minati Mishra was an Indian classical dancer and actress, renowned for her proficiency in which of the following Indian classical dance forms?",
+      "options": [
+        "Kathakali",
+        "Odissi",
+        "Bharatanatyam",
+        "Kathak"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "If the average of 16, 25, 13, 26 and 15 is k, then find the value of $\\sqrt{2k+11}$.",
+      "options": [
+        "10",
+        "7",
+        "9",
+        "8"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Five boxes K, L, M, N and O are arranged by placing one above the other. Box M is placed above box N. Box O is placed below box K. Box N is placed above box K. Box L is placed below box O. Which of the following boxes is placed at the bottom?",
+      "options": [
+        "M",
+        "L",
+        "O",
+        "K"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The radius of the base of a conical tent is 9 m and its height is 12 m. If the cost of the material used in making it is ₹100 per $\\pi~m^{2}$, then find the total cost of the material required to make the tent.",
+      "options": [
+        "13,000",
+        "15,000",
+        "14,500",
+        "13,500"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "A man can complete a piece of work in 20 days and a woman can complete the same work in 30 days. In how many days will 2 men and 3 women complete that work?",
+      "options": [
+        "4",
+        "5",
+        "$5\\frac{1}{2}$",
+        "6"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "In the Vaishnava sect, how many incarnations or avatars of God are believed?",
+      "options": [
+        "5",
+        "9",
+        "7",
+        "10"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Who is the first officer from India to be honoured with the United Nations Asia Environmental Enforcement Award in February 2021 under the Gender Leadership and Impact category?",
+      "options": [
+        "Namita Gokhale",
+        "Sudarshan Panthi",
+        "Birendra Singh Johari",
+        "Sasmita Lenka"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In each of the given number-groups, the number present on the right side of '=' (equal sign) is obtained by performing certain mathematical operations on the four numbers present on the left side of '=' (equal sign). The same pattern is followed in all the three number-groups. Select the number from the given options that can come in place of the question mark (?) in the third number-group. 11, 8, 5, $9=43$  12, 9, 7, $6=66$  14, 13, 9, $10=?$",
+      "options": [
+        "98",
+        "80",
+        "89",
+        "92"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "A four-chambered heart is found in which of the following?",
+      "options": [
+        "Fish",
+        "Sea-horse",
+        "Peacock",
+        "Frog"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "AB and CD are parallel tangents to a circle with centre O. Points P and Q are on AB and CD respectively such that PQ touches the circle at R. Find the measure of $\\angle POQ$.",
+      "options": [
+        "$80^{\\circ}$",
+        "$90^{\\circ}$",
+        "$100^{\\circ}$",
+        "$85^{\\circ}$"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "According to the 2011 census of India, how many \"million-plus cities\" were there in India?",
+      "options": [
+        "47",
+        "58",
+        "40",
+        "53"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Simplify the following.\n\n$72-4(40+24\\div8\\times6-4\\times4)+20$",
+      "options": [
+        "-76",
+        "-6",
+        "-36",
+        "53"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The Nile River was called the backbone of which of the following countries?",
+      "options": [
+        "Morocco",
+        "Egypt",
+        "Sudan",
+        "Saudi Arabia"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Shamita's anniversary was on Sunday, 15th March 2020. What was the day on her husband's anniversary, which was on 31st May 2020?",
+      "options": [
+        "Wednesday",
+        "Sunday",
+        "Tuesday",
+        "Friday"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "ABCD is a rectangle in which $AB=10$ cm and $BC=8$ cm. O is the centre of a circle touching three sides AB, BC and CD of rectangle ABCD. Find the area of triangle OBC (in $cm^{2}$).",
+      "options": [
+        "20",
+        "22",
+        "16",
+        "24"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The consumer's optimal bundle is located at the tangency point between the budget line and the ____.",
+      "options": [
+        "law of demand",
+        "monotonicity",
+        "income effect",
+        "indifference curve"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Marginal propensity to consume (MPC) is related to ____.",
+      "options": [
+        "rate of change in consumption with change in income",
+        "change in saving per unit change in income",
+        "per unit income consumption",
+        "per unit income saving"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "If 23.5% of a number is equal to 11.75, then find the number.",
+      "options": [
+        "48",
+        "50",
+        "40",
+        "60"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Who among the following was awarded the top prize of the Central European University Open Society Award in June 2021?",
+      "options": [
+        "Harsh Vardhan",
+        "Satyendra Jain",
+        "Deepak Sawant",
+        "K. K. Shailaja"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. QHD, MNV, ITN, EZF, AFX, ?",
+      "options": [
+        "XLQ",
+        "XJQ",
+        "WJP",
+        "WLP"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "If $3x+2y=13$ and $y^{2}-4y+4=0$, then find (x,y).",
+      "options": [
+        "(3, 2)",
+        "(5, -1)",
+        "(4, 2)",
+        "(2, 3)"
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which satellite was launched by DRDO in 2021 through PSLV-C51 to enhance India's surveillance capabilities in the Indian Ocean Region (IOR)?",
+      "options": [
+        "Sindhu Durg satellite",
+        "Sindhu Netra satellite",
+        "Satish Dhawan satellite",
+        "Shri Shakti satellite"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Who appoints the Union Council of Ministers?",
+      "options": [
+        "Parliament",
+        "Prime Minister of India",
+        "President of India at his discretion",
+        "President of India on the advice of the Prime Minister"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Popularly known as Alla Rakha, Allarakha Qureshi was an Indian ____ player.",
+      "options": [
+        "Sitar",
+        "Dholak",
+        "Veena",
+        "Tabla"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following is a non-conventional source of energy?",
+      "options": [
+        "Petrol",
+        "Coal",
+        "Wood",
+        "Wind"
+      ],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Five years ago, the ratio of the ages of a father and his son was 7 : 2. Five years later, the ratio of the ages of the father and his son will be 9 : 4. How many years later will the age of the father be twice the age of his son?",
+      "options": [
+        "8",
+        "12",
+        "10",
+        "9"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Read the given statements and conclusions carefully. Decide which of the given conclusions is/are true based on the given statement.\nStatement:\n$W=H\\ge G=C\\ge T\\le L\\le M$\nConclusions:\nI. $T\\le W$\nII. $C\\ge M$",
+      "options": [
+        "Only conclusion I is true.",
+        "Only conclusion II is true.",
+        "Both conclusions I and II are true.",
+        "Neither conclusion I nor conclusion II is true."
+      ],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The festival called Lhabab Dhuechen in Sikkim marks the descent of which deity from heaven to earth?",
+      "options": [
+        "Lord Shiva",
+        "Lord Mahavira",
+        "Lord Buddha",
+        "Lord Vishnu"
+      ],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The mean of the observations 29, 36, 21, 18, 7, 19, k, k is 21.25 and the mode of the observations 29, 22, 15, 15, 22, 18, 21, p, p is 29. Find the value of (p - k).",
+      "options": [
+        "12",
+        "9",
+        "10",
+        "11"
+      ],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following neighbouring countries of India has the smallest area? [cite: 7]",
+      "options": ["Myanmar [cite: 7]", "Bhutan [cite: 8]", "Nepal [cite: 8]", "Pakistan [cite: 8]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Statements: All dresses are shirts. All shirts are clothes. Conclusions: (I) Some clothes are dresses. (II) All shirts are dresses. [cite: 10]",
+      "options": ["Only conclusion II follows [cite: 11]", "Neither conclusion I nor II follows [cite: 11]", "Only conclusion I follows [cite: 11]", "Both conclusions I and II follow [cite: 12]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The Ministry of Culture organised a flagship festival to achieve the goal of 'Ek Bharat Shreshtha Bharat' in West Bengal in February 2021. What was the name of that festival? [cite: 12]",
+      "options": ["Sankalp Mahotsav [cite: 13]", "Rashtriya Shakti Mahotsav [cite: 13]", "Amrit Mahotsav [cite: 14]", "Rashtriya Sanskriti Mahotsav [cite: 13, 14]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In how much time did Avinash Sable win the men's 3000 m steeplechase in the National Federation Cup Senior Athletics Championships at Netaji Subhas National Institute in 2021? [cite: 15]",
+      "options": ["8 minutes 15.20 seconds [cite: 16]", "8 minutes 20.20 seconds [cite: 16]", "8 minutes 30.20 seconds [cite: 17]", "8 minutes 10.20 seconds [cite: 16]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "There is a group of six people S, V, O, Y, X and T, each having a different height. Each one of them is in a different class. O is taller than V but shorter than T. S, V and O are in class 9, 7 and 3, respectively. S is the tallest and in the highest class. X is taller than Y but shorter than V. T is in a class senior to Y but junior to V. X is in a class senior to V. Who is in a class senior but shorter than V? [cite: 20, 21, 22]",
+      "options": ["O [cite: 23]", "X [cite: 23]", "Y [cite: 23]", "S [cite: 23]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Select the option that is related to the fifth letter-cluster in the same way as the second letter-cluster is related to the first letter-cluster and the fourth letter-cluster is related to the third letter-cluster. JOE: GLB:: RDY: OAV :: PGL:? [cite: 23, 24]",
+      "options": ["MDO [cite: 24]", "MDI [cite: 24]", "SJO [cite: 24]", "SJI [cite: 25]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Palm Jumeirah, the artificial islands built to give boost to the tourism, is a project of which country? [cite: 27]",
+      "options": ["Singapore [cite: 28]", "UAE [cite: 28]", "India [cite: 28]", "USA [cite: 28]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "Black Soil is dominant in which of the following physical divisions of India? [cite: 36]",
+      "options": ["Indo Gangetic plains [cite: 36]", "Deccan traps [cite: 37]", "Himalayan mountains [cite: 37]", "Thar desert [cite: 37]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "With respect to memory, what is the full form of USB? [cite: 37]",
+      "options": ["Universal Service Bus [cite: 38]", "Unique Serial Bus [cite: 38]", "Universal Serial Bus [cite: 38]", "Unique Service Bus [cite: 38]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The Rigveda is a collection of 1,028 hymns divided into how many mandalas? [cite: 39]",
+      "options": ["9 [cite: 39]", "14 [cite: 39]", "7 [cite: 39]", "10 [cite: 40]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following is a standard internet protocol used for transmitting the files from one computer to another computer connected to the internet? [cite: 40]",
+      "options": ["FTP [cite: 41]", "SMTP [cite: 41]", "TELNET [cite: 41]", "HTTP [cite: 41]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "Six persons A, B, C, D, E and F were engaged in a group discussion. A spoke immediately before D but immediately after B. B spoke immediately after F. If C spoke immediately after D but before E, then who among the following started the discussion? [cite: 41, 42]",
+      "options": ["D [cite: 43]", "E [cite: 43]", "F [cite: 43]", "B [cite: 43]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The FRBMA was enacted in 2003, which set targets for the government to reduce fiscal deficits. What does FRBMA stand for? [cite: 43, 46]",
+      "options": ["Fiscal Responsibility and Budget Management Act [cite: 44]", "Fiscal Relations and Budget Maintenance Act [cite: 44]", "Financial Responsibility and Budget Maintenance Act [cite: 45]", "Financial Relations and Budget Management Act [cite: 45]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Select the number from among the given options that can replace the question mark (?) in the following series. 132, 129, 124, 117, 108, ? [cite: 46, 47]",
+      "options": ["98 [cite: 47]", "119 [cite: 47]", "103 [cite: 47]", "97 [cite: 47]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Scandinavia is a cultural region found in which of the following continents? [cite: 52]",
+      "options": ["North America [cite: 52]", "Asia [cite: 52]", "Africa [cite: 53]", "Europe [cite: 52]"],
+      "correct_option_id": 3
+    },
+     {
+      "question": "How many such pairs of letters are there in the word DOLPHIN (in both the forward and backward directions) which have as many letters between them in the word as there are in the English alphabetical order? [cite: 54]",
+      "options": ["None [cite: 55]", "Four [cite: 55]", "Two [cite: 55]", "Three [cite: 55]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Roshni correctly remembers that Sreshta's birthday is before Thursday but after Monday. Kalyan correctly remembers that Sreshta's birthday is after Tuesday but before Friday. On which of the following days does Sreshta's birthday fall? [cite: 55, 56, 57]",
+      "options": ["Thursday [cite: 57]", "Wednesday [cite: 57]", "Monday [cite: 57]", "Tuesday [cite: 58]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Of the food items listed below, which is the richest source of Vitamin C? [cite: 66]",
+      "options": ["Pulses [cite: 67]", "Eggs [cite: 67]", "Citrus fruits [cite: 67]", "Dates [cite: 67]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Who among the following is an Indian tabla virtuoso, composer, percussionist, music producer and film actor who was awarded the Padma Shri in 1988, and the Padma Bhushan in 2002? [cite: 69]",
+      "options": ["Pandit Anindo Chatterjee [cite: 70]", "Ustad Zakir Hussain [cite: 70]", "Pandit Kumar Bose [cite: 70]", "Ustad Allah Rakha [cite: 70]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Government of India has planned to earmark how much amount for National Research Foundation (NRF) over a period of 5 years on 26 July 2021? [cite: 71]",
+      "options": ["₹50,000 crore [cite: 72]", "₹30,000 crore [cite: 72]", "₹20,000 crore [cite: 72]", "₹75,000 crore [cite: 72]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "The profit of a firm is the ______ total revenue earned and total cost incurred. [cite: 72]",
+      "options": ["product of [cite: 73]", "addition of [cite: 73]", "difference between [cite: 73]", "division of [cite: 73]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Kalhana's Rajatarangini in Sanskrit language covers the history of kings who ruled over _______. [cite: 73]",
+      "options": ["Bengal [cite: 74]", "Bihar [cite: 74]", "Kashmir [cite: 74]", "Delhi [cite: 74]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "The Hemis Gompa festival is celebrated to celebrate the birth anniversary of Guru _______. [cite: 76]",
+      "options": ["Padmasambhava [cite: 76]", "Marpa Lotsawa [cite: 77]", "Katyayana [cite: 77]", "Patrul Rinpoche [cite: 77]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The inspiration for the adoption of Parliamentary form of government was drawn by framers of the Constitution of India from: [cite: 77]",
+      "options": ["United States of America [cite: 78]", "Switzerland [cite: 79]", "Britain [cite: 78]", "Japan [cite: 78]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In which of the following years did the Monopolies and Restrictive Trade Practices Act (MRTP) became effective? [cite: 79]",
+      "options": ["1970 [cite: 80]", "1978 [cite: 80]", "1974 [cite: 80]", "1968 [cite: 80]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "There are four people sitting in a room. When asked a question, each of them gives two answers. Only two out of the four people give one right answer and one wrong answer, while other two persons give both answers wrong. When asked about the day today, person 1 says its Wednesday or Sunday. Person 2 says its Monday or Saturday. Person 3 says its Tuesday or Friday. And person 4 says its Thursday or Wednesday. What is the day today? [cite: 80, 81, 82, 83, 84]",
+      "options": ["Friday [cite: 85]", "Sunday [cite: 85]", "Saturday [cite: 85]", "Wednesday [cite: 85]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Study the given information carefully and answer the question that follows. The administration has set the following criteria for the selection of a teacher in school. The candidate must: A. Be a graduate with at least 50% marks B. Have a qualified bachelor's degree in education C. Not be less than 21 Years and not more than 32 years as on 1st July 2021. D. For a candidate with Master in Education, the school board may relax the upper age limit. Rahul Verma is teaching in a reputed school He is a 1st class graduate. He was 23 years old when he joined the previous school as a teacher. He has also completed B.Ed. What decision should be taken for Rahul Verma? [cite: 90, 91, 92, 93]",
+      "options": ["The data given are not sufficient to take a decision. [cite: 94]", "The case is to be referred to the school board. [cite: 95]", "The candidate is to be appointed. [cite: 96]", "The candidate is not to be appointed. [cite: 95]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Ten people are sitting in two parallel rows 1 and 2. J, K, L, M and N are sitting in row 1 facing south, and Q, R, S, T and U are sitting in row 2 facing north, in such a way that each member in row 1 faces a member of row 2. Only two people sit to the left of Q. J faces an immediate neighbour of Q. M sits to the immediate left of J. The one who faces K sits to the immediate left of S. Neither K nor S sit at any of the extreme ends. Only two people sit between S and T. N faces an immediate neighbour of U. Who faces R? [cite: 96, 97]",
+      "options": ["K [cite: 98]", "M [cite: 98]", "J [cite: 98]", "N [cite: 98]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Who was the first political personality to discuss the concept of 'Poverty Line'? [cite: 101]",
+      "options": ["Mahatma Gandhi [cite: 102]", "Dadabhai Naoroji [cite: 102]", "Rajendra Prasad [cite: 102]", "Raja Ram Mohan Roy [cite: 102]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "A, B, C D J, K, L and M are sitting around a square table facing the centre of the table. Four of them are sitting at either of the corners while the other four are sitting at the exact centre of either of the sides. D sits at one of the corners of the table. Only two people sit between D and C, when counted from the left of D. Only three people sit between C and B. M sits third to the left of B. K sits to the immediate right of M. A is neither an immediate neighbour of B nor C. J sits to the immediate left of A. Who sits second to the right of L? [cite: 102, 103, 104, 105]",
+      "options": ["J [cite: 106]", "K [cite: 106]", "M [cite: 106]", "C [cite: 106]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Read the given statement and conclusions carefully. Decide which of the given conclusions logically follow(s) from the statement. Statement: R is not the mother of P. P is the daughter of S. and S has three daughters. Conclusions: I. P is the sister of R II. S is the mother of P. [cite: 110, 111, 112]",
+      "options": ["Neither conclusion I nor II follows [cite: 112]", "Only conclusion II follows [cite: 113]", "Only conclusion I follows [cite: 113]", "Both conclusions I and II follow [cite: 114]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "A question is given, followed by two statements labelled I and II. Identify which of the statements is/are sufficient/necessary to answer the question. Question: On which day does Sujatha's birthday fall? Statements: I. Tom correctly remembers that her birthday comes after Tuesday but before Saturday. II. Anu correctly remembers that her birthday comes before Thursday but after Monday. [cite: 117, 118, 119, 120]",
+      "options": ["Both statements I and II together are sufficient to answer the question [cite: 121]", "Statement I alone is sufficient to answer the question [cite: 122]", "Neither statement I nor II is sufficient to answer the question [cite: 122]", "Statement II alone is sufficient to answer the question [cite: 123]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Atal Tunnel, the world's longest highway tunnel connects Manali with _______. [cite: 123]",
+      "options": ["Shimla [cite: 123]", "Jammu [cite: 124]", "Lahaul-Spiti [cite: 124]", "Kullu [cite: 124]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "_______ is the founder of National Orchestra of India. [cite: 125]",
+      "options": ["Anoushka Shankar [cite: 125]", "Ananda Shankar [cite: 125]", "Ravi Shankar [cite: 125]", "Uday Shankar [cite: 125]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "In June 2021, Telangana government partnered with which e-commerce firm to develop the 'Medicine from the Sky' project? [cite: 125, 126]",
+      "options": ["Amazon Development Centre India Pvt. Ltd. [cite: 127]", "Flipkart Internet Pvt. Ltd. [cite: 128]", "Grofers India Pvt. Ltd [cite: 126]", "Just Dial Ltd. [cite: 128]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "On the shores of the Bay of Bengal, the temple at Konark was built in the _______. [cite: 129]",
+      "options": ["10th century [cite: 130]", "12th century [cite: 130]", "11th century [cite: 130]", "13th century [cite: 130]"],
+      "correct_option_id": 3
+    },
+     {
+      "question": "Select the combination of letters that when sequentially placed in the blanks of the given series will complete the series. S i __ a __ b c a __ __ c a __ b __ a b c [cite: 130, 131]",
+      "options": ["bacaaa [cite: 131]", "abacaa [cite: 131]", "aabaca [cite: 131]", "aaacba [cite: 131]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Goa became India's 25th state on: [cite: 131]",
+      "options": ["30 May 1987 [cite: 131]", "30 May 1986 [cite: 132]", "30 May 1988 [cite: 132]", "30 May 1990 [cite: 132]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "Fiat money is the one which _______. [cite: 132]",
+      "options": ["does not go any further transformation [cite: 133]", "has no intrinsic value [cite: 133]", "has taxes equal to government spending [cite: 133]", "has intrinsic value equal to the face value [cite: 134]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The Gandhi-Irwin pact was signed in _______. [cite: 134]",
+      "options": ["1928 [cite: 134]", "1949 [cite: 134]", "1931 [cite: 134]", "1926 [cite: 135]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Which of the following is an element of d block in the modern periodic table? [cite: 135]",
+      "options": ["Na [cite: 135]", "Mg [cite: 135]", "Ca [cite: 136]", "Fe [cite: 136]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language, 'COULD' is written as 'BNTKC', and 'MARGIN' is written as 'LZQFHM'. How will 'MOULDING' be written in that language? [cite: 136, 137]",
+      "options": ["LNKTCMFH [cite: 137]", "LNTKCHMF [cite: 137]", "NITKHCMF [cite: 137]", "CHMFINTK [cite: 138]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "Select the letter-cluster from among the given options that can replace the question mark (?) in the following series. UZM, QVQ, MRU, ?, EJC [cite: 140, 141]",
+      "options": ["INY [cite: 141]", "GZX [cite: 141]", "RWU [cite: 141]", "MQC [cite: 141]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following statements is justifiable for 'floating exchange rate'? [cite: 141]",
+      "options": ["It reduces the foreign exchange. [cite: 142]", "It maintains an equilibrium between export and import. [cite: 142]", "It records international transactions of assets. [cite: 143]", "It is determined by the market forces of demand and supply. [cite: 143]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Rupali goes to office from her house via a specific route. Initially, she travels 17 km towards the north, then turns right towards the east and travels 15 km. From here, she again takes a right turn and travels 17 km. Now, she turns left and travels 7 km and finally reaches her office. In which direction and how many km away (considering the shortest distance) is she from her house? (All turns are 90° turns only) [cite: 147, 148, 149, 150, 151, 152]",
+      "options": ["West; 22 km [cite: 152]", "East 24 km [cite: 152]", "East: 22 km [cite: 152]", "West; 29 km [cite: 153]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Who was Gianluigi Donnarumma whose name was seen in news in July 2021? [cite: 153]",
+      "options": ["Sportsperson [cite: 153]", "Theatre Director [cite: 154]", "Aeronautical Scientist [cite: 154]", "Politician [cite: 154]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "In a certain code language, 'speak out your mind' is coded as 'sr tw bl ca', 'your results are out' is coded as 'sr pu en tw', 'mind your results' is coded as 'tw ca pu'. (Note: All codes are two letter codes only) What is the code for 'are out' in the given code language? [cite: 154, 155]",
+      "options": ["pu sr [cite: 156]", "tw pu [cite: 156]", "sr en [cite: 156]", "en tw [cite: 156]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Eight people M, N, P, S, T, V, X and Y are sitting in a straight row and all are facing north. M sits third from one of the extreme ends of the line. N sits second to the right of M. As many people sit to the right of N as to the left of P. S sits third to the right of P. X sits to the immediate right of Y. Only one person sits between X and V. How many people sit to the right of T? [cite: 156, 157, 158]",
+      "options": ["None [cite: 159]", "Three [cite: 159]", "Two [cite: 159]", "One [cite: 159]"],
+      "correct_option_id": 3
+    },
+     {
+      "question": "Which of following plants do NOT fix atmospheric nitrogen due to a mutualistic symbiotic relationship with rhizobia bacteria found in their root nodules? [cite: 159]",
+      "options": ["Ficus [cite: 160]", "Chickpeas [cite: 160]", "Lentils [cite: 160]", "Peanuts [cite: 160]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "_______ ranked first in the Human Development Index Report 2020 prepared by the United Nations Development Programme (UNDP). [cite: 162]",
+      "options": ["Sweden [cite: 163]", "Hong Kong [cite: 163]", "Norway [cite: 163]", "Iceland [cite: 163]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "In each of the number-pairs, the second number is obtained by performing a certain mathematical operation on the first number. Three of the following pairs follow the same pattern and thus form a group. Select the number-pair that does NOT belong to that group. [cite: 163, 164, 165]",
+      "options": ["729 - 10 [cite: 165]", "343 - 5 [cite: 165]", "512 - 9 [cite: 165]", "125 - 6 [cite: 166]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "If 'Pencil' is called 'Pen', 'Pen' is called 'Umbrella', 'Umbrella' is called 'Book', 'Book' is called 'Ruler', and 'Ruler' is called 'Computer', then which of the following can be used as protection against rain? [cite: 170]",
+      "options": ["Pencil [cite: 171]", "Computer [cite: 171]", "Book [cite: 171]", "Umbrella [cite: 171]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "According to the Census of India 2011, in which of the following states was Scheduled Caste population NOT recorded? [cite: 171]",
+      "options": ["Sikkim [cite: 172]", "Assam [cite: 172]", "Tripura [cite: 172]", "Nagaland [cite: 172]"],
+      "correct_option_id": 3
+    },
+     {
+      "question": "Read the given statements and conclusions carefully. Assuming that the information given in the statements is true, even if it appears to be at variance with commonly known facts, decide which of the given conclusions logically follow(s) from the statements. Statements: All orchids are flowers. Some orchids are beautiful. Conclusions: I. Some flowers are beautiful. II. All beautiful are flowers. [cite: 172, 173, 174, 175]",
+      "options": ["Either conclusion I or II follows [cite: 175]", "Only conclusion II follows [cite: 176]", "Both conclusions I and II follow [cite: 175]", "Only conclusion I follows [cite: 176]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The first English factory was set up on the banks of the river Hugli in _______. [cite: 176]",
+      "options": ["1651 CE [cite: 177]", "1671 CE [cite: 177]", "1641 CE [cite: 177]", "1661 CE [cite: 177]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The development of Sanskrit grammar began with Panini, with his book named _______. [cite: 181]",
+      "options": ["Buddhacharita [cite: 182]", "Lalitavistara [cite: 182]", "Mahavastu [cite: 182]", "Ashtadhyayi [cite: 182]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Tata Airlines was originally launched in the year _______. [cite: 182]",
+      "options": ["1944 [cite: 183]", "1956 [cite: 183]", "1968 [cite: 183]", "1932 [cite: 183]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "There are 42 students in a class. If Kritika is 18th from the top, what is her position from the bottom? [cite: 183]",
+      "options": ["26th [cite: 184]", "24th [cite: 184]", "23rd [cite: 184]", "25th [cite: 184]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In the following expression, select the option that can replace the question mark (?) to establish that 'C is the child of L'. 'YZ' means 'Y is the sister of Z'. 'Y∇Z' means 'Y is the husband of Z'. 'Y#Z' means 'Y is the daughter of Z'. 'Y⊕Z' means 'Y is the mother of Z'. 'Y□Z' means 'Y is the brother of Z'. Expression: U ⊕ L ∇ G ⊕ M □ ? C [cite: 188, 189, 190, 191]",
+      "options": ["Either '∇' or '⊕' [cite: 191]", "Only '∇' [cite: 191]", "Only '⊕' [cite: 191]", "Either '#' or '∇' [cite: 192]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following rivers originates in our neighbouring country Nepal? [cite: 196]",
+      "options": ["Indus [cite: 196]", "Brahmaputra [cite: 196]", "Ganga [cite: 196]", "Rapti [cite: 197]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Study the given digit-letter-symbol sequence carefully and answer the question that follows. (Left) 5 Q + S r 8 B @ A 3 ? 6 c < Z % 6 d & G $ 2 (Right) If the given sequence is written in the reverse order, then which element will be 7th to the right of the 10th element from the right end? [cite: 198, 199]",
+      "options": ["% [cite: 200]", "+ [cite: 200]", "B [cite: 200]", "8 [cite: 200]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "The renowned singer MS Subbulakshmi was an Indian Carnatic singer born in _______. [cite: 200]",
+      "options": ["Vellore [cite: 201]", "Madurai [cite: 201]", "Erode [cite: 201]", "Thanjavur [cite: 202]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "Hepatitis A is an inflammation of the _______ that can cause mild to severe illness. [cite: 202]",
+      "options": ["kidney [cite: 202]", "heart [cite: 202]", "brain [cite: 202]", "liver [cite: 203]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following symbols at Sanchi stupas represents the first sermon of Buddha delivered at Sarnath? [cite: 203]",
+      "options": ["Elephant [cite: 204]", "Bodhi Tree [cite: 204]", "Wheel [cite: 204]", "Empty Seat [cite: 205]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Article 352 of the Constitution of India deals with the: [cite: 205]",
+      "options": ["national emergency [cite: 205]", "supreme court [cite: 205]", "state emergency [cite: 205]", "centre-state relations [cite: 205]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In a row of 25 people facing north, Keshav is 7th from the extreme right end. If Teja sits 5th to the left of Keshav, what is Teja's position from the extreme left end of the line? [cite: 205, 206]",
+      "options": ["14th [cite: 207]", "16th [cite: 207]", "15th [cite: 207]", "13th [cite: 207]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "Rekha was standing facing east. She then turned 90 degrees right and then turned 45 degrees in the anti-clockwise direction. She then turned 90 degrees clockwise. In which direction is she facing now? [cite: 207, 208, 209]",
+      "options": ["North-east [cite: 209]", "South-west [cite: 209]", "South [cite: 209]", "North [cite: 210]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The diagram representing the breakdown of population by gender and age at a given point of time is known as the: [cite: 210]",
+      "options": ["population pyramid [cite: 211]", "population hyperbola [cite: 211]", "population sphere [cite: 211]", "population cuboid [cite: 211]"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "With which of the following states/union territories is the Siddi Dhamal Dance associated? [cite: 215]",
+      "options": ["Gujarat [cite: 215]", "Ladakh [cite: 215]", "Andaman and Nicobar Islands [cite: 216]", "Nagaland [cite: 216]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "Which former athlete was honoured with the Lifetime Achievement Award at BBC Indian Sportswoman of the Year 2021? [cite: 216]",
+      "options": ["Anita Sood [cite: 217]", "Diana Edulji [cite: 217]", "Anju Bobby George [cite: 217]", "PT Usha [cite: 218]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Who among the following is the author of the novel 'Red Earth and Pouring Rain'? [cite: 218]",
+      "options": ["Suketu Mehta [cite: 219]", "Vikram Chandra [cite: 219]", "Samanta Bhadra [cite: 219]", "Arundhati Roy [cite: 220]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "As of January 2022, who among the following is the Chief Justice of India? [cite: 220]",
+      "options": ["Nuthalapati Venkata Ramana [cite: 221]", "Sanjay Kishan Kaul [cite: 221]", "Uday Umesh Lalit [cite: 221]", "Indira Banerjee [cite: 221]"],
+      "correct_option_id": 0
+    },
+     {
+      "question": "In a certain code language, 'always bring your medicines' is coded as 'ye si ut oh', 'bring every friend' is coded as 'mg td ye', 'always your best friend' is coded as 'ut jo si mg'. (Note: All codes are two letter codes only) If 'your every move' is coded as 'px td ut', what is the probable code for 'always best medicines' in the given code language? [cite: 221, 222]",
+      "options": ["oh ye td [cite: 223]", "td mg ut [cite: 223]", "oh si jo [cite: 223]", "jo si ye [cite: 224]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Benkat's birthday on 01st January 2012 was a Sunday. On what day will his next birthday be? [cite: 224]",
+      "options": ["Monday [cite: 224]", "Tuesday [cite: 224]", "Saturday [cite: 224]", "Sunday [cite: 225]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "REM is related to IVN as per the English alphabetical order in the same way as DOH is related to WLS. Following the same pattern, KEY is related to _______. [cite: 227, 228]",
+      "options": ["PUC [cite: 228]", "QUD [cite: 228]", "PVB [cite: 228]", "QVB [cite: 229]"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Which of the following is the constituent of Article 182 of the Indian Constitution? [cite: 229]",
+      "options": ["The Speaker or the Deputy Speaker not to preside while a resolution for his removal from office is under consideration. [cite: 230]", "The Chairman and Deputy Chairman of the Legislative Council. [cite: 231]", "Power of the Deputy Speaker or other person to perform the duties of the office of, or to act as, Speaker. [cite: 232]", "Vacation and resignation of, and removal from, the offices of Chairman and Deputy Chairman. [cite: 233]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "Which of the following is an earth-observation satellite to be launched jointly by NASA and ISRO? [cite: 237]",
+      "options": ["KALPANA [cite: 238]", "NISAR [cite: 238]", "RISAT [cite: 238]", "OCEANSAT [cite: 238]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following rivers is also known as Yarlung Tsangpo in the Tibet region of China? [cite: 238]",
+      "options": ["Sutlej [cite: 239]", "Teesta [cite: 239]", "Indus [cite: 239]", "Brahmaputra [cite: 239]"],
+      "correct_option_id": 3
+    },
+     {
+      "question": "The orbit of which of the following satellites is NOT sun-synchronous? [cite: 239]",
+      "options": ["NIMBUS - 7 [cite: 240]", "IKONOS [cite: 240]", "ERS-1 [cite: 240]", "Meteosat - 11 [cite: 240]"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Name a low-cost ventilator equivalent to commercially available high-end ventilators developed by the Vikram Sarabhai Space Center (VSSC) of Indian Space Research Organisation in May 2021. [cite: 240, 241]",
+      "options": ["VaRun [cite: 241]", "GaTi [cite: 241]", "VaU [cite: 241]", "JeeVan [cite: 241]"],
+      "correct_option_id": 2
+    },
+     {
+      "question": "Six classmates T, U, V, W, X and Y each scored different marks in an entrance examination. V scored more than only T and X. W scored less than only U. X did not score the least. The one who scored the third highest marks, scored 91 marks. X scored 72 marks. Which of the following could possibly be V's score? [cite: 241, 242, 243, 244]",
+      "options": ["71 [cite: 244]", "80 [cite: 244]", "97 [cite: 244]", "104 [cite: 244]"],
+      "correct_option_id": 1
+    },
+     {
+      "question": "Five products A, B, C, D and E are priced differently in a general store. 'A' is cheaper than 'C' but costlier than 'B'. 'E' is costlier than 'C' but cheaper than 'D'. Which product is the cheapest? [cite: 244, 245, 246, 247]",
+      "options": ["C [cite: 247]", "B [cite: 247]", "E [cite: 247]", "A [cite: 248]"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following is an earth-observation satellite to be launched jointly by NASA and ISRO? [cite: 4]",
+      "options": ["KALPANA", "NISAR", "RISAT", "OCEANSAT"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following rivers is also known as Yarlung Tsangpo in the Tibet region of China? [cite: 5]",
+      "options": ["Sutlej", "Teesta", "Indus", "Brahmaputra"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The orbit of which of the following satellites is NOT sun-synchronous? [cite: 6]",
+      "options": ["NIMBUS - 7", "IKONOS", "ERS-1", "Meteosat - 11"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Name a low-cost ventilator equivalent to commercially available high-end ventilators developed by the Vikram Sarabhai Space Center (VSSC) of Indian Space Research Organisation in May 2021. [cite: 7]",
+      "options": ["VaRun", "GaTi", "VaU", "JeeVan"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Six classmates T, U, V, W, X and Y each scored different marks in an entrance examination. V scored more than only T and X. W scored less than only U. X did not score the least. The one who scored the third highest marks, scored 91 marks. X scored 72 marks. Which of the following could possibly be V's score? [cite: 8, 9, 10]",
+      "options": ["71", "80", "97", "104"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Five products A, B, C, D and E are priced differently in a general store. 'A' is cheaper than 'C' but costlier than 'B'. 'E' is costlier than 'C' but cheaper than 'D'. Which product is the cheapest? [cite: 11, 12, 13]",
+      "options": ["C", "B", "E", "A"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following tropical cyclones had hit the western coast of India in May 2021? [cite: 28]",
+      "options": ["Titli", "Vardah", "Hudhud", "Tauktae"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "On _______, the Constituent Assembly set up a Drafting Committee under the Chairmanship of Dr. B.R. Ambedkar to prepare a Draft Constitution for India. [cite: 29, 30]",
+      "options": ["20 August, 1947", "25 August, 1947", "18 August, 1947", "29 August, 1947"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language, 'RELATIONS' is written as 'TSRONLIEA', and 'NUMBER' is written as 'URNMEB'. How will 'SPECULATION' be written in that language? [cite: 31, 32, 33]",
+      "options": ["UTSPONLIECA", "OCAATNLIESP", "UOCATNLIESP", "UTNLIESPOCA"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following is an element with atomic number 30 as per the modern periodic table? [cite: 35, 36]",
+      "options": ["Fe", "Zn", "Co", "Ni"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Select the letter-cluster from among the given options that can replace the question mark (?) in the following series. AURT, BWSV, CYTX, ? [cite: 39]",
+      "options": ["DZUV", "DAUZ", "DZUY", "DZUZ"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Ramesh ranked 16th from the top and 21st from the bottom in his class in an examination. If only 21 students passed the exam, how many students in his class failed? [cite: 43, 44, 45]",
+      "options": ["19", "17", "15", "21"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Select the option that is related to the fifth letter-cluster in the same way as the second letter-cluster is related to the first letter-cluster and the fourth letter-cluster is related to the third letter-cluster. MDT: PAW:: RFQ: UCT :: LSK:? [cite: 46]",
+      "options": ["HRN", "JPH", "ORH", "OPN"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "As per Renewable Fuel Association data, _______ was the world's largest producer of ethanol in the year 2020. [cite: 47]",
+      "options": ["China", "Canada", "United States of America", "Brazil"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Bodo language is spoken mainly in which of the following states of India? [cite: 51]",
+      "options": ["Jharkhand", "Assam", "Himachal Pradesh", "Karnataka"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The Sahitya Akademi was formally inaugurated by the Government of India on 12 March _______. [cite: 52]",
+      "options": ["1958", "1952", "1954", "1956"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Sublimation is the _______. [cite: 56, 57, 58, 59]",
+      "options": ["transition of a substance directly from the solid to the gas state", "transition of a substance directly from the gas to the solid state", "transition of a substance directly from the gas to the liquid state", "transition of a substance directly from the liquid to the gas state"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "_______ defeated Mahmud Khilji and erected the tower of victory (Vijay Stambha) in Chittorgarh. [cite: 59, 60, 61]",
+      "options": ["Rana Kumbha", "Prithviraj Chauhan", "Jai Chand Gadhawak", "Rana Sangram Singh"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In a certain code language, 'CONSUME' is written as 'CEMNOSU' and 'COMPEL' is written as 'CELMOP'. How will 'ENGLISH' be written in that language? [cite: 63, 64, 65]",
+      "options": ["EHGILNS", "EHGLNSI", "EGHNLSI", "EGHILNS"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "'Bamabodhini Patrika', a journal for women was edited by _______. [cite: 65, 66]",
+      "options": ["Debendranath Tagore", "Umeshchandra Dutta", "Raja Ram Mohan Roy", "Swami Vivekananda"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following can be defined as 'the process in which the government sells the majority of the stakes to one or multiple companies while the government still has its ownership and remains as a minority stakeholder'? [cite: 68]",
+      "options": ["Delegation", "Displacement", "Divestment", "Divergence"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Six people C, D, E, X, Y and Z are each of a different age. Only one person is younger than Y. X is older than E but younger than D. E is older than Y. Neither D nor C is the oldest. How many people are older than Z? [cite: 69, 70, 71]",
+      "options": ["None", "Three", "More than three", "Two"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In a certain code language, 'see their dresses' is coded as 'ti ve su', 'dresses we see' is coded as 'nx ti ve', 'we see their party' is coded as 'fs ve nx su'. (Note: All codes are two letter codes only) What is the probable code for 'party dresses' in the given code language? [cite: 71, 72, 73]",
+      "options": ["ti fs", "su na", "na ti", "ti ve"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following internet protocols allows us to access the data over the World Wide Web? [cite: 74]",
+      "options": ["FTP", "DNS", "HTTP", "SNMP"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Statements: All camels are donkeys. Some cats are camels. All dolphins are cats. Conclusions: I. All dolphins are donkeys. II. Some dolphins are donkeys. III. Some donkeys are cats. IV. All cats are donkeys. [cite: 76, 77]",
+      "options": ["Both conclusions I and III follow", "Only conclusion IV follows", "Only conclusion III follows", "Both conclusions II and III follow"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "There is a group of 6 people: A, B, C, D, E and F (not necessarily in the same order). D is taller than A and E. F is taller than B and C. E is taller than F. A is taller than F. Which of the following can be the shortest person? [cite: 79, 80, 81, 82]",
+      "options": ["A or C", "B or E", "C or F", "B or C"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Statements: All salsa are jazz. No jazz is kathak. Conclusions: I. Some jazz is salsa. II. No salsa is kathak. [cite: 88, 89, 90]",
+      "options": ["Both the conclusions follow", "Only conclusion II follows", "Only conclusion I follows", "None of the conclusions follow"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "If 1st January 2017 was a Thursday, then what day of the week was it on 31st March of that year? [cite: 91, 92]",
+      "options": ["Friday", "Wednesday", "Thursday", "Tuesday"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Eight colleagues K, L, M, N, O, P, Q and R are seated in a circle facing the centre. N is an immediate neighbour of both L and Q. P is an immediate neighbour of both K and R. O is second to the right of K. Which of the following is definitely true about M's position? [cite: 92, 93, 94, 95]",
+      "options": ["Exactly between O and P", "Exactly between K and O", "Exactly between Q and O", "Second to the left of L"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Majuli, the largest riverine island in the world, is associated with which of the following rivers? [cite: 96]",
+      "options": ["Ganga", "Godavari", "Indus", "Brahmaputra"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Select the number from among the given options that can replace the question mark (?) in the following series. 86, 74, 62, 54, ?, 42, 38 [cite: 97]",
+      "options": ["50", "43", "46", "44"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Statements: Some athletes are businessmen. All businessmen are rich. Conclusions: I. Some athletes are rich. II. No athlete is rich. [cite: 99, 100, 101]",
+      "options": ["Both conclusions I and II follow.", "Neither conclusion I nor II follows.", "Only conclusion I follows.", "Only conclusion II follows."],
+      "correct_option_id": 2
+    },
+    {
+      "question": "G, M, P, V, Z and D are six members of a family. Z is the son of V. M is the brother of V. D and V are a married couple. P is the daughter of D. D is the sister of G. How is Z related to P? [cite: 101, 102, 103, 104]",
+      "options": ["Mother", "Sister", "Father", "Brother"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "For which novel did Valeria Luiselli win the International Dublin Literary Award 2021? [cite: 104, 105, 106]",
+      "options": ["Sidewalks", "Lost Children Archive", "The Story of My Teeth", "Faces in the Crowd"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Refer to the given letter, number, symbol series and answer the question that follows. (Left) K L % Y & 4 E 2 * 3 M & 7 S W # 8 2 H * L (Right) If all the numbers are dropped from the series, which of the following will be eighth from the right? [cite: 107, 108, 109]",
+      "options": ["E", "&", "*", "M"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Giridar was at a temple and was facing west. He turns 45° in the clockwise direction to collect a token, then another 180° in clockwise direction. He then turned 45° in the anti-clockwise direction. Which direction is he facing now? [cite: 111, 112, 113]",
+      "options": ["North-west", "East", "West", "South-west"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following works of Kalidasa is based on the context of the birth of Kartikeya, the son of God Shiva and Goddess Parvati? [cite: 114]",
+      "options": ["Raghuvamsa", "Ritusamhara", "Meghaduta", "Kumarasambhava"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Eight people M, N, P, S, T, V, X and Y are sitting in a straight line and all are facing north. N sits second from one of the extreme ends of the line. Only three people sit between M and N. P sits second to the right of M. As many people sit to the right of P as to the left of S. Exactly three people sit between T and S. T does not sit at any of the extreme ends of the line. Y sits to the immediate right of X. Who sits third to the left of V? [cite: 114, 115, 116, 117, 118]",
+      "options": ["Y", "P", "C", "X"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The Central Pollution Control Board was set up by the government in the year _______. [cite: 121]",
+      "options": ["1947", "1974", "1956", "1965"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which institute received the Africa Food Prize 2021, for the Tropical Legumes Project that has improved income and food production in sub-Saharan Africa? [cite: 121, 122, 123]",
+      "options": ["Central Arid Zone Research Institute (CAZRI)", "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT)", "National Rice Research Institute (NRRI)", "Indian Institute of Sugarcane Research (IISR)"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "As of December 2021, the total number of nuclear power plants in India is _______. [cite: 124, 125]",
+      "options": ["6", "10", "7", "9"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "On 3 August 2021, _______ became India's 69th Grandmaster of Chess at the Biel Masters Open. [cite: 125, 126]",
+      "options": ["Dommaraju Gukesh", "Nihal Sarin", "Prithu Gupta", "Harshit Raja"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In a certain code language, 'good deeds pay' is coded as 'ag bi tr', 'pay all bills' is coded as 'od ez ag', 'all your deeds count' is coded as 'sn tr od um'. (Note: All codes are two letter codes only) What is the code for 'count' in the given code language? [cite: 126, 127, 128]",
+      "options": ["ez", "od", "either 'sn' or 'um'", "either 'od' or 'tr'"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Which of following is oldest production unit of the Indian Railways? [cite: 129, 130]",
+      "options": ["Diesel Locomotive Works", "Integral Coach Factory", "Rail Wheel Factory", "Chittaranjan Locomotive Works"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "To increase fish consumption which state inaugurated the 'Aqua Bazaar and Aqua Hub' project on 21 November 2020? [cite: 130, 131]",
+      "options": ["West Bengal", "Kerala", "Andhra Pradesh", "Goa"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "There are five girls in a group, each having a different height. H is shorter than E only. F is not as tall as P. P is shorter than G. Who is the shortest among them? [cite: 134, 135, 136]",
+      "options": ["G", "P", "F", "E"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In a certain code language, 'MUSIC' is written as 'LTTJD', and 'CONCEPT' is written as 'BNMDFQU'. How will 'SINGING' be written in that language? [cite: 138, 139]",
+      "options": ["RHMHJOH", "RHMFHOJ", "TJOHHOF", "RHOHJOF"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The Fundamental Duties were added to the Constitution of India in the year: [cite: 140, 141]",
+      "options": ["1986", "1966", "1976", "1996"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "_______ is a command or an order from a superior court to a subordinate court or tribunal or public authority to perform its duty in case it is not doing it. [cite: 149, 150]",
+      "options": ["Quo Warranto", "Certiorari", "Habeas Corpus", "Mandamus"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "As per Human Development Index Ranking (2020), which country has highest life expectancy at birth (years)? [cite: 151]",
+      "options": ["Norway", "Denmark", "France", "Hong Kong, China (SAR)"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "When did the Maharashtra government launch the 'Jail Tourism' initiative? [cite: 151, 152]",
+      "options": ["May 2021", "January 2021", "August 2021", "November 2021"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "In each of the number-pairs, the second number is obtained by performing a certain mathematical operation on the first number. Three of the following pairs follow the same pattern and thus form a group. Select the number-pair that does NOT belong to that group. [cite: 152, 153, 154, 155]",
+      "options": ["22, 34", "11, 12", "17, 24", "25, 42"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The Champaran Satyagraha took place in the year _______. [cite: 155, 156]",
+      "options": ["1912", "1910", "1915", "1917"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Six people A, B C, D, E and F are sitting around a circular table facing the centre. B sits second to the right of E. C sits to the immediate left of E. F sits second to the right of D. Who sits third to the right of A? [cite: 156, 157, 158]",
+      "options": ["B", "E", "D", "C"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In a class, each student scored a different rank. Aman's rank is 11th from the top and Nikhil's rank is 13th from the bottom. Only three students ranked between Aman and Nikhil. If the total number of students is an odd number divisible by 3, how many students are there in total in the class? [cite: 158, 159, 160, 161]",
+      "options": ["27", "21", "15", "33"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Eight people E, H, M, P, S, T, Y and Z are sitting in a straight line. All of them are facing North. E sits fourth from one of the extreme ends of the line. H sits third to the right of E. As many people sit to the right of H as to the left of M. Only one person sits between M and P. S sits to the immediate right of Z. Only one person sits between Z and T. How many people sit to the left of Y? [cite: 162, 163, 164, 165]",
+      "options": ["Two", "One", "Three", "None"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The IPCC is the United Nations body for assessing the science related to climate change. IPCC stands for: [cite: 169, 170, 171, 172]",
+      "options": ["Intergovernmental Panel on Climate Change", "International Panel on Climate Change", "International Provision on Climate Change", "Intergovernmental Provision on Climate Change"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following characters is used to create absolute address in MS-Excel? [cite: 173]",
+      "options": ["Ampersand (&)", "Hash (#)", "Dollar ($)", "Percent (%)"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "As per Organisation for Economic Co-operation and Development (OECD) data for the year 2020, which country has highest per capita total spending on health? [cite: 173, 174]",
+      "options": ["USA", "Germany", "Canada", "Russia"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "In Contemporary Carnatic music, how many Melakarta ragas are there? [cite: 174, 175]",
+      "options": ["82", "72", "62", "52"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which ceremonial folk dance of Puducherry is related to the Hindu epic Ramayana, performed at the Villianur temple in Puducherry? [cite: 175, 176]",
+      "options": ["Hulivesha", "Garadi", "Tippani", "Dalkhai"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Which of the following is the SI unit of electric charge and is equivalent to the charge contained in nearly 6x10^18 electrons? [cite: 176, 177]",
+      "options": ["Becquerel", "Siemens", "Coulomb", "Henry"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Eight persons P, Q, R, S, T, U, V and W are sitting around a square table for dinner in such a way that 4 persons are sitting at the four corners and 4 persons are sitting at the mid-positions on the four sides. All of them are facing the centre of the square. S sits to the immediate left of U. U sits to the immediate left of T. T sits at one of the mid-positions of the sides. R sits third to the right of U. P is an immediate neighbour of both V and R. W is not an immediate neighbour of T. Who among the following is sitting at one of the corners? [cite: 178, 179, 180, 181]",
+      "options": ["R", "S", "Q", "V"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Article 239 deals with the: [cite: 181, 182, 183]",
+      "options": ["administration of union territories by Prime Minister", "administration of union territories by Cabinet Ministers", "administration of union territories by President", "administration of union territories by Lt. Governor"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "In which of the following states of India is Padayani a ritual dance art form performed at Bhadrakali temple? [cite: 184]",
+      "options": ["Karnataka", "Kerala", "Tamil Nadu", "Maharashtra"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "The first ever Industrial Policy Resolution of India was announced in the year _______. [cite: 184, 185]",
+      "options": ["1952", "1955", "1948", "1960"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Select the option that is related to the fifth letter-cluster in the same way as the second letter-cluster is related to the first letter-cluster and the fourth letter-cluster is related to the third letter-cluster. CKO: FNL :: FLP: IOM :: DPQ:? [cite: 189, 190]",
+      "options": ["GST", "HRT", "GSN", "HRN"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "Padma Shri Minati Mishra was an Indian classical dancer and actress, known for her expertise in which of the following Indian classical dance forms? [cite: 190, 191]",
+      "options": ["Kathakali", "Odissi", "Bharatanatyam", "Kathak"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "There are five boxes K, L, M, N and O, arranged one above the other. Box M is placed above box N. Box O is placed below box K. Box N is placed above K. Box L is placed below O. Which among the following is the bottom most box? [cite: 192, 193, 194]",
+      "options": ["M", "L", "O", "K"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "In Vaishnavism, how many avatars or incarnation of deity were recognised? [cite: 198, 199]",
+      "options": ["5", "9", "7", "10"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Who became the first official in India to be felicitated with United Nations Asia Environmental Enforcement Award in February 2021 under the Gender Leadership and Impact category? [cite: 199, 200, 201]",
+      "options": ["Namita Gokhale", "Sudarshan Panthee", "Birendra Singh Johari", "Sasmita Lenka"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following has four chambered heart? [cite: 204, 205]",
+      "options": ["Fish", "Sea horse", "Peacock", "Frog"],
+      "correct_option_id": 2
+    },
+    {
+      "question": "According to the Census of India 2011, how many \"million-plus cities\" were there in India? [cite: 207]",
+      "options": ["47", "58", "40", "53"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Nile River was known as the backbone of which country? [cite: 208, 209]",
+      "options": ["Morocco", "Egypt", "Sudan", "Saudi Arabia"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Shamita's birthday was on 15 March 2020, which was a Sunday. If her husband's birthday was on 31 May 2020, on which day would it fall? [cite: 210, 211, 212]",
+      "options": ["Wednesday", "Sunday", "Tuesday", "Friday"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "A consumer's optimal bundle is located at the point of tangency between the budget line and _______. [cite: 215, 216]",
+      "options": ["law of demand", "monotonicity", "income effect", "indifference curve"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "The marginal propensity to consume (MPC) refers to the: [cite: 216, 217, 218]",
+      "options": ["rate of change of consumption as income changes", "change in savings per unit change in income", "consumption per unit of income", "savings per unit of income"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "Which of the following persons was honoured with the highest award of the Central European University Open Society Award in June 2021? [cite: 219, 220, 221]",
+      "options": ["Harsh Vardhan", "Satyendar Jain", "Deepak Sawant", "KK Shailaja"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Select the letter-cluster from among the given options that can replace the question mark (?) in the following series. QHD, MNV, ITN, EZF, AFX,? [cite: 222]",
+      "options": ["XLQ", "XJQ", "WJP", "WLP"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "In the year 2021, DRDO launched which satellite by PSLV-C51 to enhance India's surveillance capability in the Indian Ocean Region (IOR)? [cite: 223, 224, 225]",
+      "options": ["Sindhu Durga Satellite", "Sindhu Netra Satellite", "Satish Dhawan Satellite", "Sri Shakti Satellite"],
+      "correct_option_id": 1
+    },
+    {
+      "question": "Who appoints the Union Council of Ministers? [cite: 225, 226]",
+      "options": ["The Parliament", "The Prime Minister of India", "The President of India according to his own discretion", "The President of India on the advice of the Prime Minister"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Allarakha Qureshi who is popularly known as Alla Rakha, is an Indian _______ player. [cite: 227, 228, 229]",
+      "options": ["Sitar", "Dholak", "Veena", "Tabla"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Which of the following is a non-conventional source of energy? [cite: 229]",
+      "options": ["Petrol", "Coal", "Wood", "Wind"],
+      "correct_option_id": 3
+    },
+    {
+      "question": "Statement: W = H >= G = C >= T <= L <= M Conclusions: I. T <= W II. C >= M Decide which conclusions are true. [cite: 234, 235, 236]",
+      "options": ["Only conclusion I is true", "Only conclusion II is true", "Both conclusions I and II are true", "Neither conclusion I nor II is true"],
+      "correct_option_id": 0
+    },
+    {
+      "question": "The people of Sikkim celebrate Lhabab Dhuechen which is observed to mark the descent of _______ from heaven back to earth. [cite: 236, 237]",
+      "options": ["Lord Shiva", "Lord Mahaviira", "Lord Buddha", "Lord Vishnu"],
+      "correct_option_id": 2
+    }
+    
+  ]
