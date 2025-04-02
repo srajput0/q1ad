@@ -66,8 +66,10 @@ def button(update: Update, context: CallbackContext):
     if query.data == 'start_quiz':
         # Inline buttons for language selection
         keyboard = [
-            [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
-            [InlineKeyboardButton("English", callback_data='language_english')]
+            [
+                InlineKeyboardButton("Hindi", callback_data='language_hindi'),
+                InlineKeyboardButton("English", callback_data='language_english')
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Please select your language:", reply_markup=reply_markup)
@@ -80,14 +82,18 @@ def button(update: Update, context: CallbackContext):
         # Inline buttons for category selection based on the chosen language
         if language == 'hindi':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_SSCHi')],
-                [InlineKeyboardButton("RRB", callback_data='category_RRBHi')],
+                [
+                    InlineKeyboardButton("SSC", callback_data='category_SSCHi'),
+                    InlineKeyboardButton("RRB", callback_data='category_RRBHi')
+                ],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         elif language == 'english':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_SSCEn')],
-                [InlineKeyboardButton("RRB", callback_data='category_RRBEn')],
+                [
+                    InlineKeyboardButton("SSC", callback_data='category_SSCEn'),
+                    InlineKeyboardButton("RRB", callback_data='category_RRBEn')
+                ],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         
@@ -102,19 +108,21 @@ def button(update: Update, context: CallbackContext):
 
         # Inline buttons for selecting sendgroup or prequiz
         keyboard = [
-            [InlineKeyboardButton("Quiz IN Group", callback_data='sendgroup')],
-            [InlineKeyboardButton("Quiz IN Personal", callback_data='prequiz')],
+            [InlineKeyboardButton("Send In Group", callback_data='sendgroup')],
+            [InlineKeyboardButton("Send In Personal", callback_data='prequiz')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text=f"Category selected: Where are you Attend Quiz, {category.upper()}\nPlease select an option:",
-                                reply_markup=reply_markup)
+        query.edit_message_text(text=f"Category selected: *Where are you Attend Quiz*, {category.upper()}\nPlease select an option:",
+                                reply_markup=reply_markup, parse_mode="Markdown")
 
     elif query.data == 'back_to_languages':
         # Inline buttons for language selection
         keyboard = [
-            [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
-            [InlineKeyboardButton("English", callback_data='language_english')]
+            [
+                InlineKeyboardButton("Hindi", callback_data='language_hindi'),
+                InlineKeyboardButton("English", callback_data='language_english')
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Please select your language:", reply_markup=reply_markup)
@@ -123,14 +131,18 @@ def button(update: Update, context: CallbackContext):
         language = chat_data.get('language', 'english')
         if language == 'hindi':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_SSCHi')],
-                [InlineKeyboardButton("RRB", callback_data='category_RRBHi')],
+                [
+                    InlineKeyboardButton("SSC", callback_data='category_SSCHi'),
+                    InlineKeyboardButton("RRB", callback_data='category_RRBHi')
+                ],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         elif language == 'english':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_SSCEn')],
-                [InlineKeyboardButton("RRB", callback_data='category_RRBEn')],
+                [
+                    InlineKeyboardButton("SSC", callback_data='category_SSCEn'),
+                    InlineKeyboardButton("RRB", callback_data='category_RRBEn')
+                ],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         
@@ -155,11 +167,16 @@ def button(update: Update, context: CallbackContext):
         
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
-            [InlineKeyboardButton("1 min", callback_data='interval_60')],
-            [InlineKeyboardButton("5 min", callback_data='interval_300')],
-            [InlineKeyboardButton("10 min", callback_data='interval_600')],
-            [InlineKeyboardButton("30 min", callback_data='interval_1800')]
+            [
+                InlineKeyboardButton("30 sec", callback_data='interval_30'),
+                InlineKeyboardButton("1 min", callback_data='interval_60'),
+                InlineKeyboardButton("5 min", callback_data='interval_300')
+            ],
+            [
+                InlineKeyboardButton("10 min", callback_data='interval_600'),
+                InlineKeyboardButton("30 min", callback_data='interval_1800'), 
+                InlineKeyboardButton("60 min", callback_data='interval_3600')
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Please select the interval for quizzes:Set the interval for quizzes - \nEx. */setinterval 20*\n for set Coustem Interval",
