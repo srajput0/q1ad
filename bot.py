@@ -23,6 +23,9 @@ client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 
+# Define the daily quiz limit
+DAILY_QUIZ_LIMIT = 10
+
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
@@ -261,7 +264,7 @@ def start_quiz(update: Update, context: CallbackContext):
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-    if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
+    if quizzes_sent and quizzes_sent.get("count", 0) >= DAILY_QUIZ_LIMIT:
         update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
         return
 
@@ -277,6 +280,12 @@ def start_quiz(update: Update, context: CallbackContext):
 
     # Send the first quiz immediately
     send_quiz_immediately(context, chat_id)
+
+    # Increment the count of quizzes sent today
+    if not quizzes_sent:
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
+    else:
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
 
     # Schedule subsequent quizzes at the specified interval
     context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
@@ -402,6 +411,7 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
+
 
     
     updater.start_polling()
