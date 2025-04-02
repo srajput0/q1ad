@@ -162,8 +162,8 @@ def button(update: Update, context: CallbackContext):
             [InlineKeyboardButton("30 min", callback_data='interval_1800')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for quizzes:\n/setinterval - Set the interval for quizzes - \n[Ex. /setinterval 20, /setinterval 25] for set Coustem Interval",
-                                reply_markup=reply_markup)
+        query.edit_message_text(text="Please select the interval for quizzes:Set the interval for quizzes - \nEx. */setinterval 20*\n for set Coustem Interval",
+                                reply_markup=reply_markup, parse_mode="Markdown")
 
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
