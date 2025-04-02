@@ -78,8 +78,8 @@ def button(update: Update, context: CallbackContext):
             ]
         elif language == 'english':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_ssc_En')],
-                [InlineKeyboardButton("RRB", callback_data='category_rrb_En')],
+                [InlineKeyboardButton("SSC", callback_data='category_SSCEn')],
+                [InlineKeyboardButton("RRB", callback_data='category_RRBEn')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         
