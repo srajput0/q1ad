@@ -94,12 +94,12 @@ def button(update: Update, context: CallbackContext):
 
         # Inline buttons for selecting sendgroup or prequiz
         keyboard = [
-            [InlineKeyboardButton("Send Group", callback_data='sendgroup')],
-            [InlineKeyboardButton("Prequiz", callback_data='prequiz')],
+            [InlineKeyboardButton("Quiz IN Group", callback_data='sendgroup')],
+            [InlineKeyboardButton("Quiz IN Presonal", callback_data='prequiz')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text=f"Category selected: {category.upper()}\nPlease select an option:",
+        query.edit_message_text(text=f"Category selected: Where are you Attend Quiz, {category.upper()}\nPlease select an option:",
                                 reply_markup=reply_markup)
 
     elif query.data == 'back_to_languages':
@@ -109,18 +109,14 @@ def button(update: Update, context: CallbackContext):
         language = chat_data.get('language', 'english')
         if language == 'hindi':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
-                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("SSC", callback_data='category_SSCHi')],
+                [InlineKeyboardButton("RRB", callback_data='category_RRBHi')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         elif language == 'english':
             keyboard = [
-                [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-                [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-                [InlineKeyboardButton("BPSC", callback_data='category_ssc_En')],
-                [InlineKeyboardButton("RRB", callback_data='category_rrb')],
+                [InlineKeyboardButton("SSC", callback_data='category_SSCEn')],
+                [InlineKeyboardButton("RRB", callback_data='category_RRBEn')],
                 [InlineKeyboardButton("Back", callback_data='back_to_languages')]
             ]
         
