@@ -5,7 +5,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer
+from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, repeat_all_quizzes
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
@@ -446,6 +446,7 @@ def main():
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
+    dp.add_handler(CommandHandler("repetall", repeat_all_quizzes))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
