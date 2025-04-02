@@ -25,7 +25,7 @@ db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 
 # Define the daily quiz limit
-DAILY_QUIZ_LIMIT = 10
+DAILY_QUIZ_LIMIT = 100
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
