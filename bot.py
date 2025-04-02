@@ -178,10 +178,51 @@ def button(update: Update, context: CallbackContext):
         start_quiz(update, context)
 
     elif query.data == 'show_leaderboard':
-        show_leaderboard(update, context)
+        chat_id = update.effective_chat.id
+        # Send initial loading message
+        loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
+
+        # Send loading updates in a separate thread
+        def send_loading_messages(message_id):
+            for i in range(2, 4):
+                time.sleep(1)  # Wait for 1 second before sending the next message
+                context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading...{i}")
+
+        loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
+        loading_thread.start()
+
+        # Fetch and display the leaderboard
+        top_scores = get_top_scores(20)
+        loading_thread.join()  # Wait for the loading messages to finish
+
+        if not top_scores:
+            context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            update.effective_message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+            return
+
+        # Delete the loading message
+        context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+
+        # Prepare and send the leaderboard message
+        message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+        medals = ["🥇", "🥈", "🥉"]
+
+        for rank, (user_id, score) in enumerate(top_scores, start=1):
+            try:
+                user = context.bot.get_chat(int(user_id))
+                username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+            except Exception:
+                username = f"User {user_id}"
+
+            rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
+            message += f"{rank_display}  *{username}* - {score} Points\n\n"
+
+        update.effective_message.reply_text(message, parse_mode="Markdown")
 
     elif query.data == 'show_stats':
-        check_stats(update, context)
+        user_id = str(update.effective_user.id)
+        score = get_user_score(user_id)
+        update.effective_message.reply_text(f"Your current score is: {score} points.")
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
