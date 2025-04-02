@@ -1,5 +1,5 @@
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember
 from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
@@ -44,6 +44,10 @@ def start_command(update: Update, context: CallbackContext):
         "Welcome to the Quiz Bot! Please choose an option:",
         reply_markup=reply_markup
     )
+
+def is_user_admin(update: Update, user_id: int):
+    chat_member = update.effective_chat.get_member(user_id)
+    return chat_member.status in [ChatMember.ADMINISTRATOR, ChatMember.CREATOR]
 
 def button(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -92,7 +96,7 @@ def button(update: Update, context: CallbackContext):
         # Inline buttons for selecting sendgroup or prequiz
         keyboard = [
             [InlineKeyboardButton("Quiz IN Group", callback_data='sendgroup')],
-            [InlineKeyboardButton("Quiz IN Presonal", callback_data='prequiz')],
+            [InlineKeyboardButton("Quiz IN Personal", callback_data='prequiz')],
             [InlineKeyboardButton("Back", callback_data='back_to_categories')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -127,10 +131,13 @@ def button(update: Update, context: CallbackContext):
         query.edit_message_text(text="Please select your category:", reply_markup=reply_markup)
 
     elif query.data in ['sendgroup', 'prequiz']:
-        # Send the set interval command
-        if query.data == 'sendgroup' and update.effective_chat.type not in ['group', 'supergroup']:
-            query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
-            return
+        if query.data == 'sendgroup':
+            if update.effective_chat.type not in ['group', 'supergroup']:
+                query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
+                return
+            if not is_user_admin(update, update.effective_user.id):
+                query.edit_message_text(text="You need to be an admin to use this command.")
+                return
         elif query.data == 'prequiz' and update.effective_chat.type != 'private':
             query.edit_message_text(text="The Prequiz option is only available in private chats.")
             return
