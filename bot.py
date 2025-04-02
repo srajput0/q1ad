@@ -48,7 +48,7 @@ def start_command(update: Update, context: CallbackContext):
 
     # Send welcome message with main menu buttons
     update.message.reply_text(
-        "Welcome to the Quiz Bot! This is a Quiz Bot made by *Pinnacle Publication.*\nThis can ask two Exams PYQ's.\n\n•SSC\n•RRB\nChoose the option for proceed further :",
+        "Welcome to the Quiz Bot! This is a Quiz Bot made by *Pinnacle Publication.*\nThis can ask two Exams PYQ's.\n\n*•SSC*\n*•RRB*\nChoose the option for proceed further :",
         reply_markup=reply_markup, parse_mode="Markdown"
     )
 
