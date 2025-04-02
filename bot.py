@@ -31,32 +31,20 @@ def start_command(update: Update, context: CallbackContext):
     add_served_chat(chat_id)
     add_served_user(user_id)
 
-     # Inline buttons for language selection
+    # Inline buttons for main menu
     keyboard = [
-        [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
-        [InlineKeyboardButton("English", callback_data='language_english')]
+        [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
+        [InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard')],
+        [InlineKeyboardButton("Stats", callback_data='show_stats')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Send welcome message with language selection buttons
+    # Send welcome message with main menu buttons
     update.message.reply_text(
-        "Welcome to the Quiz Bot! Please select your language:",
+        "Welcome to the Quiz Bot! Please choose an option:",
         reply_markup=reply_markup
     )
-    # Inline buttons for category selection
-    # keyboard = [
-    #     [InlineKeyboardButton("SSC", callback_data='category_ssc')],
-    #     [InlineKeyboardButton("UPSC", callback_data='category_upsc')],
-    #     [InlineKeyboardButton("BPSC", callback_data='category_bpsc')],
-    #     [InlineKeyboardButton("RRB", callback_data='category_rrb')]
-    # ]
-    # reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # # Send welcome message with category selection buttons
-    # update.message.reply_text(
-    #     "Welcome to the Quiz Bot! Please select your category:",
-    #     reply_markup=reply_markup
-    # )
 def button(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     query = update.callback_query
@@ -64,7 +52,16 @@ def button(update: Update, context: CallbackContext):
     chat_id = str(query.message.chat.id)
     chat_data = load_chat_data(chat_id)
 
-    if query.data.startswith('language_'):
+    if query.data == 'start_quiz':
+        # Inline buttons for language selection
+        keyboard = [
+            [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
+            [InlineKeyboardButton("English", callback_data='language_english')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Please select your language:", reply_markup=reply_markup)
+
+    elif query.data.startswith('language_'):
         language = query.data.split('_')[1]
         chat_data['language'] = language
         save_chat_data(chat_id, chat_data)
@@ -103,7 +100,13 @@ def button(update: Update, context: CallbackContext):
                                 reply_markup=reply_markup)
 
     elif query.data == 'back_to_languages':
-        start_command(update, context)
+        # Inline buttons for language selection
+        keyboard = [
+            [InlineKeyboardButton("Hindi", callback_data='language_hindi')],
+            [InlineKeyboardButton("English", callback_data='language_english')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        query.edit_message_text(text="Please select your language:", reply_markup=reply_markup)
 
     elif query.data == 'back_to_categories':
         language = chat_data.get('language', 'english')
@@ -138,7 +141,7 @@ def button(update: Update, context: CallbackContext):
         
         # Inline buttons for interval selection
         keyboard = [
-            [InlineKeyboardButton("30 sec", callback_data='interval_10')],
+            [InlineKeyboardButton("30 sec", callback_data='interval_30')],
             [InlineKeyboardButton("1 min", callback_data='interval_60')],
             [InlineKeyboardButton("5 min", callback_data='interval_300')],
             [InlineKeyboardButton("10 min", callback_data='interval_600')],
@@ -147,6 +150,7 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Please select the interval for quizzes:",
                                 reply_markup=reply_markup)
+
     elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data = load_chat_data(chat_id)
@@ -165,6 +169,12 @@ def button(update: Update, context: CallbackContext):
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
+
+    elif query.data == 'show_leaderboard':
+        show_leaderboard(update, context)
+
+    elif query.data == 'show_stats':
+        check_stats(update, context)
 
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -281,7 +291,6 @@ def restart_active_quizzes(context: CallbackContext):
         interval = quiz["data"].get("interval", 30)
         used_questions = quiz["data"].get("used_questions", [])
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
-
 
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
