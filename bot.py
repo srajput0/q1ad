@@ -163,7 +163,7 @@ def button(update: Update, context: CallbackContext):
             [InlineKeyboardButton("30 min", callback_data='interval_1800')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for quizzes:",
+        query.edit_message_text(text="Please select the interval for quizzes:\n/setinterval - Set the interval for quizzes - \n[Ex. /setinterval 20, /setinterval 25] for set Coustem Interval",
                                 reply_markup=reply_markup)
 
     elif query.data.startswith('interval_'):
@@ -240,7 +240,6 @@ def button(update: Update, context: CallbackContext):
         /pause - Pause the current quiz
         /resume - Resume a paused quiz
         /leaderboard - Show the leaderboard
-        /broadcast - Broadcast a message to all users
         /stats - Show your current stats
         """
         # Inline button to go back to the main menu
