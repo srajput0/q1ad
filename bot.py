@@ -1,5 +1,6 @@
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember
+from telegram.error import TelegramError
 from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
@@ -241,7 +242,7 @@ def button(update: Update, context: CallbackContext):
         /broadcast - Broadcast a message to all users
         /stats - Show your current stats
         """
-         # Inline button to go back to the main menu
+        # Inline button to go back to the main menu
         keyboard = [
             [InlineKeyboardButton("Back", callback_data='back_to_main_menu')]
         ]
@@ -252,9 +253,11 @@ def button(update: Update, context: CallbackContext):
         # Inline buttons for main menu
         keyboard = [
             [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
-            [InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard')],
-            [InlineKeyboardButton("Stats", callback_data='show_stats')],
-            [InlineKeyboardButton("Show Commands", callback_data='show_commands')]
+            [
+                InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard'),
+                InlineKeyboardButton("My Score", callback_data='show_stats')
+            ],
+            [InlineKeyboardButton("Commands", callback_data='show_commands')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
@@ -311,7 +314,12 @@ def start_quiz(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
 
     # Send the first quiz immediately
-    send_quiz_immediately(context, chat_id)
+    try:
+        send_quiz_immediately(context, chat_id)
+    except TelegramError as e:
+        logger.error(f"Failed to send quiz: {e}")
+        update.message.reply_text("Failed to send quiz. Please check the chat ID and permissions.")
+        return
 
     # Increment the count of quizzes sent today
     if not quizzes_sent:
