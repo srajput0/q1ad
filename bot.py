@@ -15,7 +15,7 @@ import time
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7466315774:AAFhFeFYlNY8yPxCRYK2xA-sdRTbSKA8bek"
+TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 
 # MongoDB connection
