@@ -37,6 +37,9 @@ def start_command(update: Update, context: CallbackContext):
 
     # Inline buttons for main menu
     keyboard = [
+        [
+            InlineKeyboardButton("Add in Group +", url=f"https://t.me/ipopcorn3bot?startgroup=true"),   
+        ],
         [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
         [
             InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard'),
