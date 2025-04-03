@@ -109,14 +109,21 @@ def button(update: Update, context: CallbackContext):
         chat_data['category'] = category
         save_chat_data(chat_id, chat_data)
 
-        # Inline buttons for selecting sendgroup or prequiz
+        # Directly start the quiz with interval selection
         keyboard = [
-            [InlineKeyboardButton("Send In Group", callback_data='sendgroup')],
-            [InlineKeyboardButton("Send In Personal", callback_data='prequiz')],
-            [InlineKeyboardButton("Back", callback_data='back_to_categories')]
+            [
+                InlineKeyboardButton("30 sec", callback_data='interval_30'),
+                InlineKeyboardButton("1 min", callback_data='interval_60'),
+                InlineKeyboardButton("5 min", callback_data='interval_300')
+            ],
+            [
+                InlineKeyboardButton("10 min", callback_data='interval_600'),
+                InlineKeyboardButton("30 min", callback_data='interval_1800'),
+                InlineKeyboardButton("60 min", callback_data='interval_3600')
+            ]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text=f"Category selected: *Where are you Attend Quiz*, {category.upper()}\nPlease select an option:",
+        query.edit_message_text(text=f"Category selected: {category.upper()}\nPlease select the interval for quizzes:\n/setinterval - Set the interval for quizzes - \n[Ex. /setinterval 20] for set Custom Interval",
                                 reply_markup=reply_markup, parse_mode="Markdown")
 
     elif query.data == 'back_to_languages':
@@ -152,40 +159,12 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Please select your category:", reply_markup=reply_markup)
 
-    elif query.data in ['sendgroup', 'prequiz']:
-        if query.data == 'sendgroup':
-            if update.effective_chat.type not in ['group', 'supergroup']:
-                query.edit_message_text(text="The Send Group option is only available in group and supergroup chats.")
-                return
-            if not is_user_admin(update, update.effective_user.id):
-                query.edit_message_text(text="You need to be an admin to use this command.")
-                return
-        elif query.data == 'prequiz' and update.effective_chat.type != 'private':
-            query.edit_message_text(text="The Prequiz option is only available in private chats.")
+    elif query.data.startswith('interval_'):
+        # Check if the user is an admin in group chats
+        if update.effective_chat.type in ['group', 'supergroup'] and not is_user_admin(update, update.effective_user.id):
+            query.edit_message_text(text="You need to be an admin to set the interval in group chats.")
             return
 
-        # Save the selected option in chat data
-        chat_data['selected_option'] = query.data
-        save_chat_data(chat_id, chat_data)
-        
-        # Inline buttons for interval selection
-        keyboard = [
-            [
-                InlineKeyboardButton("30 sec", callback_data='interval_30'),
-                InlineKeyboardButton("1 min", callback_data='interval_60'),
-                InlineKeyboardButton("5 min", callback_data='interval_300')
-            ],
-            [
-                InlineKeyboardButton("10 min", callback_data='interval_600'),
-                InlineKeyboardButton("30 min", callback_data='interval_1800'), 
-                InlineKeyboardButton("60 min", callback_data='interval_3600')
-            ]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Please select the interval for quizzes:Set the interval for quizzes - \nEx. */setinterval 20*\n for set Coustem Interval",
-                                reply_markup=reply_markup, parse_mode="Markdown")
-
-    elif query.data.startswith('interval_'):
         interval = int(query.data.split('_')[1])
         chat_data = load_chat_data(chat_id)
         chat_data["interval"] = interval
