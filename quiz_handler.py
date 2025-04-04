@@ -70,13 +70,11 @@ def send_quiz(context: CallbackContext):
 
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
-        if message_status is None or not message_status.get("no_new_questions", False):
-            context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_new_questions": True})
-            else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_new_questions": True}})
-        return
+        # Reset used questions if no new questions are available
+        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$set": {"used_questions": []}})
+        used_question_ids = []
+        available_questions = questions
+        context.bot.send_message(chat_id=chat_id, text="All quizzes have been used. Restarting with all available quizzes.")
 
     question = random.choice(available_questions)
     used_questions.append(question)
@@ -128,8 +126,11 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     used_question_ids = chat_data.get("used_questions", [])
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
-        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
-        return
+        # Reset used questions if no new questions are available
+        chat_data["used_questions"] = []
+        save_chat_data(chat_id, chat_data)
+        available_questions = questions
+        context.bot.send_message(chat_id=chat_id, text="All quizzes have been used. Restarting with all available quizzes.")
 
     question = random.choice(available_questions)
     used_question_ids.append(question)
