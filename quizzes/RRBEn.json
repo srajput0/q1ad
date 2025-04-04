@@ -1,16 +1,6 @@
 [
     {
-      "question": "Which two signs should be interchanged to correct the given equation?\n$4\\div8+5-6\\times2=34$",
-      "options": [
-        "+, \\times",
-        "-, \\times",
-        "$\\div$, +",
-        "+, -"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "Invested at a certain annual simple interest rate, a sum of money increases by 75% in 10 years. At the same annual simple interest rate, by what percentage will the same sum of money increase in 6 years?",
+      "question": "Invested at a certain annual simple interest rate, a sum of money increases by 75% in 10 years. At the same annual simple interest rate, by what percentage will the same sum of money increase in 6 years\n\nNTPC 2020",
       "options": [
         "45%",
         "48%",
@@ -30,7 +20,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Which of the following tropical cyclones hit the west coast of India in May 2021?",
+      "question": "Which of the following tropical cyclones hit the west coast of India in May 2021\n\nNTPC 2020",
       "options": [
         "Titli",
         "Vardah",
@@ -40,7 +30,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "The Constituent Assembly constituted a Drafting Committee under the chairmanship of Dr. B. R. Ambedkar to prepare the draft constitution for India on which date?",
+      "question": "The Constituent Assembly constituted a Drafting Committee under the chairmanship of Dr. B. R. Ambedkar to prepare the draft constitution for India on which date\n\nNTPC 2020",
       "options": [
         "August 20, 1947",
         "August 25, 1947",
@@ -50,7 +40,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "In a certain code language, 'RELATIONS' is written as 'TSRONLIEA', and 'NUMBER' is written as 'URNMEB'. How will 'SPECULATION' be written in the same code language?",
+      "question": "In a certain code language, 'RELATIONS' is written as 'TSRONLIEA', and 'NUMBER' is written as 'URNMEB'. How will 'SPECULATION' be written in the same code language\n\nNTPC 2020",
       "options": [
         "UTSPONLIECA",
         "OCAATNLIESP",
@@ -60,7 +50,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "According to the modern periodic table, which of the following elements has an atomic number of 30?",
+      "question": "According to the modern periodic table, which of the following elements has an atomic number of 30\n\nNTPC 2020",
       "options": [
         "Fe",
         "Zn",
@@ -70,7 +60,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. AURT, BWSV, CYTX, ?",
+      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. AURT, BWSV, CYTX, \n\nNTPC 2020",
       "options": [
         "DZUV",
         "DAUZ",
@@ -80,7 +70,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Ram gives a discount of 10% on the marked price of an article and still makes a profit of 12.5%. If he sells the article at the marked price only, then what would be his profit percentage?",
+      "question": "Ram gives a discount of 10% on the marked price of an article and still makes a profit of 12.5%. If he sells the article at the marked price only, then what would be his profit percentage\n\nNTPC 2020",
       "options": [
         "25%",
         "27.5%",
@@ -90,7 +80,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "In an examination held in a class, Ramesh's rank is 16th from the top and 21st from the bottom. If only 21 students passed the examination, then how many students in his class failed?",
+      "question": "In an examination held in a class, Ramesh's rank is 16th from the top and 21st from the bottom. If only 21 students passed the examination, then how many students in his class failed\n\nNTPC 2020",
       "options": [
         "19",
         "17",
@@ -100,7 +90,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. MDT PAW :: RFQ UCT :: LSK:?",
+      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. MDT PAW :: RFQ UCT :: LSK:\n\nNTPC 2020",
       "options": [
         "HRN",
         "JPH",
@@ -110,7 +100,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "According to the Renewable Fuel Association, which country was the world's largest ethanol producer in the year 2020?",
+      "question": "According to the Renewable Fuel Association, which country was the world's largest ethanol producer in the year 2020\n\nNTPC 2020",
       "options": [
         "China",
         "Canada",
@@ -120,7 +110,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "In which state is the Bodo language mainly spoken in India?",
+      "question": "In which state is the Bodo language mainly spoken in India\n\nNTPC 2020",
       "options": [
         "Jharkhand",
         "Assam",
@@ -130,7 +120,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "The Sahitya Akademi was formally inaugurated by the Government of India on 12 March in which year?",
+      "question": "The Sahitya Akademi was formally inaugurated by the Government of India on 12 March in which year\n\nNTPC 2020",
       "options": [
         "1958",
         "1952",
@@ -140,7 +130,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "How much time will a 450 m long train running at a speed of 54 km/h take to cross a person standing on the platform?",
+      "question": "How much time will a 450 m long train running at a speed of 54 km/h take to cross a person standing on the platform\n\nNTPC 2020",
       "options": [
         "28 seconds",
         "25 seconds",
@@ -150,17 +140,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Find the value of the following expression.\n\n$1-\\frac{(4\\div5-1\\times3+2)\\times8}{3^{2}\\times8-4\\times2}$",
-      "options": [
-        "$\\frac{5}{8}$",
-        "$\\frac{41}{40}$",
-        "$\\frac{39}{40}$",
-        "0"
-      ],
-      "correct_option_id": 0
-    },
-    {
-      "question": "What is sublimation?",
+      "question": "What is sublimation\n\nNTPC 2020",
       "options": [
         "Change of a substance directly from solid to gaseous state",
         "Change of a substance directly from gaseous to solid state",
@@ -170,7 +150,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Who defeated Mahmud Khalji in Chittorgarh and erected the Victory Tower?",
+      "question": "Who defeated Mahmud Khalji in Chittorgarh and erected the Victory Tower\n\nNTPC 2020",
       "options": [
         "Rana Kumbha",
         "Prithviraj Chauhan",
@@ -180,17 +160,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "If $y=\\sqrt[3]{6}-4\\sqrt[3]{6}$, then find the value of $y^{3}+12y^{2}+48y+100$.",
-      "options": [
-        "42",
-        "106",
-        "6",
-        "0"
-      ],
-      "correct_option_id": 0
-    },
-    {
-      "question": "In a certain code language, 'CONSUME' is written as 'CEMNOSU' and 'COMPEL' is written as 'CELMOP'. How will 'ENGLISH' be written in the same code language?",
+      "question": "In a certain code language, 'CONSUME' is written as 'CEMNOSU' and 'COMPEL' is written as 'CELMOP'. How will 'ENGLISH' be written in the same code language\n\nNTPC 2020",
       "options": [
         "EHGILNS",
         "EHGLNSI",
@@ -210,7 +180,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "The average of 30 numbers is 55. The average of the first 15 numbers is 51 and the average of the last 12 numbers is 56. What will be the average of 68, 74 and the remaining 3 numbers?",
+      "question": "The average of 30 numbers is 55. The average of the first 15 numbers is 51 and the average of the last 12 numbers is 56. What will be the average of 68, 74 and the remaining 3 numbers\n\nNTPC 2020",
       "options": [
         "70",
         "72",
@@ -220,7 +190,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Which of the following can be defined as 'the process in which the government sells the majority of its stakes to one or more companies, while still retaining ownership and remaining a minority stakeholder'?",
+      "question": "Which of the following can be defined as 'the process in which the government sells the majority of its stakes to one or more companies, while still retaining ownership and remaining a minority stakeholder'\n\nNTPC 2020",
       "options": [
         "Delegation",
         "Displacement",
@@ -230,7 +200,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Six persons - C, D, E, X, Y and Z, each of a different age. Only one person is younger than Y. X is older than E, but younger than D. E is older than Y. Neither D nor C is the oldest. How many persons are older than Z?",
+      "question": "Six persons - C, D, E, X, Y and Z, each of a different age. Only one person is younger than Y. X is older than E, but younger than D. E is older than Y. Neither D nor C is the oldest. How many persons are older than Z\n\nNTPC 2020",
       "options": [
         "Zero",
         "Three",
@@ -240,7 +210,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "In a certain code language\n'see their dresses' is written as 'ti ve su',\n'dresses we see' is written as 'nx ti ve',\n'we see their party' is written as 'fs ve nx su'.\n(Note: All code words are coded as two-letter code words only)\nWhat is the possible code word for 'party dresses' in the given code language?",
+      "question": "In a certain code language\n'see their dresses' is written as 'ti ve su',\n'dresses we see' is written as 'nx ti ve',\n'we see their party' is written as 'fs ve nx su'.\n(Note: All code words are coded as two-letter code words only)\nWhat is the possible code word for 'party dresses' in the given code language\n\nNTPC 2020",
       "options": [
         "ti fs",
         "su na",
@@ -250,7 +220,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Which of the following internet protocols allows us to access data on the World Wide Web?",
+      "question": "Which of the following internet protocols allows us to access data on the World Wide Web\n\nNTPC 2020",
       "options": [
         "FTP",
         "DNS",
@@ -270,7 +240,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "A group of 6 persons A, B, C, D, E and F (not necessarily in the same order). D is taller than A and E. F is taller than B and C. E is taller than F. A is taller than F. Which of the following can be the shortest person?",
+      "question": "A group of 6 persons A, B, C, D, E and F (not necessarily in the same order). D is taller than A and E. F is taller than B and C. E is taller than F. A is taller than F. Which of the following can be the shortest person\n\nNTPC 2020",
       "options": [
         "A or C",
         "B or E",
@@ -280,7 +250,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "One-tenth of a two-digit number is 15 less than half of that number. What will be the sum of the digits of that two-digit number?",
+      "question": "One-tenth of a two-digit number is 15 less than half of that number. What will be the sum of the digits of that two-digit number\n\nNTPC 2020",
       "options": [
         "8",
         "6",
@@ -300,7 +270,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "If 1st January 2017 was a Thursday, then which day of the week was 31st March in the same year?",
+      "question": "If 1st January 2017 was a Thursday, then which day of the week was 31st March in the same year\n\nNTPC 2020",
       "options": [
         "Friday",
         "Wednesday",
@@ -310,7 +280,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Eight colleagues - K, L, M, N, O, P, Q and R are sitting in a circular arrangement facing the center. N is sitting exactly between L and Q. P is sitting exactly between K and R. O is sitting second to the right of K. Which of the following is definitely true about M's position?",
+      "question": "Eight colleagues - K, L, M, N, O, P, Q and R are sitting in a circular arrangement facing the center. N is sitting exactly between L and Q. P is sitting exactly between K and R. O is sitting second to the right of K. Which of the following is definitely true about M's position\n\nNTPC 2020",
       "options": [
         "Exactly in the middle of O and P",
         "Exactly in the middle of K and O",
@@ -320,7 +290,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "The world's largest river island, Majuli, is located on which of the following rivers?",
+      "question": "The world's largest river island, Majuli, is located on which of the following rivers\n\nNTPC 2020",
       "options": [
         "Ganga",
         "Godavari",
@@ -350,7 +320,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "G, M, P, V, Z and D are six members of a family. Z is the son of V. M is the brother of V. D and V are a married couple. P is the daughter of D. D is the sister of G. What is the relation of Z to P?",
+      "question": "G, M, P, V, Z and D are six members of a family. Z is the son of V. M is the brother of V. D and V are a married couple. P is the daughter of D. D is the sister of G. What is the relation of Z to P\n\nNTPC 2020",
       "options": [
         "Mother",
         "Sister",
@@ -360,7 +330,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "For which of her novels was Valeria Luiselli awarded the International Dublin Literary Award 2021?",
+      "question": "For which of her novels was Valeria Luiselli awarded the International Dublin Literary Award 2021\n\nNTPC 2020",
       "options": [
         "Sidewalks",
         "Lost Children Archive",
@@ -370,7 +340,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Refer to the following letter, number, symbol series and answer the question given below:\n(Left) KL % Y &4E23M &7SW#82HL (Right)\nIf all the numbers are removed from the series, then which of the following will be eighth from the right?",
+      "question": "Refer to the following letter, number, symbol series and answer the question given below:\n(Left) KL % Y &4E23M &7SW#82HL (Right)\nIf all the numbers are removed from the series, then which of the following will be eighth from the right\n\nNTPC 2020",
       "options": [
         "E",
         "&",
@@ -380,17 +350,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Simplify the following expression.\n\n$\\frac{12-6\\div2+4}{3^{2}\\times3-7+6}$",
-      "options": [
-        "$\\frac{11}{18}$",
-        "$\\frac{13}{18}$",
-        "$\\frac{11}{26}$",
-        "$\\frac{1}{2}$"
-      ],
-      "correct_option_id": 3
-    },
-    {
-      "question": "Giridhar was in a temple and his face was towards the west. He turns $45^{\\circ}$ in the clockwise direction to take a token, then turns another $180^{\\circ}$ in the clockwise direction. Then he turns $45^{\\circ}$ in the anticlockwise direction. Now in which direction is his face?",
+      "question": "Giridhar was in a temple and his face was towards the west. He turns $45^{\\circ}$ in the clockwise direction to take a token, then turns another $180^{\\circ}$ in the clockwise direction. Then he turns $45^{\\circ}$ in the anticlockwise direction. Now in which direction is his face\n\nNTPC 2020",
       "options": [
         "North-west",
         "East",
@@ -400,7 +360,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Which of the following works of Kalidasa is based on the context of the birth of Kartikeya, the son of Lord Shiva and Goddess Parvati?",
+      "question": "Which of the following works of Kalidasa is based on the context of the birth of Kartikeya, the son of Lord Shiva and Goddess Parvati\n\nNTPC 2020",
       "options": [
         "Raghuvamsha",
         "Ritusamhara",
@@ -410,7 +370,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Eight persons M, N, P, S, T, V, X and Y are sitting in a straight line and all are facing north. N is sitting second from one of the ends of the line. Only three persons are sitting between M and N. P is sitting second to the right of M. As many persons are sitting to the right of P as are sitting to the left of S. Only three persons are sitting between T and S. T is not sitting at any of the ends of the line. Y is sitting to the immediate right of X. Who is sitting third to the left of V?",
+      "question": "Eight persons M, N, P, S, T, V, X and Y are sitting in a straight line and all are facing north. N is sitting second from one of the ends of the line. Only three persons are sitting between M and N. P is sitting second to the right of M. As many persons are sitting to the right of P as are sitting to the left of S. Only three persons are sitting between T and S. T is not sitting at any of the ends of the line. Y is sitting to the immediate right of X. Who is sitting third to the left of V\n\nNTPC 2020",
       "options": [
         "Y",
         "P",
@@ -420,17 +380,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "P, Q, R can do a piece of work in 40 days, 90 days and 36 days respectively. P starts the work. Q joins him after 7 days. If R joins them after 8 days from the beginning, then for how many days does R work?",
-      "options": [
-        "$11\\frac{8}{23}$",
-        "$15\\frac{8}{23}$",
-        "$13\\frac{8}{23}$",
-        "$12\\frac{8}{23}$"
-      ],
-      "correct_option_id": 3
-    },
-    {
-      "question": "The Central Pollution Control Board was established by the government in which year?",
+      "question": "The Central Pollution Control Board was established by the government in which year\n\nNTPC 2020",
       "options": [
         "1947",
         "1974",
@@ -440,7 +390,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Which institution was awarded the Africa Food Prize 2021 for the Tropical Legumes Project, which improved income and food production in sub-Saharan Africa?",
+      "question": "Which institution was awarded the Africa Food Prize 2021 for the Tropical Legumes Project, which improved income and food production in sub-Saharan Africa\n\nNTPC 2020",
       "options": [
         "Central Arid Zone Research Institute (CAZRI)",
         "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT)",
@@ -450,7 +400,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "As per the information received till December 2021, what is the total number of nuclear power plants in India?",
+      "question": "As per the information received till December 2021, what is the total number of nuclear power plants in India\n\nNTPC 2020",
       "options": [
         "6",
         "10",
@@ -460,7 +410,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Who became India's 69th Chess Grandmaster at the Biel Masters Open on August 3, 2021?",
+      "question": "Who became India's 69th Chess Grandmaster at the Biel Masters Open on August 3, 2021\n\nNTPC 2020",
       "options": [
         "Dommaraju Gukesh",
         "Nihal Sarin",
@@ -470,7 +420,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "In a certain code language,\n'good deeds pay' is written as 'ag bi tr',\n'pay all bills' is written as 'od ez ag',\n'all your deeds count' is written as 'sn tr od um'.\n(Note: All code words are coded as two-letter code words only)\nHow is 'count' written in the same code language?",
+      "question": "In a certain code language,\n'good deeds pay' is written as 'ag bi tr',\n'pay all bills' is written as 'od ez ag',\n'all your deeds count' is written as 'sn tr od um'.\n(Note: All code words are coded as two-letter code words only)\nHow is 'count' written in the same code language\n\nNTPC 2020",
       "options": [
         "ez",
         "od",
@@ -480,7 +430,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Which of the following is the oldest production unit of Indian Railways?",
+      "question": "Which of the following is the oldest production unit of Indian Railways\n\nNTPC 2020",
       "options": [
         "Diesel Locomotive Works",
         "Integral Coach Factory",
@@ -490,22 +440,12 @@
       "correct_option_id": 3
     },
     {
-      "question": "Which state inaugurated the 'Aqua Bazaar' and 'Aqua Hub' project on 21 November 2020 to enhance fish consumption?",
+      "question": "Which state inaugurated the 'Aqua Bazaar' and 'Aqua Hub' project on 21 November 2020 to enhance fish consumption\n\nNTPC 2020",
       "options": [
         "West Bengal",
         "Kerala",
         "Andhra Pradesh",
         "Goa"
-      ],
-      "correct_option_id": 2
-    },
-    {
-      "question": "If 2sin $y+cos~y=\\sqrt{5}sin~y$, then find the value of tan y.",
-      "options": [
-        "$\\sqrt{5}+2$",
-        "$\\sqrt{5}-1$",
-        "$\\sqrt{5}+1$",
-        "$\\sqrt{5}-2$"
       ],
       "correct_option_id": 2
     },
@@ -520,7 +460,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "There are five girls in a group, each of a different height. H is shorter than only E. F is not as tall as P. P is shorter than G. Who among them is the shortest?",
+      "question": "There are five girls in a group, each of a different height. H is shorter than only E. F is not as tall as P. P is shorter than G. Who among them is the shortest\n\nNTPC 2020",
       "options": [
         "G",
         "P",
@@ -540,7 +480,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "In a certain code language, 'MUSIC' is written as 'LTTJD', and 'CONCEPT' is written as 'BNMDFQU'. How will 'SINGING' be written in the same code language?",
+      "question": "In a certain code language, 'MUSIC' is written as 'LTTJD', and 'CONCEPT' is written as 'BNMDFQU'. How will 'SINGING' be written in the same code language\n\nNTPC 2020",
       "options": [
         "RHMHJOH",
         "RHMFHOJ",
@@ -550,7 +490,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Fundamental duties were incorporated in the Indian Constitution in which year?",
+      "question": "Fundamental duties were incorporated in the Indian Constitution in which year\n\nNTPC 2020",
       "options": [
         "1986",
         "1966",
@@ -558,16 +498,6 @@
         "1996"
       ],
       "correct_option_id": 2
-    },
-    {
-      "question": "A right circular cone is placed on top of a hemisphere. The base radius of the cone is equal to the radius of the hemisphere. The diameter of the hemisphere is 12 cm, while the height of the cone is 8 cm. Find the cost of painting the combined object, if the cost of painting is ₹25 per $\\pi~cm^{2}$.",
-      "options": [
-        "₹ 10,371",
-        "₹ 4,500",
-        "₹ 6,930",
-        "₹ 3,300"
-      ],
-      "correct_option_id": 3
     },
     {
       "question": "A person covers a certain distance at a certain speed. If he increases his speed by 30%, he takes 15 minutes less to cover the same distance. Find the time taken by him to cover the distance at his original speed.",
@@ -580,17 +510,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "If $\\frac{1}{1+tan~\\theta}+\\frac{1}{1-tan~\\theta}=4$, where $0^{\\circ}<\\theta<90^{\\circ}$, then find the value of $(cosec^{2}\\theta+sec^{2}\\theta)$.",
-      "options": [
-        "$\\frac{5}{2}$",
-        "$\\frac{9}{2}$",
-        "$\\frac{8}{3}$",
-        "$\\frac{4}{3}$"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "Which of the following is a writ or order issued by a superior court to a lower court or tribunal or public authority to perform a public duty that it has failed to perform?",
+      "question": "Which of the following is a writ or order issued by a superior court to a lower court or tribunal or public authority to perform a public duty that it has failed to perform\n\nNTPC 2020",
       "options": [
         "Quo Warranto",
         "Certiorari",
@@ -600,7 +520,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "According to the Human Development Index Ranking (2020), which of the following countries has the highest life expectancy at birth (in years)?",
+      "question": "According to the Human Development Index Ranking (2020), which of the following countries has the highest life expectancy at birth (in years)\n\nNTPC 2020",
       "options": [
         "Norway",
         "Denmark",
@@ -610,7 +530,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "When did the Maharashtra government launch the 'Jail Tourism' initiative?",
+      "question": "When did the Maharashtra government launch the 'Jail Tourism' initiative\n\nNTPC 2020",
       "options": [
         "May 2021",
         "January 2021",
@@ -630,7 +550,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "The Champaran Satyagraha took place in which year?",
+      "question": "The Champaran Satyagraha took place in which year\n\nNTPC 2020",
       "options": [
         "1912",
         "1910",
@@ -640,7 +560,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Six persons A, B, C, D, E and F are sitting around a circular table facing the centre. B is sitting second to the right of E. C is sitting to the immediate left of E. F is sitting second to the right of D. Who is sitting third to the right of A?",
+      "question": "Six persons A, B, C, D, E and F are sitting around a circular table facing the centre. B is sitting second to the right of E. C is sitting to the immediate left of E. F is sitting second to the right of D. Who is sitting third to the right of A\n\nNTPC 2020",
       "options": [
         "B",
         "E",
@@ -650,7 +570,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "In a class, every student secured a different rank. Aman's rank is 11th from the top and Nikhil's rank is 13th from the bottom. Only three students are ranked between Aman and Nikhil. If the total number of students is an odd number divisible by 3, then how many total students are there in the class?",
+      "question": "In a class, every student secured a different rank. Aman's rank is 11th from the top and Nikhil's rank is 13th from the bottom. Only three students are ranked between Aman and Nikhil. If the total number of students is an odd number divisible by 3, then how many total students are there in the class\n\nNTPC 2020",
       "options": [
         "27",
         "21",
@@ -660,7 +580,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Eight persons E, H, M, P, S, T, Y and Z are sitting in a straight line. All of them are facing north. E is sitting fourth from one of the ends of the line. H is sitting third to the right of E. As many persons are sitting to the right of H as are sitting to the left of M. Only one person is sitting between M and P. S is sitting to the immediate right of Z. Only one person is sitting between Z and T. How many persons are sitting to the left of Y?",
+      "question": "Eight persons E, H, M, P, S, T, Y and Z are sitting in a straight line. All of them are facing north. E is sitting fourth from one of the ends of the line. H is sitting third to the right of E. As many persons are sitting to the right of H as are sitting to the left of M. Only one person is sitting between M and P. S is sitting to the immediate right of Z. Only one person is sitting between Z and T. How many persons are sitting to the left of Y\n\nNTPC 2020",
       "options": [
         "Two",
         "One",
@@ -670,7 +590,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "The ratio of the marked price and the cost price of an article is 5:3. If the selling price of the article is ₹3,024 and the shopkeeper gives two successive discounts of 16% and 20% on it, then what is the profit or loss (in ₹)?",
+      "question": "The ratio of the marked price and the cost price of an article is 5:3. If the selling price of the article is ₹3,024 and the shopkeeper gives two successive discounts of 16% and 20% on it, then what is the profit or loss (in ₹)\n\nNTPC 2020",
       "options": [
         "Loss, ₹112",
         "Profit, ₹324",
@@ -690,7 +610,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "IPCC is the United Nations body for assessing the science related to climate change. What is the full form of IPCC?",
+      "question": "IPCC is the United Nations body for assessing the science related to climate change. What is the full form of IPCC\n\nNTPC 2020",
       "options": [
         "Intergovernmental Panel on Climate Change",
         "International Panel on Climate Change",
@@ -700,17 +620,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "If $\\frac{2}{3}$ of y is equal to $\\frac{8}{15}$ of z, then find the value of y : z.",
-      "options": [
-        "$16:45$",
-        "$4:5$",
-        "$3:5$",
-        "$21: 25$"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "Which of the following characters is used to create an absolute address in MS-Excel?",
+      "question": "Which of the following characters is used to create an absolute address in MS-Excel\n\nNTPC 2020",
       "options": [
         "Ampersand (&)",
         "Hash (#)",
@@ -720,7 +630,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "According to the 2020 data of the Organisation for Economic Co-operation and Development (OECD), which country has the highest total expenditure on health per capita?",
+      "question": "According to the 2020 data of the Organisation for Economic Co-operation and Development (OECD), which country has the highest total expenditure on health per capita\n\nNTPC 2020",
       "options": [
         "USA",
         "Germany",
@@ -730,7 +640,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "What is the number of Melakarta ragas in contemporary Carnatic music?",
+      "question": "What is the number of Melakarta ragas in contemporary Carnatic music\n\nNTPC 2020",
       "options": [
         "82",
         "72",
@@ -740,7 +650,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Which of the following ritual folk dances of Puducherry, performed in the Villianur Temple of Puducherry, is related to the Hindu epic Ramayana?",
+      "question": "Which of the following ritual folk dances of Puducherry, performed in the Villianur Temple of Puducherry, is related to the Hindu epic Ramayana\n\nNTPC 2020",
       "options": [
         "Hulivesha",
         "Garadi",
@@ -750,7 +660,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Which of the following is the SI unit of electric charge that is equal to the charge contained in approximately $6\\times10^{18}$ electrons?",
+      "question": "Which of the following is the SI unit of electric charge that is equal to the charge contained in approximately $6\\times10^{18}$ electrons\n\nNTPC 2020",
       "options": [
         "Becquerel",
         "Siemens",
@@ -760,7 +670,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Eight persons P, Q, R, S, T, U, V and W are sitting around a square table for dinner in such a way that 4 persons sit at each of the four corners and 4 persons sit at the middle positions of each of the four sides. All of them are facing the centre of the square. S is sitting to the immediate left of U. U is sitting to the immediate left of T. T is sitting at the middle position of one of the sides. R is sitting third to the right of U. P is sitting exactly between V and R. W is not sitting next to T.\n\nWhich of the following is sitting at one of the corners?",
+      "question": "Eight persons P, Q, R, S, T, U, V and W are sitting around a square table for dinner in such a way that 4 persons sit at each of the four corners and 4 persons sit at the middle positions of each of the four sides. All of them are facing the centre of the square. S is sitting to the immediate left of U. U is sitting to the immediate left of T. T is sitting at the middle position of one of the sides. R is sitting third to the right of U. P is sitting exactly between V and R. W is not sitting next to T.\n\nWhich of the following is sitting at one of the corners\n\nNTPC 2020",
       "options": [
         "R",
         "S",
@@ -770,7 +680,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Article 239 of the Indian Constitution relates to the administration of Union Territories by whom?",
+      "question": "Article 239 of the Indian Constitution relates to the administration of Union Territories by whom\n\nNTPC 2020",
       "options": [
         "Prime Minister",
         "Cabinet Ministers",
@@ -780,7 +690,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "In which of the following states of India is Padayani a religious dance form performed in the Bhadrakali temple?",
+      "question": "In which of the following states of India is Padayani a religious dance form performed in the Bhadrakali temple\n\nNTPC 2020",
       "options": [
         "Karnataka",
         "Kerala",
@@ -790,7 +700,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "The first Industrial Policy Resolution of India was announced in which year?",
+      "question": "The first Industrial Policy Resolution of India was announced in which year\n\nNTPC 2020",
       "options": [
         "1952",
         "1955",
@@ -800,7 +710,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Out of a total sum of ₹ 5,000, Danish invests a part of it at 12% annual simple interest rate and the remaining part at 10% annual simple interest rate. If the total interest received by Danish in two years is equal to ₹1072, then how much sum did Danish invest at 12% annual simple interest rate?",
+      "question": "Out of a total sum of ₹ 5,000, Danish invests a part of it at 12% annual simple interest rate and the remaining part at 10% annual simple interest rate. If the total interest received by Danish in two years is equal to ₹1072, then how much sum did Danish invest at 12% annual simple interest rate\n\nNTPC 2020",
       "options": [
         "1,800",
         "2,150",
@@ -820,7 +730,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. CKO: FNL :: FLP IOM :: DPQ: ?",
+      "question": "Select the option that has the same relationship with the fifth letter-group as the second letter-group has with the first letter-group and the fourth letter-group has with the third letter-group. CKO: FNL :: FLP IOM :: DPQ: \n\nNTPC 2020",
       "options": [
         "GST",
         "HRT",
@@ -830,7 +740,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "Padma Shri Minati Mishra was an Indian classical dancer and actress, renowned for her proficiency in which of the following Indian classical dance forms?",
+      "question": "Padma Shri Minati Mishra was an Indian classical dancer and actress, renowned for her proficiency in which of the following Indian classical dance forms\n\nNTPC 2020",
       "options": [
         "Kathakali",
         "Odissi",
@@ -850,7 +760,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Five boxes K, L, M, N and O are arranged by placing one above the other. Box M is placed above box N. Box O is placed below box K. Box N is placed above box K. Box L is placed below box O. Which of the following boxes is placed at the bottom?",
+      "question": "Five boxes K, L, M, N and O are arranged by placing one above the other. Box M is placed above box N. Box O is placed below box K. Box N is placed above box K. Box L is placed below box O. Which of the following boxes is placed at the bottom\n\nNTPC 2020",
       "options": [
         "M",
         "L",
@@ -870,17 +780,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "A man can complete a piece of work in 20 days and a woman can complete the same work in 30 days. In how many days will 2 men and 3 women complete that work?",
-      "options": [
-        "4",
-        "5",
-        "$5\\frac{1}{2}$",
-        "6"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "In the Vaishnava sect, how many incarnations or avatars of God are believed?",
+      "question": "In the Vaishnava sect, how many incarnations or avatars of God are believed\n\nNTPC 2020",
       "options": [
         "5",
         "9",
@@ -890,7 +790,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Who is the first officer from India to be honoured with the United Nations Asia Environmental Enforcement Award in February 2021 under the Gender Leadership and Impact category?",
+      "question": "Who is the first officer from India to be honoured with the United Nations Asia Environmental Enforcement Award in February 2021 under the Gender Leadership and Impact category\n\nNTPC 2020",
       "options": [
         "Namita Gokhale",
         "Sudarshan Panthi",
@@ -910,7 +810,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "A four-chambered heart is found in which of the following?",
+      "question": "A four-chambered heart is found in which of the following\n\nNTPC 2020",
       "options": [
         "Fish",
         "Sea-horse",
@@ -920,17 +820,7 @@
       "correct_option_id": 2
     },
     {
-      "question": "AB and CD are parallel tangents to a circle with centre O. Points P and Q are on AB and CD respectively such that PQ touches the circle at R. Find the measure of $\\angle POQ$.",
-      "options": [
-        "$80^{\\circ}$",
-        "$90^{\\circ}$",
-        "$100^{\\circ}$",
-        "$85^{\\circ}$"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "According to the 2011 census of India, how many \"million-plus cities\" were there in India?",
+      "question": "According to the 2011 census of India, how many \"million-plus cities\" were there in India\n\nNTPC 2020",
       "options": [
         "47",
         "58",
@@ -940,17 +830,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "Simplify the following.\n\n$72-4(40+24\\div8\\times6-4\\times4)+20$",
-      "options": [
-        "-76",
-        "-6",
-        "-36",
-        "53"
-      ],
-      "correct_option_id": 1
-    },
-    {
-      "question": "The Nile River was called the backbone of which of the following countries?",
+      "question": "The Nile River was called the backbone of which of the following countries\n\nNTPC 2020",
       "options": [
         "Morocco",
         "Egypt",
@@ -960,7 +840,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Shamita's anniversary was on Sunday, 15th March 2020. What was the day on her husband's anniversary, which was on 31st May 2020?",
+      "question": "Shamita's anniversary was on Sunday, 15th March 2020. What was the day on her husband's anniversary, which was on 31st May 2020\n\nNTPC 2020",
       "options": [
         "Wednesday",
         "Sunday",
@@ -1010,7 +890,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Who among the following was awarded the top prize of the Central European University Open Society Award in June 2021?",
+      "question": "Who among the following was awarded the top prize of the Central European University Open Society Award in June 2021\n\nNTPC 2020",
       "options": [
         "Harsh Vardhan",
         "Satyendra Jain",
@@ -1020,7 +900,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. QHD, MNV, ITN, EZF, AFX, ?",
+      "question": "Select the letter-group from the given options that can replace the question mark (?) in the following series. QHD, MNV, ITN, EZF, AFX, \n\nNTPC 2020",
       "options": [
         "XLQ",
         "XJQ",
@@ -1030,17 +910,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "If $3x+2y=13$ and $y^{2}-4y+4=0$, then find (x,y).",
-      "options": [
-        "(3, 2)",
-        "(5, -1)",
-        "(4, 2)",
-        "(2, 3)"
-      ],
-      "correct_option_id": 0
-    },
-    {
-      "question": "Which satellite was launched by DRDO in 2021 through PSLV-C51 to enhance India's surveillance capabilities in the Indian Ocean Region (IOR)?",
+      "question": "Which satellite was launched by DRDO in 2021 through PSLV-C51 to enhance India's surveillance capabilities in the Indian Ocean Region (IOR)\n\nNTPC 2020",
       "options": [
         "Sindhu Durg satellite",
         "Sindhu Netra satellite",
@@ -1050,7 +920,7 @@
       "correct_option_id": 1
     },
     {
-      "question": "Who appoints the Union Council of Ministers?",
+      "question": "Who appoints the Union Council of Ministers\n\nNTPC 2020",
       "options": [
         "Parliament",
         "Prime Minister of India",
@@ -1070,7 +940,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Which of the following is a non-conventional source of energy?",
+      "question": "Which of the following is a non-conventional source of energy\n\nNTPC 2020",
       "options": [
         "Petrol",
         "Coal",
@@ -1080,7 +950,7 @@
       "correct_option_id": 3
     },
     {
-      "question": "Five years ago, the ratio of the ages of a father and his son was 7 : 2. Five years later, the ratio of the ages of the father and his son will be 9 : 4. How many years later will the age of the father be twice the age of his son?",
+      "question": "Five years ago, the ratio of the ages of a father and his son was 7 : 2. Five years later, the ratio of the ages of the father and his son will be 9 : 4. How many years later will the age of the father be twice the age of his son\n\nNTPC 2020",
       "options": [
         "8",
         "12",
@@ -1100,7 +970,7 @@
       "correct_option_id": 0
     },
     {
-      "question": "The festival called Lhabab Dhuechen in Sikkim marks the descent of which deity from heaven to earth?",
+      "question": "The festival called Lhabab Dhuechen in Sikkim marks the descent of which deity from heaven to earth\n\nNTPC 2020",
       "options": [
         "Lord Shiva",
         "Lord Mahavira",
