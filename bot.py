@@ -17,6 +17,7 @@ from bot_logging import logger
 
 TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
+LOG_GROUP_ID = -1001234567890 
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -26,6 +27,19 @@ quizzes_sent_collection = db["quizzes_sent"]
 
 # Define the daily quiz limit
 DAILY_QUIZ_LIMIT = 100
+
+
+def log_new_user_or_group(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    user = update.effective_user
+
+    if chat.type in ['group', 'supergroup']:
+        log_message = f"New group started the bot: {chat.title} (ID: {chat.id})"
+    else:
+        log_message = f"New user started the bot: {user.first_name} {user.last_name or ''} (Username: @{user.username or 'N/A'}, ID: {user.id})"
+
+    context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
+
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
