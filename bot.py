@@ -17,7 +17,7 @@ from bot_logging import logger
 
 TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-LOG_GROUP_ID = -1001234567890 
+LOG_GROUP_ID = -1001902619247 
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
