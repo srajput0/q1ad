@@ -33,9 +33,16 @@ def log_user_or_group(update: Update, context: CallbackContext):
     user = update.effective_user
 
     if chat.type in ['group', 'supergroup']:
-        log_message = f"Group started the bot: {chat.title} (ID: {chat.id})"
+        log_message = (
+            f"Group started the bot: {chat.title}\n ID: {chat.id}\n"
+            f"Group link: https://t.me/{chat.username if chat.username else 'N/A'}"
+        )
     else:
-        log_message = f"User started the bot: {user.first_name} {user.last_name or ''} (Username: @{user.username or 'N/A'}, ID: {user.id})"
+        log_message = (
+            f"User started the bot: {user.first_name} {user.last_name or ''} \n"
+            f"Username: @{user.username or 'N/A'},\n ID: {user.id}\n"
+            f"User profile: https://t.me/{user.username if user.username else 'N/A'}"
+        )
 
     logger.info(f"Logging message: {log_message}")
     context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
