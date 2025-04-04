@@ -45,6 +45,9 @@ def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
 
+    # Log the user or group
+    log_user_or_group(update, context)
+
     # Register the chat and user for broadcasting
     add_served_chat(chat_id)
     add_served_user(user_id)
