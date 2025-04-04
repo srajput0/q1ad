@@ -15,9 +15,9 @@ import time
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7589973944:AAHSTneqsXQ-9tvNBrY6-tB-0Sl6ZFmyCno"
+TOKEN = "7922102581:AAF33bRlw2uBdTcoZvSfVI-ReXni_-Ubbig"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-LOG_GROUP_ID = -1001902619247 
+LOG_GROUP_ID = -1001902619247  # Replace with your actual log group chat ID
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -28,25 +28,24 @@ quizzes_sent_collection = db["quizzes_sent"]
 # Define the daily quiz limit
 DAILY_QUIZ_LIMIT = 100
 
-
-def log_new_user_or_group(update: Update, context: CallbackContext):
+def log_user_or_group(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
 
     if chat.type in ['group', 'supergroup']:
-        log_message = f"New group started the bot: {chat.title} (ID: {chat.id})"
+        log_message = f"Group started the bot: {chat.title} (ID: {chat.id})"
     else:
-        log_message = f"New user started the bot: {user.first_name} {user.last_name or ''} (Username: @{user.username or 'N/A'}, ID: {user.id})"
+        log_message = f"User started the bot: {user.first_name} {user.last_name or ''} (Username: @{user.username or 'N/A'}, ID: {user.id})"
 
+    logger.info(f"Logging message: {log_message}")
     context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
-
 
 def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
 
     # Log the user or group
-    # log_user_or_group(update, context)
+    log_user_or_group(update, context)
 
     # Register the chat and user for broadcasting
     add_served_chat(chat_id)
@@ -71,6 +70,7 @@ def start_command(update: Update, context: CallbackContext):
         "Welcome to the Quiz Bot! This is a Quiz Bot made by *Pinnacle Publication.*\nThis can ask two Exams PYQ's.\n\n*•SSC*\n*•RRB*\n\nChoose the option for proceed further :",
         reply_markup=reply_markup, parse_mode="Markdown"
     )
+
 
 def is_user_admin(update: Update, user_id: int):
     chat_member = update.effective_chat.get_member(user_id)
