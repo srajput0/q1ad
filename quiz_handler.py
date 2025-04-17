@@ -20,7 +20,7 @@ quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
 message_status_collection = db["message_status"]
 
-MAX_QUIZZES_PER_SESSION = 20
+MAX_QUIZZES_PER_SESSION = 2
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
