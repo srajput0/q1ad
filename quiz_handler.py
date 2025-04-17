@@ -20,6 +20,8 @@ quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
 message_status_collection = db["message_status"]
 
+MAX_QUIZZES_PER_SESSION = 20
+
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
     if os.path.exists(file_path):
@@ -33,6 +35,27 @@ def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
     chat_data = load_chat_data(chat_id)
+
+    chat_type = context.job.context.get('chat_type', 'private')
+    if chat_type != 'private':
+        logger.info(f"Quiz feature is skipped for non-private chats: {chat_type}")
+        return
+
+    if chat_data.get('quiz_count', 0) >= MAX_QUIZZES_PER_SESSION:
+        # Send a message to ask if the user wants to continue
+        keyboard = [
+            [
+                InlineKeyboardButton("Yes", callback_data='continue_quiz'),
+                InlineKeyboardButton("No", callback_data='stop_quiz')
+            ]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        context.bot.send_message(
+            chat_id=chat_id,
+            text="You have completed 20 quizzes. Do you want to continue?",
+            reply_markup=reply_markup
+        )
+        return
 
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
