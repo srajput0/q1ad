@@ -474,6 +474,7 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
+    dp.add_handler(CallbackQueryHandler(handle_quiz_decision, pattern="^(resume_quiz|stop_quiz)$"))
 
 
     
