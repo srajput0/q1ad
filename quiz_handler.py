@@ -32,9 +32,9 @@ def load_quizzes(category):
 
 def get_daily_quiz_limit(chat_type):
     if chat_type in ['group', 'supergroup']:
-        return 100
+        return 10
     else:
-        return 50
+        return 5
 
 def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
