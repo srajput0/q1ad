@@ -284,11 +284,11 @@ def button(update: Update, context: CallbackContext):
         query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
 
 
-def get_daily_quiz_limit(chat_type):
-    if chat_type in ['group', 'supergroup']:
-        return 10
-    else:
-        return 5
+# def get_daily_quiz_limit(chat_type):
+#     if chat_type in ['group', 'supergroup']:
+#         return 10
+#     else:
+#         return 5
 
 # Replace all usages of DAILY_QUIZ_LIMIT in this file with get_daily_quiz_limit(update.effective_chat.type)
 # Remove the global DAILY_QUIZ_LIMIT variable.
@@ -298,13 +298,13 @@ def start_quiz(update: Update, context: CallbackContext):
     chat_type = update.effective_chat.type
     chat_data = load_chat_data(chat_id)
 
-    today = datetime.now().date().isoformat()  # Convert date to string
-    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+    # today = datetime.now().date().isoformat()  # Convert date to string
+    # quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-    daily_limit = get_daily_quiz_limit(chat_type)
-    if quizzes_sent and quizzes_sent.get("count", 0) >= daily_limit:
-        update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
-        return
+    # daily_limit = get_daily_quiz_limit(chat_type)
+    # if quizzes_sent and quizzes_sent.get("count", 0) >= daily_limit:
+    #     update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
+    #     return
 
     if chat_data.get("active", False):
         update.message.reply_text("A quiz is already running in this chat!")
