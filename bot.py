@@ -283,15 +283,36 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
 
+def set_interval(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
 
-# def get_daily_quiz_limit(chat_type):
-#     if chat_type in ['group', 'supergroup']:
-#         return 10
-#     else:
-#         return 5
+    if not context.args or not context.args[0].isdigit():
+        update.message.reply_text("Usage: /setinterval <seconds>")
+        return
+    
+    interval = int(context.args[0])
+    if interval < 10:
+        update.message.reply_text("Interval must be at least 10 seconds.")
+        return
 
-# Replace all usages of DAILY_QUIZ_LIMIT in this file with get_daily_quiz_limit(update.effective_chat.type)
-# Remove the global DAILY_QUIZ_LIMIT variable.
+    chat_data = load_chat_data(chat_id)
+    chat_data["interval"] = interval
+    save_chat_data(chat_id, chat_data)
+
+    # If quiz is already running, update the interval immediately
+    if chat_data.get("active", False):
+        update.message.reply_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
+        jobs = context.job_queue.jobs()
+        for job in jobs:
+            if job.context and job.context["chat_id"] == chat_id:
+                job.schedule_removal()
+        # Send the first quiz immediately and then schedule subsequent quizzes
+        send_quiz_immediately(context, chat_id)
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
+    else:
+        update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
+        start_quiz(update, context)
+
 
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
@@ -335,35 +356,6 @@ def start_quiz(update: Update, context: CallbackContext):
 
 
 
-def set_interval(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-
-    if not context.args or not context.args[0].isdigit():
-        update.message.reply_text("Usage: /setinterval <seconds>")
-        return
-    
-    interval = int(context.args[0])
-    if interval < 10:
-        update.message.reply_text("Interval must be at least 10 seconds.")
-        return
-
-    chat_data = load_chat_data(chat_id)
-    chat_data["interval"] = interval
-    save_chat_data(chat_id, chat_data)
-
-    # If quiz is already running, update the interval immediately
-    if chat_data.get("active", False):
-        update.message.reply_text(f"Quiz interval updated to {interval} seconds. Applying new interval immediately.")
-        jobs = context.job_queue.jobs()
-        for job in jobs:
-            if job.context and job.context["chat_id"] == chat_id:
-                job.schedule_removal()
-        # Send the first quiz immediately and then schedule subsequent quizzes
-        send_quiz_immediately(context, chat_id)
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
-    else:
-        update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
-        start_quiz(update, context)
 
 
 
