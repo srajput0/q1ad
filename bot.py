@@ -317,9 +317,9 @@ def set_interval(update: Update, context: CallbackContext):
 
 def get_daily_quiz_limit(chat_type):
     if chat_type in ['group', 'supergroup']:
-        return 100
+        return 10
     else:
-        return 50
+        return 5
 
 # Replace all usages of DAILY_QUIZ_LIMIT in this file with get_daily_quiz_limit(update.effective_chat.type)
 # Remove the global DAILY_QUIZ_LIMIT variable.
