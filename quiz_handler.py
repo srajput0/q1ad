@@ -28,6 +28,15 @@ MAX_QUIZZES_PER_SESSION = 2
 # Fetch admins from the database or hardcode for now
 QUIZ_CORRECTION_ADMINS = [5050578106]  # Replace with actual admin IDs
 
+# GitHub Repository Configuration
+GITHUB_TOKEN = "your-github-token"  # Replace with your GitHub token
+REPO_NAME = "DarkAarush/q1"  # Replace with your repository name
+QUIZZES_FOLDER = "quizzes"  # Folder where quizzes are stored
+
+# Initialize GitHub API client
+github_client = Github(GITHUB_TOKEN)
+repo = github_client.get_repo(REPO_NAME)
+
 # Function to check if a user is a Quiz Correction Admin
 def is_quiz_correction_admin(user_id):
     return user_id in QUIZ_CORRECTION_ADMINS
@@ -47,7 +56,7 @@ def edit_quiz(update: Update, context: CallbackContext):
     poll = update.message.reply_to_message.poll
     context.user_data['quiz'] = {
         'question': poll.question,
-        'options': poll.options,
+        'options': [option.text for option in poll.options],
         'correct_option_id': poll.correct_option_id
     }
 
@@ -102,34 +111,31 @@ def edit_correct_option(update: Update, context: CallbackContext):
         return EDIT_CORRECT_OPTION
 
     context.user_data['quiz']['correct_option_id'] = correct_option_id
-    save_corrected_quiz(context.user_data['quiz'])
-    update.message.reply_text("Quiz has been successfully updated.")
+    save_corrected_quiz_to_github(context.user_data['quiz'])
+    update.message.reply_text("Quiz has been successfully updated in the repository.")
     return ConversationHandler.END
 
-# Save the corrected quiz back to the database
-def save_corrected_quiz(quiz):
+# Save the corrected quiz back to the repository
+def save_corrected_quiz_to_github(quiz):
     category = "general"  # Assume a default category, or fetch from context if available
-    file_path = os.path.join('quizzes', f'{category}.json')
+    file_path = f"{QUIZZES_FOLDER}/{category}.json"
 
-    # Load the existing quizzes from file
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as f:
-            questions = json.load(f)
-    else:
-        questions = []
+    # Get the file from GitHub
+    contents = repo.get_contents(file_path)
+    quizzes = json.loads(contents.decoded_content.decode())
 
-    # Find the quiz to update
-    for q in questions:
+    # Update the quiz data
+    for q in quizzes:
         if q['question'] == quiz['question']:
             q.update(quiz)
             break
     else:
         # If not found, add as a new quiz
-        questions.append(quiz)
+        quizzes.append(quiz)
 
-    # Save the updated quizzes back to file
-    with open(file_path, 'w') as f:
-        json.dump(questions, f, indent=4)
+    # Commit the updated file back to GitHub
+    updated_content = json.dumps(quizzes, indent=4)
+    repo.update_file(contents.path, "Update quiz", updated_content, contents.sha)
 
 # Cancel the edit process
 def cancel_edit(update: Update, context: CallbackContext):
@@ -149,6 +155,7 @@ edit_quiz_handler = ConversationHandler(
     },
     fallbacks=[CommandHandler('cancel', cancel_edit)]
 )
+
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
