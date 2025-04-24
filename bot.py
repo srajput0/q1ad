@@ -387,15 +387,29 @@ def resume_quiz(update: Update, context: CallbackContext):
     context.job_queue.run_repeating(send_quiz, interval=interval, first=0, context={"chat_id": chat_id, "used_questions": []})
 
     update.message.reply_text("Quiz resumed successfully.")
-
+    
 def restart_active_quizzes(context: CallbackContext):
     active_quizzes = get_active_quizzes()
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
         interval = quiz["data"].get("interval", 30)
         used_questions = quiz["data"].get("used_questions", [])
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
 
+        # Check if bot is still a member of the chat
+        try:
+            context.bot.get_chat_member(chat_id, context.bot.id)
+        except TelegramError:
+            logger.warning(f"Bot is no longer a member of chat {chat_id}. Removing from active quizzes.")
+            save_chat_data(chat_id, {"active": False})  # Mark chat as inactive
+            continue
+
+        logger.info(f"Restarting quiz for chat_id: {chat_id} with interval {interval} seconds.")
+        context.job_queue.run_repeating(
+            send_quiz,
+            interval=interval,
+            first=0,
+            context={"chat_id": chat_id, "used_questions": used_questions}
+        )
         
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
