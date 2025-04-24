@@ -36,7 +36,15 @@ def get_daily_quiz_limit(chat_type):
     else:
         return 15
 def send_quiz(context: CallbackContext):
-    chat_id = context.job.context['chat_id']
+    chat_id = context.job.context["chat_id"]
+
+    # Check if bot is still a member of the chat
+    try:
+        context.bot.get_chat_member(chat_id, context.bot.id)
+    except TelegramError:
+        logger.warning(f"Bot is no longer a member of chat {chat_id}. Removing from active quizzes.")
+        save_chat_data(chat_id, {"active": False})  # Mark chat as inactive
+        return
     used_questions = context.job.context['used_questions']
     chat_type = context.job.context.get('chat_type', 'private')  # Default to private if not provided
     chat_data = load_chat_data(chat_id)
@@ -113,7 +121,13 @@ def send_quiz(context: CallbackContext):
     }
 
 def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str = 'private'):
-    chat_data = load_chat_data(chat_id)
+    # Check if bot is still a member of the chat
+    try:
+        context.bot.get_chat_member(chat_id, context.bot.id)
+    except TelegramError:
+        logger.warning(f"Bot is no longer a member of chat {chat_id}. Skipping quiz dispatch.")
+        save_chat_data(chat_id, {"active": False})  # Mark chat as inactive
+        return
 
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
