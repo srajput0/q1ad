@@ -20,6 +20,24 @@ quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
 message_status_collection = db["message_status"]
 
+
+
+def retry_on_failure(func):
+    """Decorator to retry function on transient errors"""
+    def wrapper(*args, **kwargs):
+        retries = 3
+        while retries > 0:
+            try:
+                return func(*args, **kwargs)
+            except (TimedOut, NetworkError, RetryAfter) as e:
+                logger.warning(f"Retryable error occurred: {e}. Retrying...")
+                retries -= 1
+            except Exception as e:
+                logger.error(f"Unrecoverable error occurred: {e}")
+                break
+        logger.error(f"Function {func.__name__} failed after retries.")
+    return wrapper
+    
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
     if os.path.exists(file_path):
@@ -31,10 +49,10 @@ def load_quizzes(category):
 
 
 def get_daily_quiz_limit(chat_type):
-    if chat_type in ['group', 'supergroup']:
-        return 10
-    else:
-        return 15
+    """Set daily quiz limits based on chat type."""
+    return 10 if chat_type in ['group', 'supergroup'] else 15
+
+@retry_on_failure
 def send_quiz(context: CallbackContext):
     chat_id = context.job.context["chat_id"]
 
@@ -120,6 +138,7 @@ def send_quiz(context: CallbackContext):
         'correct_option_id': question['correct_option_id']
     }
 
+@retry_on_failure
 def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str = 'private'):
     # Load chat data
     chat_data = load_chat_data(chat_id)
