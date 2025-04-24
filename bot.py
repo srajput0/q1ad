@@ -135,7 +135,7 @@ def button(update: Update, context: CallbackContext):
         # Directly start the quiz with interval selection
         keyboard = [
             [
-                InlineKeyboardButton("30 sec", callback_data='interval_30'),
+                InlineKeyboardButton("30 sec", callback_data='interval_10'),
                 InlineKeyboardButton("1 min", callback_data='interval_60'),
                 InlineKeyboardButton("5 min", callback_data='interval_300')
             ],
