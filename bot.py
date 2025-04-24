@@ -459,6 +459,21 @@ def show_leaderboard(update: Update, context: CallbackContext):
 
     update.message.reply_text(message, parse_mode="Markdown")
 
+def next_quiz(update: Update, context: CallbackContext):
+    chat_id = str(update.effective_chat.id)
+    chat_data = load_chat_data(chat_id)
+
+    # Check if there are any active quizzes
+    if not chat_data.get("active", False):
+        update.message.reply_text("No active quiz. Use /start to begin a quiz session.")
+        return
+
+    # Send the next quiz immediately
+    send_quiz_immediately(context, chat_id)
+    update.message.reply_text("Next quiz has been sent!")
+
+
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -468,6 +483,7 @@ def main():
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
     dp.add_handler(CommandHandler("pause", pause_quiz))
     dp.add_handler(CommandHandler("resume", resume_quiz))
+    dp.add_handler(CommandHandler("next", next_quiz))
     dp.add_handler(CommandHandler("repetall", repeat_all_quizzes))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
