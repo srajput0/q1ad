@@ -121,6 +121,14 @@ def send_quiz(context: CallbackContext):
     }
 
 def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str = 'private'):
+    # Load chat data
+    chat_data = load_chat_data(chat_id)
+
+    # Check if chat_data exists
+    if not chat_data:
+        logger.error(f"No chat data found for chat_id: {chat_id}. Skipping quiz dispatch.")
+        return
+
     # Check if bot is still a member of the chat
     try:
         context.bot.get_chat_member(chat_id, context.bot.id)
