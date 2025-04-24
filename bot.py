@@ -25,8 +25,7 @@ client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 
-# Define the daily quiz limit
-DAILY_QUIZ_LIMIT = 100
+
 
 def log_user_or_group(update: Update, context: CallbackContext):
     chat = update.effective_chat
@@ -314,14 +313,27 @@ def set_interval(update: Update, context: CallbackContext):
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
 
+
+
+def get_daily_quiz_limit(chat_type):
+    if chat_type in ['group', 'supergroup']:
+        return 100
+    else:
+        return 50
+
+# Replace all usages of DAILY_QUIZ_LIMIT in this file with get_daily_quiz_limit(update.effective_chat.type)
+# Remove the global DAILY_QUIZ_LIMIT variable.
+
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
+    chat_type = update.effective_chat.type
     chat_data = load_chat_data(chat_id)
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-    if quizzes_sent and quizzes_sent.get("count", 0) >= DAILY_QUIZ_LIMIT:
+    daily_limit = get_daily_quiz_limit(chat_type)
+    if quizzes_sent and quizzes_sent.get("count", 0) >= daily_limit:
         update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
         return
 
@@ -337,7 +349,7 @@ def start_quiz(update: Update, context: CallbackContext):
 
     # Send the first quiz immediately
     try:
-        send_quiz_immediately(context, chat_id)
+        send_quiz_immediately(context, chat_id, chat_type)
     except TelegramError as e:
         logger.error(f"Failed to send quiz: {e}")
         update.message.reply_text("Failed to send quiz. Please check the chat ID and permissions.")
@@ -350,7 +362,8 @@ def start_quiz(update: Update, context: CallbackContext):
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
 
     # Schedule subsequent quizzes at the specified interval
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": [], "chat_type": chat_type})
+
 
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
