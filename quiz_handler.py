@@ -1,8 +1,8 @@
 import logging
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, save_chat_data
-from leaderboard_handler import add_score, get_top_scores
+from leaderboard_handler import add_score
 import random
 import json
 import os
@@ -19,6 +19,9 @@ db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 used_quizzes_collection = db["used_quizzes"]
 message_status_collection = db["message_status"]
+user_quiz_count_collection = db["user_quiz_count"]  # New collection to track user quiz counts
+
+QUIZ_LIMIT_PERSONAL = 20  # Limit for personal quizzes before pausing
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
@@ -33,6 +36,26 @@ def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
     chat_data = load_chat_data(chat_id)
+
+    # Check if the chat is private
+    is_private_chat = context.bot.get_chat(chat_id).type == "private"
+
+    if is_private_chat:
+        user_quiz_count = user_quiz_count_collection.find_one({"user_id": chat_id}) or {"count": 0}
+        if user_quiz_count["count"] >= QUIZ_LIMIT_PERSONAL:
+            # Pause quiz and show options to user
+            keyboard = [
+                [InlineKeyboardButton("Yes", callback_data="resume_quiz")],
+                [InlineKeyboardButton("No", callback_data="stop_quiz")]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+
+            context.bot.send_message(
+                chat_id=chat_id,
+                text="You have completed 20 quizzes. Do you want to continue?",
+                reply_markup=reply_markup
+            )
+            return
 
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
@@ -101,6 +124,29 @@ def send_quiz(context: CallbackContext):
         'chat_id': chat_id,
         'correct_option_id': question['correct_option_id']
     }
+
+    # Increment personal quiz count if in private chat
+    if is_private_chat:
+        user_quiz_count_collection.update_one(
+            {"user_id": chat_id},
+            {"$inc": {"count": 1}},
+            upsert=True
+        )
+
+
+def handle_quiz_decision(update: Update, context: CallbackContext):
+    query = update.callback_query
+    user_id = query.message.chat_id
+
+    if query.data == "resume_quiz":
+        # Reset user's quiz count and resume quizzes
+        user_quiz_count_collection.update_one({"user_id": user_id}, {"$set": {"count": 0}})
+        query.edit_message_text("Resuming quizzes!")
+        send_quiz_immediately(context, user_id)
+    elif query.data == "stop_quiz":
+        # Stop quizzes
+        query.edit_message_text("Quizzes paused. Use /resume to continue later.")
+
 
 def send_quiz_immediately(context: CallbackContext, chat_id: str):
     chat_data = load_chat_data(chat_id)
