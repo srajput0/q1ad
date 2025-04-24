@@ -35,7 +35,6 @@ def get_daily_quiz_limit(chat_type):
         return 10
     else:
         return 15
-
 def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
@@ -51,10 +50,10 @@ def send_quiz(context: CallbackContext):
 
     daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < daily_limit:
-        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
-    else:
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
+        quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
+
+    if quizzes_sent["count"] >= daily_limit:
         if message_status is None or not message_status.get("limit_reached", False):
             context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
             if message_status is None:
@@ -101,6 +100,8 @@ def send_quiz(context: CallbackContext):
             correct_option_id=question['correct_option_id'],
             is_anonymous=False
         )
+        # Increment the count only after successfully sending the quiz
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     except BadRequest as e:
         logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
         context.bot.send_message(chat_id=chat_id, text="Failed to send quiz. Please check the chat ID and permissions.")
