@@ -15,7 +15,7 @@ import time
 # Enable logging
 from bot_logging import logger
 
-TOKEN = "7466315774:AAFhFeFYlNY8yPxCRYK2xA-sdRTbSKA8bek"
+TOKEN = "7183336129:AAGBlp0cqb9gjIRj0CdXRhTR4-b9QMDVAaM"
 ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
 LOG_GROUP_ID = -1001902619247  # Replace with your actual log group chat ID
 
