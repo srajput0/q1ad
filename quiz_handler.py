@@ -22,6 +22,133 @@ message_status_collection = db["message_status"]
 
 MAX_QUIZZES_PER_SESSION = 2
 
+(EDIT_QUESTION, EDIT_OPTIONS, EDIT_CORRECT_OPTION) = range(3)
+
+# Fetch admins from the database or hardcode for now
+QUIZ_CORRECTION_ADMINS = [5050578106]  # Replace with actual admin IDs
+
+# Function to check if a user is a Quiz Correction Admin
+def is_quiz_correction_admin(user_id):
+    return user_id in QUIZ_CORRECTION_ADMINS
+
+# Start the edit quiz process
+def edit_quiz(update: Update, context: CallbackContext):
+    if update.effective_user.id not in QUIZ_CORRECTION_ADMINS:
+        update.message.reply_text("You are not authorized to edit quizzes.")
+        return ConversationHandler.END
+
+    # Ensure the command is used as a reply to a quiz question
+    if not update.message.reply_to_message or not update.message.reply_to_message.poll:
+        update.message.reply_text("Please reply to the quiz you want to edit with the /editquiz command.")
+        return ConversationHandler.END
+
+    # Save the quiz details into the context for editing
+    poll = update.message.reply_to_message.poll
+    context.user_data['quiz'] = {
+        'question': poll.question,
+        'options': poll.options,
+        'correct_option_id': poll.correct_option_id
+    }
+
+    update.message.reply_text(
+        f"Editing Quiz:\n\n"
+        f"Question: {poll.question}\n"
+        f"Options: {', '.join([option.text for option in poll.options])}\n"
+        f"Correct Option: {poll.correct_option_id + 1}\n\n"
+        "Send the corrected question text or send /skip to keep the current question."
+    )
+    return EDIT_QUESTION
+
+# Edit the question text
+def edit_question(update: Update, context: CallbackContext):
+    context.user_data['quiz']['question'] = update.message.text
+    update.message.reply_text(
+        f"New Question: {update.message.text}\n\n"
+        "Now send the corrected options separated by commas (e.g., Option 1, Option 2, Option 3, Option 4)."
+    )
+    return EDIT_OPTIONS
+
+# Skip editing the question text
+def skip_question(update: Update, context: CallbackContext):
+    update.message.reply_text(
+        "Keeping the current question text.\n\n"
+        "Now send the corrected options separated by commas (e.g., Option 1, Option 2, Option 3, Option 4)."
+    )
+    return EDIT_OPTIONS
+
+# Edit the options
+def edit_options(update: Update, context: CallbackContext):
+    options = update.message.text.split(',')
+    if len(options) < 2:
+        update.message.reply_text("A quiz must have at least 2 options. Please send the corrected options.")
+        return EDIT_OPTIONS
+
+    context.user_data['quiz']['options'] = [option.strip() for option in options]
+    update.message.reply_text(
+        f"New Options: {', '.join(context.user_data['quiz']['options'])}\n\n"
+        "Now send the correct option number (e.g., 1 for the first option, 2 for the second, etc.)."
+    )
+    return EDIT_CORRECT_OPTION
+
+# Edit the correct option
+def edit_correct_option(update: Update, context: CallbackContext):
+    try:
+        correct_option_id = int(update.message.text) - 1
+        if correct_option_id < 0 or correct_option_id >= len(context.user_data['quiz']['options']):
+            raise ValueError
+    except ValueError:
+        update.message.reply_text("Invalid option number. Please send the correct option number again.")
+        return EDIT_CORRECT_OPTION
+
+    context.user_data['quiz']['correct_option_id'] = correct_option_id
+    save_corrected_quiz(context.user_data['quiz'])
+    update.message.reply_text("Quiz has been successfully updated.")
+    return ConversationHandler.END
+
+# Save the corrected quiz back to the database
+def save_corrected_quiz(quiz):
+    category = "general"  # Assume a default category, or fetch from context if available
+    file_path = os.path.join('quizzes', f'{category}.json')
+
+    # Load the existing quizzes from file
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as f:
+            questions = json.load(f)
+    else:
+        questions = []
+
+    # Find the quiz to update
+    for q in questions:
+        if q['question'] == quiz['question']:
+            q.update(quiz)
+            break
+    else:
+        # If not found, add as a new quiz
+        questions.append(quiz)
+
+    # Save the updated quizzes back to file
+    with open(file_path, 'w') as f:
+        json.dump(questions, f, indent=4)
+
+# Cancel the edit process
+def cancel_edit(update: Update, context: CallbackContext):
+    update.message.reply_text("Quiz editing has been cancelled.")
+    return ConversationHandler.END
+
+# Conversation handler for editing quizzes
+edit_quiz_handler = ConversationHandler(
+    entry_points=[CommandHandler('editquiz', edit_quiz)],
+    states={
+        EDIT_QUESTION: [
+            MessageHandler(Filters.text & ~Filters.command, edit_question),
+            CommandHandler('skip', skip_question)
+        ],
+        EDIT_OPTIONS: [MessageHandler(Filters.text & ~Filters.command, edit_options)],
+        EDIT_CORRECT_OPTION: [MessageHandler(Filters.text & ~Filters.command, edit_correct_option)]
+    },
+    fallbacks=[CommandHandler('cancel', cancel_edit)]
+)
+
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
     if os.path.exists(file_path):
