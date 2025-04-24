@@ -29,9 +29,17 @@ def load_quizzes(category):
         logger.error(f"Quiz file for category '{category}' not found.")
         return []
 
+
+def get_daily_quiz_limit(chat_type):
+    if chat_type in ['group', 'supergroup']:
+        return 100
+    else:
+        return 50
+
 def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
     used_questions = context.job.context['used_questions']
+    chat_type = context.job.context.get('chat_type', 'private')  # Default to private if not provided
     chat_data = load_chat_data(chat_id)
 
     category = chat_data.get('category', 'general')  # Default category if not set
@@ -41,9 +49,10 @@ def send_quiz(context: CallbackContext):
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
     message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
+    daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < 100:
+    elif quizzes_sent["count"] < daily_limit:
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
         if message_status is None or not message_status.get("limit_reached", False):
@@ -102,7 +111,7 @@ def send_quiz(context: CallbackContext):
         'correct_option_id': question['correct_option_id']
     }
 
-def send_quiz_immediately(context: CallbackContext, chat_id: str):
+def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str = 'private'):
     chat_data = load_chat_data(chat_id)
 
     category = chat_data.get('category', 'general')  # Default category if not set
@@ -111,9 +120,10 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
+    daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < 100:
+    elif quizzes_sent["count"] < daily_limit:
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
         context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
