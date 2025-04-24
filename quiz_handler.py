@@ -34,7 +34,7 @@ def get_daily_quiz_limit(chat_type):
     if chat_type in ['group', 'supergroup']:
         return 10
     else:
-        return 5
+        return 15
 
 def send_quiz(context: CallbackContext):
     chat_id = context.job.context['chat_id']
