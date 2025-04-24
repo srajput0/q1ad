@@ -119,18 +119,21 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+    message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
-    daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    elif quizzes_sent["count"] < daily_limit:
+    elif quizzes_sent["count"] < 100:
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     else:
-        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
-        return
-
-    if not questions:
-        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+        if message_status is None or not message_status.get("limit_reached", False):
+            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
+        next_quiz_time = datetime.combine(datetime.now() + timedelta(days=1), datetime.min.time())
+        context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
         return
 
     used_question_ids = chat_data.get("used_questions", [])
