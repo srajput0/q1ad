@@ -309,12 +309,16 @@ def set_interval(update: Update, context: CallbackContext):
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
 
-
-
 def start_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
-    chat_type = update.effective_chat.type
     chat_data = load_chat_data(chat_id)
+
+    today = datetime.now().date().isoformat()  # Convert date to string
+    quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
+
+    if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
+        update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
+        return
 
     if chat_data.get("active", False):
         update.message.reply_text("A quiz is already running in this chat!")
@@ -327,23 +331,10 @@ def start_quiz(update: Update, context: CallbackContext):
     update.message.reply_text(f"Quiz started! Interval: {interval} seconds.")
 
     # Send the first quiz immediately
-    try:
-        send_quiz_immediately(context, chat_id, chat_type)
-    except TelegramError as e:
-        logger.error(f"Failed to send quiz: {e}")
-        update.message.reply_text("Failed to send quiz. Please check the chat ID and permissions.")
-        return
-
-    # Increment the count of quizzes sent today
-    if not quizzes_sent:
-        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
-    else:
-        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
+    send_quiz_immediately(context, chat_id)
 
     # Schedule subsequent quizzes at the specified interval
-    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": [], "chat_type": chat_type})
-
-
+    context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
 
 
 def stop_quiz(update: Update, context: CallbackContext):
@@ -398,24 +389,13 @@ def resume_quiz(update: Update, context: CallbackContext):
     update.message.reply_text("Quiz resumed successfully.")
 
 def restart_active_quizzes(context: CallbackContext):
-    # Retrieve all active quizzes from the database
     active_quizzes = get_active_quizzes()
-
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
-        interval = quiz["data"].get("interval", 30)  # Default to 30 seconds if interval is not set
+        interval = quiz["data"].get("interval", 30)
         used_questions = quiz["data"].get("used_questions", [])
-        
-        # Log the restarting process for debugging purposes
-        logger.info(f"Restarting active quiz for chat_id: {chat_id} with interval: {interval} seconds")
-        
-        # Re-schedule the quiz using the job queue
-        context.job_queue.run_repeating(
-            send_quiz,
-            interval=interval,
-            first=0,  # Start immediately upon restart
-            context={"chat_id": chat_id, "used_questions": used_questions}
-        )
+        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
+
         
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
