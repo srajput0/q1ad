@@ -29,7 +29,7 @@ MAX_QUIZZES_PER_SESSION = 2
 QUIZ_CORRECTION_ADMINS = [5050578106]  # Replace with actual admin IDs
 
 # GitHub Repository Configuration
-GITHUB_TOKEN = "your-github-token"  # Replace with your GitHub token
+GITHUB_TOKEN = "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"  # Replace with your GitHub token
 REPO_NAME = "DarkAarush/q1"  # Replace with your repository name
 QUIZZES_FOLDER = "quizzes"  # Folder where quizzes are stored
 
