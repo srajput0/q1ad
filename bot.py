@@ -319,14 +319,6 @@ def start_quiz(update: Update, context: CallbackContext):
     chat_type = update.effective_chat.type
     chat_data = load_chat_data(chat_id)
 
-    # today = datetime.now().date().isoformat()  # Convert date to string
-    # quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
-
-    # daily_limit = get_daily_quiz_limit(chat_type)
-    # if quizzes_sent and quizzes_sent.get("count", 0) >= daily_limit:
-    #     update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
-    #     return
-
     if chat_data.get("active", False):
         update.message.reply_text("A quiz is already running in this chat!")
         return
@@ -353,8 +345,6 @@ def start_quiz(update: Update, context: CallbackContext):
 
     # Schedule subsequent quizzes at the specified interval
     context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": [], "chat_type": chat_type})
-
-
 
 
 
@@ -411,13 +401,25 @@ def resume_quiz(update: Update, context: CallbackContext):
     update.message.reply_text("Quiz resumed successfully.")
 
 def restart_active_quizzes(context: CallbackContext):
+    # Retrieve all active quizzes from the database
     active_quizzes = get_active_quizzes()
+
     for quiz in active_quizzes:
         chat_id = quiz["chat_id"]
-        interval = quiz["data"].get("interval", 30)
+        interval = quiz["data"].get("interval", 30)  # Default to 30 seconds if interval is not set
         used_questions = quiz["data"].get("used_questions", [])
-        context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": used_questions})
-
+        
+        # Log the restarting process for debugging purposes
+        logger.info(f"Restarting active quiz for chat_id: {chat_id} with interval: {interval} seconds")
+        
+        # Re-schedule the quiz using the job queue
+        context.job_queue.run_repeating(
+            send_quiz,
+            interval=interval,
+            first=0,  # Start immediately upon restart
+            context={"chat_id": chat_id, "used_questions": used_questions}
+        )
+        
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
     score = get_user_score(user_id)
