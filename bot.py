@@ -183,11 +183,6 @@ def button(update: Update, context: CallbackContext):
         query.edit_message_text(text="Please select your category:", reply_markup=reply_markup)
 
     elif query.data.startswith('interval_'):
-        # Check if the user is an admin in group chats
-        if update.effective_chat.type in ['group', 'supergroup'] and not is_user_admin(update, update.effective_user.id):
-            query.edit_message_text(text="You need to be an admin to set the interval in group chats.")
-            return
-
         interval = int(query.data.split('_')[1])
         chat_data = load_chat_data(chat_id)
         chat_data["interval"] = interval
@@ -200,7 +195,7 @@ def button(update: Update, context: CallbackContext):
                 if job.context and job.context["chat_id"] == chat_id:
                     job.schedule_removal()
                     
-        # Send the first quiz immediately and then schedule subsequent quizzes
+            # Send the first quiz immediately and then schedule subsequent quizzes
         send_quiz_immediately(context, chat_id)
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
@@ -283,6 +278,7 @@ def button(update: Update, context: CallbackContext):
         reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
 
+
 def set_interval(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
 
@@ -312,6 +308,7 @@ def set_interval(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
+
 
 
 def start_quiz(update: Update, context: CallbackContext):
