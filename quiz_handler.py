@@ -1,5 +1,6 @@
 import logging
 from telegram import Update
+from github import Github
 # from telegram.ext import CallbackContext
 from telegram.ext import CallbackContext, CommandHandler, MessageHandler, Filters, ConversationHandler
 from chat_data_handler import load_chat_data, save_chat_data
