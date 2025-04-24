@@ -5,7 +5,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, repeat_all_quizzes
+from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, repeat_all_quizzes, edit_quiz_handler
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
@@ -474,6 +474,8 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
+    # Add the editquiz handler
+    dp.add_handler(edit_quiz_handler)
 
 
     
