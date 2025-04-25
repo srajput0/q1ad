@@ -92,12 +92,12 @@ def send_quiz(context: CallbackContext):
         quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
 
     if quizzes_sent["count"] >= daily_limit:
-        if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit {daily_limit} reached. The next quiz will be sent tomorrow.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
-            else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
+    if message_status is None or not message_status.get("limit_reached", False):
+        context.bot.send_message(chat_id=chat_id, text=f"Daily quiz limit {daily_limit} reached. The next quiz will be sent tomorrow.")
+        if message_status is None:
+            message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
+        else:
+            message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
         next_quiz_time = datetime.combine(datetime.now() + timedelta(days=1), datetime.min.time())
         context.job_queue.run_once(send_quiz, next_quiz_time, context=context.job.context)
         return
