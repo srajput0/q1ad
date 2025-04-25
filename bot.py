@@ -62,7 +62,7 @@ def start_command(update: Update, context: CallbackContext):
         [
             InlineKeyboardButton("Add in Your Group +", url=f"https://t.me/PYQ_Quizbot?startgroup=true"),   
         ],
-        [InlineKeyboardButton("Start PYQ Quizzes", callback_data='start_quiz')],
+        [InlineKeyboardButton("𝗦𝘁𝗮𝗿𝘁 𝗣𝗬𝗤 𝗤𝘂𝗶𝘇𝘇𝗲𝘀", callback_data='start_quiz')],
         [
             InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
             InlineKeyboardButton("📈 My Score", callback_data='show_stats')
