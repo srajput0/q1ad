@@ -67,8 +67,15 @@ def send_quiz(context: CallbackContext):
         logger.warning(f"Bot is no longer a member of chat {chat_id}. Removing from active quizzes.")
         save_chat_data(chat_id, {"active": False})  # Mark chat as inactive
         return
+
+    # Determine chat type dynamically
+    try:
+        chat_type = context.bot.get_chat(chat_id).type
+    except Exception as e:
+        logger.error(f"Failed to fetch chat type for chat {chat_id}: {e}")
+        chat_type = 'private'  # Default to private in case of error
+
     used_questions = context.job.context['used_questions']
-    chat_type = context.job.context.get('chat_type', 'private')  # Default to private if not provided
     chat_data = load_chat_data(chat_id)
 
     category = chat_data.get('category', 'general')  # Default category if not set
@@ -78,6 +85,7 @@ def send_quiz(context: CallbackContext):
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
     message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
+    # Get the correct daily limit based on chat type
     daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
@@ -142,8 +150,16 @@ def send_quiz(context: CallbackContext):
         'correct_option_id': question['correct_option_id']
     }
 
+
 @retry_on_failure
-def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str = 'private'):
+def send_quiz_immediately(context: CallbackContext, chat_id: str):
+    # Determine chat type dynamically
+    try:
+        chat_type = context.bot.get_chat(chat_id).type
+    except Exception as e:
+        logger.error(f"Failed to fetch chat type for chat {chat_id}: {e}")
+        chat_type = 'private'  # Default to private in case of error
+
     # Load chat data
     chat_data = load_chat_data(chat_id)
 
@@ -167,6 +183,7 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
     message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
+    # Get the correct daily limit based on chat type
     daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
@@ -224,6 +241,8 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str, chat_type: str
         'chat_id': chat_id,
         'correct_option_id': question['correct_option_id']
     }
+
+
 
 def handle_poll_answer(update: Update, context: CallbackContext):
     poll_answer = update.poll_answer
