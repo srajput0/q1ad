@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 # MongoDB connection
 # MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://tigerbundle282:tTaRXh353IOL9mj2@testcookies.2elxf.mongodb.net/?retryWrites=true&w=majority&appName=Testcookies")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://thakursrajput84:srajput123@+@cluster0.1fgwlrd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
