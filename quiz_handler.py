@@ -93,7 +93,7 @@ def send_quiz(context: CallbackContext):
 
     if quizzes_sent["count"] >= daily_limit:
         if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit {daily_limit} reached. The next quiz will be sent tomorrow.")
             if message_status is None:
                 message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
             else:
@@ -191,7 +191,7 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
 
     if quizzes_sent["count"] >= daily_limit:
         if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
+            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit {daily_limit} reached. The next quiz will be sent tomorrow.")
             if message_status is None:
                 message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
             else:
