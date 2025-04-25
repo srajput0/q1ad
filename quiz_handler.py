@@ -50,7 +50,11 @@ def load_quizzes(category):
 
 def get_daily_quiz_limit(chat_type):
     """Set daily quiz limits based on chat type."""
-    return 10 if chat_type in ['group', 'supergroup'] else 15
+    if chat_type == 'private':
+        return 15
+    if chat_type in ['group', 'supergroup']:
+        return 10
+
 
 @retry_on_failure
 def send_quiz(context: CallbackContext):
