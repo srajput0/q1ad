@@ -69,7 +69,9 @@ def start_command(update: Update, context: CallbackContext):
             InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
             InlineKeyboardButton("📈 My Score", callback_data='show_stats')
         ],
-        [InlineKeyboardButton("Commands", callback_data='show_commands')]
+        [InlineKeyboardButton("Commands", callback_data='show_commands')], 
+        [InlineKeyboardButton("Download all Edition Book", url=f"https://t.me/+ZSZUt_eBmmhiMDM1")]
+        
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
