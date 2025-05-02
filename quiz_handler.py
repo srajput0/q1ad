@@ -8,7 +8,7 @@ import json
 import os
 from pymongo import MongoClient
 from datetime import datetime, timedelta
-from telegram.error import BadRequest
+from telegram.error import BadRequest, TimedOut, NetworkError, RetryAfter 
 
 logger = logging.getLogger(__name__)
 
