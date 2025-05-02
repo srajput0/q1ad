@@ -263,13 +263,3 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     # Update the score
     if selected_option == correct_option_id:
         add_score(user_id, 1)
-
-def repeat_all_quizzes(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    chat_data = load_chat_data(chat_id)
-    
-    # Clear the used_questions list to repeat all quizzes
-    chat_data["used_questions"] = []
-    save_chat_data(chat_id, chat_data)
-    
-    update.message.reply_text("All quizzes have been reset and can be repeated.")
