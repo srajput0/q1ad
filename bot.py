@@ -5,7 +5,7 @@ from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
 )
 from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, repeat_all_quizzes
+from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, repeat_all_quizzes, load_quizzes
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
 from datetime import datetime
@@ -478,6 +478,57 @@ def next_quiz(update: Update, context: CallbackContext):
 
 
 
+def delete_quiz(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    user = update.effective_user
+
+    # Check if the user is an admin
+    if not is_user_admin(update, user.id):
+        update.message.reply_text("Only admins can delete quizzes.")
+        return
+
+    # Ensure the command is a reply to a quiz message
+    if not update.message.reply_to_message:
+        update.message.reply_text("Please reply to the quiz message you want to delete.")
+        return
+
+    quiz_text = update.message.reply_to_message.text  # Get the quiz question text
+    chat_data = load_chat_data(str(chat.id))
+    category = chat_data.get('category', 'general')  # Default to general if category is not set
+
+    # Load quizzes for the category
+    quizzes = load_quizzes(category)
+    quiz_to_delete = None
+
+    # Find the quiz in the loaded quizzes
+    for quiz in quizzes:
+        if quiz['question'] == quiz_text:
+            quiz_to_delete = quiz
+            break
+
+    if not quiz_to_delete:
+        update.message.reply_text("Quiz not found in the current category.")
+        return
+
+    # Remove the quiz from the file
+    quizzes.remove(quiz_to_delete)
+
+    # Save the updated quizzes back to the file
+    file_path = os.path.join('quizzes', f'{category}.json')
+    with open(file_path, 'w') as f:
+        json.dump(quizzes, f)
+
+    # Remove the quiz from MongoDB collections
+    used_quizzes_collection.delete_one({"used_questions": quiz_to_delete})
+    quizzes_sent_collection.update_many(
+        {}, {"$pull": {"used_questions": quiz_to_delete}}
+    )
+
+    update.message.reply_text("Quiz successfully deleted from all records.")
+
+
+
+
 def main():
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
@@ -494,6 +545,7 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
+    dp.add_handler(CommandHandler("delete", delete_quiz))
 
 
     
