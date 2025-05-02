@@ -21,7 +21,7 @@ MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=tru
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
-used_quizzes_collection = db["used_quizzes"]
+# used_quizzes_collection = db["used_quizzes"]
 message_status_collection = db["message_status"]
 
 
