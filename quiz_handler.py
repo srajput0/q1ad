@@ -21,7 +21,7 @@ MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=tru
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
-# used_quizzes_collection = db["used_quizzes"]
+used_quizzesss_collection = db["used_quizzesssss"]
 message_status_collection = db["message_status"]
 
 
@@ -99,13 +99,13 @@ def send_quiz(context: CallbackContext):
                 message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_questions": True}})
         return
 
-    used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
+    used_question_ids = used_quizzesss_collection.find_one({"chat_id": chat_id})
     used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
 
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
         # Reset used questions if no new questions are available
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$set": {"used_questions": []}})
+        used_quizzesss_collection.update_one({"chat_id": chat_id}, {"$set": {"used_questions": []}})
         used_question_ids = []
         available_questions = questions
         context.bot.send_message(chat_id=chat_id, text="All quizzes have been used. Restarting with all available quizzes.")
@@ -113,9 +113,9 @@ def send_quiz(context: CallbackContext):
     question = random.choice(available_questions)
     used_questions.append(question)
     if used_question_ids:
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
+        used_quizzesss_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
     else:
-        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
+        used_quizzesss_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
 
     try:
         message = context.bot.send_poll(
@@ -174,13 +174,13 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
                 message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_questions": True}})
         return
 
-    used_question_ids = used_quizzes_collection.find_one({"chat_id": chat_id})
+    used_question_ids = used_quizzesss_collection.find_one({"chat_id": chat_id})
     used_question_ids = used_question_ids["used_questions"] if used_question_ids else []
 
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
         # Reset used questions if no new questions are available
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$set": {"used_questions": []}})
+        used_quizzesss_collection.update_one({"chat_id": chat_id}, {"$set": {"used_questions": []}})
         used_question_ids = []
         available_questions = questions
         context.bot.send_message(chat_id=chat_id, text="All quizzes have been used. Restarting with all available quizzes.")
@@ -188,9 +188,9 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     question = random.choice(available_questions)
     used_questions.append(question)
     if used_question_ids:
-        used_quizzes_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
+        used_quizzesss_collection.update_one({"chat_id": chat_id}, {"$push": {"used_questions": question}})
     else:
-        used_quizzes_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
+        used_quizzesss_collection.insert_one({"chat_id": chat_id, "used_questions": [question]})
 
     try:
         message = context.bot.send_poll(
