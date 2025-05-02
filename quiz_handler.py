@@ -125,6 +125,13 @@ def send_quiz(context: CallbackContext):
         correct_option_id=question['correct_option_id'],
         is_anonymous=False
     )
+    # Increment the count only after successfully sending the quiz
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
+    except BadRequest as e:
+        logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
+        context.bot.send_message(chat_id=chat_id, text="This question has been skipped because it's against telegram parameters Wait to next interval.")
+        return
+
 
     context.bot_data[message.poll.id] = {
         'chat_id': chat_id,
@@ -133,89 +140,52 @@ def send_quiz(context: CallbackContext):
 
 @retry_on_failure
 def send_quiz_immediately(context: CallbackContext, chat_id: str):
-    # Determine chat type dynamically
-    try:
-        chat_type = context.bot.get_chat(chat_id).type
-    except Exception as e:
-        logger.error(f"Failed to fetch chat type for chat {chat_id}: {e}")
-        chat_type = 'private'  # Default to private in case of error
-
-    # Load chat data
     chat_data = load_chat_data(chat_id)
-
-    # Check if chat_data exists
-    if not chat_data:
-        logger.error(f"No chat data found for chat_id: {chat_id}. Skipping quiz dispatch.")
-        return
-
-    # Check if bot is still a member of the chat
-    try:
-        context.bot.get_chat_member(chat_id, context.bot.id)
-    except TelegramError:
-        logger.warning(f"Bot is no longer a member of chat {chat_id}. Skipping quiz dispatch.")
-        save_chat_data(chat_id, {"active": False})  # Mark chat as inactive
-        return
 
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
-    message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
-    # Get the correct daily limit based on chat type
-    daily_limit = get_daily_quiz_limit(chat_type)
     if quizzes_sent is None:
-        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
-        quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
-
-    if quizzes_sent["count"] >= daily_limit:
-        if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=chat_id, text="Daily quiz limit {daily_limit} reached. The next quiz will be sent tomorrow.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
-            else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
+        quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 1})
+    elif quizzes_sent["count"] < 10:
+        quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
+    else:
+        context.bot.send_message(chat_id=chat_id, text="Daily quiz limit reached. The next quiz will be sent tomorrow.")
         return
 
     if not questions:
-        if message_status is None or not message_status.get("no_questions", False):
-            context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_questions": True})
-            else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_questions": True}})
+        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
         return
 
     used_question_ids = chat_data.get("used_questions", [])
     available_questions = [q for q in questions if q not in used_question_ids]
     if not available_questions:
-        # Reset used questions if no new questions are available
-        chat_data["used_questions"] = []
-        save_chat_data(chat_id, chat_data)
-        available_questions = questions
-        context.bot.send_message(chat_id=chat_id, text="All quizzes have been used. Restarting with all available quizzes.")
+        context.bot.send_message(chat_id=chat_id, text="No more new questions available.")
+        return
 
     question = random.choice(available_questions)
     used_question_ids.append(question)
     chat_data["used_questions"] = used_question_ids
     save_chat_data(chat_id, chat_data)
 
-    try:
-        message = context.bot.send_poll(
-            chat_id=chat_id,
-            question=question['question'],
-            options=question['options'],
-            type='quiz',
-            correct_option_id=question['correct_option_id'],
-            is_anonymous=False
-        )
-        # Increment the count only after successfully sending the quiz
+    message = context.bot.send_poll(
+        chat_id=chat_id,
+        question=question['question'],
+        options=question['options'],
+        type='quiz',
+        correct_option_id=question['correct_option_id'],
+        is_anonymous=False
+    )
+    # Increment the count only after successfully sending the quiz
         quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
     except BadRequest as e:
         logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
         context.bot.send_message(chat_id=chat_id, text="This question has been skipped because it's against telegram parameters Wait to next interval.")
         return
+
 
     context.bot_data[message.poll.id] = {
         'chat_id': chat_id,
