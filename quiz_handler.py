@@ -174,10 +174,10 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     )
     # Increment the count only after successfully sending the quiz
         # quizzes_sent_collection.update_one({"chat_id": chat_id, "date": today}, {"$inc": {"count": 1}})
-    except BadRequest as e:
-        logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
-        context.bot.send_message(chat_id=chat_id, text="This question has been skipped because it's against telegram parameters Wait to next interval.")
-        return
+    # except BadRequest as e:
+    #     logger.error(f"Failed to send quiz to chat {chat_id}: {e}")
+    #     context.bot.send_message(chat_id=chat_id, text="This question has been skipped because it's against telegram parameters Wait to next interval.")
+    #     return
 
 
     context.bot_data[message.poll.id] = {
