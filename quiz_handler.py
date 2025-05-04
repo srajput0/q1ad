@@ -85,12 +85,13 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
             # One-time confirmation message
             context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
             if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True, "last_retry": False})
             else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
-        else:
-            # Message for every retry
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True, "last_retry": False}})
+        elif not message_status.get("last_retry", False):
+            # Send confirmation message for this retry attempt
             context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
+            message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"last_retry": True}})
         return  # Stop further processing
 
     if not questions:
