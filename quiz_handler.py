@@ -1,13 +1,12 @@
 import logging
-from telegram import Update
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, save_chat_data
-from leaderboard_handler import add_score, get_top_scores
+from leaderboard_handler import add_score
 import random
 import json
 import os
 from pymongo import MongoClient
-from datetime import datetime, timedelta
+from datetime import datetime
 from telegram.error import BadRequest, TimedOut, NetworkError, RetryAfter 
 
 logger = logging.getLogger(__name__)
@@ -79,18 +78,15 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
         quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
 
+    # Check if the daily limit is reached
     if quizzes_sent["count"] >= daily_limit:
-        # Send immediate confirmation message when the limit is first reached
+        # Send confirmation message immediately when the limit is first reached
         if message_status is None or not message_status.get("limit_reached", False):
             context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
             if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True, "last_retry": False})
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
             else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True, "last_retry": False}})
-        elif not message_status.get("last_retry", False):
-            # Send confirmation message for this retry attempt
-            context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
-            message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"last_retry": True}})
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
         return  # Stop further processing
 
     if not questions:
