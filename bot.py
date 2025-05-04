@@ -314,36 +314,18 @@ def set_interval(update: Update, context: CallbackContext):
         update.message.reply_text(f"Quiz interval updated to {interval} seconds.")
         start_quiz(update, context)
 
+
 def start_quiz(update: Update, context: CallbackContext):
-    """
-    Starts a quiz in the chat. Sends a confirmation message if the daily limit is reached.
-    """
     chat_id = str(update.effective_chat.id)
     chat_data = load_chat_data(chat_id)
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
-    message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
-    # Determine the chat type and get the daily limit
-    chat_type = update.effective_chat.type
-    daily_limit = get_daily_quiz_limit(chat_type)
+    # if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
+    #     update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
+    #     return
 
-    # Check if the daily limit is reached
-    if quizzes_sent and quizzes_sent.get("count", 0) >= daily_limit:
-        if message_status is None or not message_status.get("limit_reached", False):
-            # Send the one-time confirmation message when daily limit is reached
-            update.message.reply_text("Your daily limit is reached. You will get quizzes tomorrow.")
-            if message_status is None:
-                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
-            else:
-                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
-        else:
-            # Send the confirmation message for every retry attempt
-            update.message.reply_text("Your daily limit is reached. You will get quizzes tomorrow.")
-        return
-
-    # Check if a quiz is already running
     if chat_data.get("active", False):
         update.message.reply_text("A quiz is already running in this chat!")
         return
@@ -359,7 +341,6 @@ def start_quiz(update: Update, context: CallbackContext):
 
     # Schedule subsequent quizzes at the specified interval
     context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": []})
-
 
 def stop_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
