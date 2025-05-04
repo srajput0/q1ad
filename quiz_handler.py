@@ -1,4 +1,5 @@
 import logging
+from telegram import Update
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, save_chat_data
 from leaderboard_handler import add_score
