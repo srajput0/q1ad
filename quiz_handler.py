@@ -80,9 +80,8 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
         quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
 
     if quizzes_sent["count"] >= daily_limit:
-        # Check if the one-time confirmation message has already been sent
+        # Send immediate confirmation message when the limit is first reached
         if message_status is None or not message_status.get("limit_reached", False):
-            # One-time confirmation message
             context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
             if message_status is None:
                 message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True, "last_retry": False})
