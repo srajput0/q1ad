@@ -54,11 +54,16 @@ def load_quizzes(category):
 
 
 def get_daily_quiz_limit(chat_type):
-    """Set daily quiz limits based on chat type."""
+    """
+    Set daily quiz limit based on chat type.
+    :param chat_type: Type of chat ('private', 'group', or 'supergroup').
+    :return: Daily quiz limit.
+    """
     if chat_type == 'private':
-        return 4
-    if chat_type in ['group', 'supergroup']:
-        return 10
+        return 5  # Daily limit for private chats
+    else:
+        return 10  # Daily limit for groups/supergroups
+        
 
 def send_quiz_logic(context: CallbackContext, chat_id: str):
     """
@@ -68,11 +73,17 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
     category = chat_data.get('category', 'general')  # Default category if not set
     questions = load_quizzes(category)
 
+     # Get the chat type and daily quiz limit
+    chat_type = context.bot.get_chat(chat_id).type  # Get chat type (private, group, or supergroup)
+    logger.info(f"Chat ID: {chat_id} | Chat Type: {chat_type}")
+
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
     message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
 
-    daily_limit = get_daily_quiz_limit(chat_data.get('chat_type', 'private'))
+    daily_limit = get_daily_quiz_limit(chat_type)  # Pass chat_type to get_daily_quiz_limit
+    logger.info(f"Daily quiz limit for chat type '{chat_type}': {daily_limit}")
+    
     if quizzes_sent is None:
         quizzes_sent_collection.insert_one({"chat_id": chat_id, "date": today, "count": 0})  # Initialize count with 0
         quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
