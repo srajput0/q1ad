@@ -63,7 +63,7 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
     Core logic for sending a quiz to the specified chat.
     """
     chat_data = load_chat_data(chat_id)
-    category = chat_data.get('category', 'general')  # Default category if not set
+    category = chat_data.get('category')  # Default category if not set
     questions = load_quizzes(category)
 
     # Get the chat type and daily quiz limit
