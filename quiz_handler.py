@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
-quizzes_collection = db["quizzes"]
+# quizzes_collection = db["quizzes"]
 quizzes_sent_collection = db["quizzes_sent"]
 used_quizzesss_collection = db["used_quizzesssss"]
 message_status_collection = db["message_status"]
@@ -38,15 +38,14 @@ def retry_on_failure(func):
     return wrapper
 
 def load_quizzes(category):
-    """
-    Fetch quizzes from MongoDB based on category.
-    :param category: Quiz category (e.g., 'science', 'math').
-    :return: List of quizzes.
-    """
-    quizzes = list(quizzes_collection.find({"category": category}))
-    if not quizzes:
-        logger.error(f"No quizzes found for category '{category}'.")
-    return quizzes
+    file_path = os.path.join('quizzes', f'{category}.json')
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    else:
+        logger.error(f"Quiz file for category '{category}' not found.")
+        return []
+
 
 def get_daily_quiz_limit(chat_type):
     """
