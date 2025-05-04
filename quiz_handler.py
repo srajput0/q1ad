@@ -18,6 +18,7 @@ client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 used_quizzesss_collection = db["used_quizzesssss"]
+message_status_collection = db["message_status"]
 
 def retry_on_failure(func):
     """Decorator to retry function on transient errors"""
@@ -69,7 +70,8 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
 
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
-    
+    message_status = message_status_collection.find_one({"chat_id": chat_id, "date": today})
+
     daily_limit = get_daily_quiz_limit(chat_type)  # Pass chat_type to get_daily_quiz_limit
     logger.info(f"Daily quiz limit for chat type '{chat_type}': {daily_limit}")
     
@@ -78,9 +80,18 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
         quizzes_sent = {"count": 0}  # Ensure quizzes_sent has a default structure
 
     if quizzes_sent["count"] >= daily_limit:
-        # Notify on retry attempts
-        context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
-        return
+        # Check if the one-time confirmation message has already been sent
+        if message_status is None or not message_status.get("limit_reached", False):
+            # One-time confirmation message
+            context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
+        else:
+            # Message for every retry
+            context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
+        return  # Stop further processing
 
     if not questions:
         context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
