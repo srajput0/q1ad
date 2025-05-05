@@ -481,11 +481,6 @@ def restart_active_quizzes(context: CallbackContext):
 def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
     user_id = str(update.effective_user.id)
-    # Send "loading" message immediately
-    message = context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="📊 Loading statistics..."
-    )
     stats = get_user_stats(user_id)
     
     # Format rank with total users
@@ -496,8 +491,8 @@ def check_stats(update: Update, context: CallbackContext):
     
     message = (
         "📊 *Your Quiz Statistics* 📊\n\n\n"
-        f"📈 *Your Rank ➠ {rank_display}*\n\n"
-        f"🏆 *Your Score*: {stats['score']} points\n"
+        f"📈 *Your Rank ➠ [{rank_display}]*\\n"
+        f"🏆 *Score*: {stats['score']} points\n"
         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
