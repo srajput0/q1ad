@@ -12,7 +12,7 @@ from chat_data_handler import (
 )
 from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, load_quizzes
 from admin_handler import broadcast
-from leaderboard_handler import get_user_score, get_top_scores, get_user_stats, get_user_rank, get_user_percentile
+from leaderboard_handler import get_user_score, get_user_stats
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 import threading
