@@ -10,6 +10,7 @@ MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=tru
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
+
 def get_user_stats(user_id: str) -> Dict[str, Any]:
     user = leaderboard_collection.find_one({"user_id": user_id})
     if not user:
