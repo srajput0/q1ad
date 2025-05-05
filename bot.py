@@ -482,7 +482,7 @@ def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
     user_id = str(update.effective_user.id)
     # Send "loading" message immediately
-    message = await context.bot.send_message(
+    message = context.bot.send_message(
         chat_id=update.effective_chat.id,
         text="📊 Loading statistics..."
     )
