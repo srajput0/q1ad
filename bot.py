@@ -329,18 +329,17 @@ def button(update: Update, context: CallbackContext):
                 f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
                 f"✅ *Correct Answers*: {stats['correct_answers']}\n"
                 f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
-                f" */start - Use this to start*"
                 )
             keyboard = [
                 [InlineKeyboardButton("Back", callback_data='back_to_main_menu')]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
-            query.edit_message_text(message, parse_mode="Markdown")
             query.edit_message_text(
                 text=message,
                 parse_mode="Markdown",
                 reply_markup=reply_markup
             )
+            query.edit_message_text(message, parse_mode="Markdown")
             
         except Exception as e:
             logger.error(f"Error in 'show_stats' button: {str(e)}")
