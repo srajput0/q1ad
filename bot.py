@@ -339,7 +339,6 @@ def button(update: Update, context: CallbackContext):
                 parse_mode="Markdown",
                 reply_markup=reply_markup
             )
-            query.edit_message_text(message, parse_mode="Markdown")
             
         except Exception as e:
             logger.error(f"Error in 'show_stats' button: {str(e)}")
@@ -365,15 +364,24 @@ def button(update: Update, context: CallbackContext):
     elif query.data == 'back_to_main_menu':
         # Inline buttons for main menu
         keyboard = [
-            [InlineKeyboardButton("Start Quiz", callback_data='start_quiz')],
+            [InlineKeyboardButton("Add in Your Group +", url="https://t.me/PYQ_Quizbot?startgroup=true")],
+            [InlineKeyboardButton("Start PYQ Quizzes", callback_data='start_quiz')],
             [
-                InlineKeyboardButton("Leaderboard", callback_data='show_leaderboard'),
-                InlineKeyboardButton("My Score", callback_data='show_stats')
+                InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
+                InlineKeyboardButton("📈 My Stats", callback_data='show_stats')
             ],
-            [InlineKeyboardButton("Commands", callback_data='show_commands')]
+            [InlineKeyboardButton("Commands", callback_data='show_commands')],
+            [InlineKeyboardButton("Download all Edition Book", url="https://t.me/+ZSZUt_eBmmhiMDM1")]
         ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        query.edit_message_text(text="Welcome to the Quiz Bot! Please choose an option:", reply_markup=reply_markup)
+        query.edit_message_text(text=
+                                "*Pinnacle 7th Edition*\n\n"
+                                "Welcome to the Pinnacle 7th edition Quiz Bot! "
+                                "This is a Quiz Bot made by *Pinnacle Publication.*\n\n"
+                                "This can ask two Exams PYQ's.\n\n"
+                                "*➠ SSC *\n*➠ RRB*\n\n"
+                                "Choose the option for proceed further:",
+                                reply_markup=reply_markup
+                                )
 
 
 def set_interval(update: Update, context: CallbackContext):
