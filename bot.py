@@ -480,25 +480,22 @@ def restart_active_quizzes(context: CallbackContext):
 #     update.message.reply_text(f"Your current score is: {score} points.")
 def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
-    
-    # Get all user stats
     stats = get_user_stats(user_id)
-    rank = get_user_rank(user_id)
-    percentile = get_user_percentile(user_id)
     
-    # Create a formatted message with all stats
+    # Create a formatted message with all statistics
     message = (
         "📊 *Your Quiz Statistics* 📊\n\n"
         f"🏆 *Score*: {stats['score']} points\n"
-        f"📈 *Rank*: #{rank}\n"
-        f"📊 *Percentile*: {percentile:.1f}%\n"
+        f"📈 *Rank*: #{stats['rank']}\n"
+        f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
     )
     
     update.message.reply_text(message, parse_mode="Markdown")
+
 
 def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
