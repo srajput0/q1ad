@@ -12,49 +12,37 @@ db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
 
 def get_user_stats(user_id: str) -> Dict[str, Any]:
+    """Get all user statistics"""
     user = leaderboard_collection.find_one({"user_id": user_id})
     if not user:
         return {
-            "user_id": user_id,
             "score": 0,
             "attempted_quizzes": 0,
             "correct_answers": 0,
             "incorrect_answers": 0,
-            "last_updated": datetime.utcnow()
+            "accuracy": 0.0,
+            "rank": get_user_rank(user_id),
+            "percentile": 0.0
         }
-    return user
-
-
-def update_user_stats(user_id: str, is_correct: bool) -> None:
-    """Update user statistics including all metrics"""
-    user = leaderboard_collection.find_one({"user_id": user_id})
     
-    if user:
-        # Update existing user stats
-        leaderboard_collection.update_one(
-            {"user_id": user_id},
-            {
-                "$inc": {
-                    "attempted_quizzes": 1,
-                    "correct_answers": 1 if is_correct else 0,
-                    "incorrect_answers": 0 if is_correct else 1,
-                    "score": 2 if is_correct else 0  # 2 points for correct answer
-                },
-                "$set": {
-                    "last_updated": datetime.utcnow()
-                }
-            }
-        )
-    else:
-        # Create new user stats
-        leaderboard_collection.insert_one({
-            "user_id": user_id,
-            "score": 2 if is_correct else 0,
-            "attempted_quizzes": 1,
-            "correct_answers": 1 if is_correct else 0,
-            "incorrect_answers": 0 if is_correct else 1,
-            "last_updated": datetime.utcnow()
-        })
+    # Calculate accuracy
+    attempted = user.get("attempted_quizzes", 0)
+    correct = user.get("correct_answers", 0)
+    accuracy = (correct / attempted * 100) if attempted > 0 else 0
+    
+    # Get rank and percentile
+    rank = get_user_rank(user_id)
+    percentile = get_user_percentile(user_id)
+    
+    return {
+        "score": user.get("score", 0),
+        "attempted_quizzes": attempted,
+        "correct_answers": correct,
+        "incorrect_answers": user.get("incorrect_answers", 0),
+        "accuracy": accuracy,
+        "rank": rank,
+        "percentile": percentile
+    }
 
 def get_user_rank(user_id: str) -> int:
     """Get user's rank based on score"""
@@ -62,9 +50,8 @@ def get_user_rank(user_id: str) -> int:
     if not user:
         return 0
     
-    # Count users with higher scores
     higher_scores = leaderboard_collection.count_documents({
-        "score": {"$gt": user["score"]}
+        "score": {"$gt": user.get("score", 0)}
     })
     return higher_scores + 1
 
@@ -75,41 +62,36 @@ def get_user_percentile(user_id: str) -> float:
         return 0.0
     
     total_users = leaderboard_collection.count_documents({})
-    users_below = leaderboard_collection.count_documents({
-        "score": {"$lt": user["score"]}
-    })
-    
     if total_users == 0:
         return 0.0
+        
+    users_below = leaderboard_collection.count_documents({
+        "score": {"$lt": user.get("score", 0)}
+    })
+    
     return (users_below / total_users) * 100
 
-def get_user_stats(user_id: str) -> Dict[str, Any]:
-    """Get comprehensive user statistics"""
-    user = leaderboard_collection.find_one({"user_id": user_id})
-    if not user:
-        return {
-            "score": 0,
-            "rank": 0,
-            "percentile": 0.0,
-            "attempted_quizzes": 0,
-            "correct_answers": 0,
-            "incorrect_answers": 0,
-            "accuracy": 0.0
+def update_user_stats(user_id: str, is_correct: bool) -> None:
+    """Update all user statistics"""
+    update_data = {
+        "$inc": {
+            "attempted_quizzes": 1,
+            "correct_answers": 1 if is_correct else 0,
+            "incorrect_answers": 0 if is_correct else 1,
+            "score": 2 if is_correct else 0  # 2 points for correct answer
+        },
+        "$set": {
+            "last_updated": datetime.utcnow()
         }
-    
-    attempted = user.get("attempted_quizzes", 0)
-    correct = user.get("correct_answers", 0)
-    accuracy = (correct / attempted * 100) if attempted > 0 else 0
-    
-    return {
-        "score": user.get("score", 0),
-        "rank": get_user_rank(user_id),
-        "percentile": get_user_percentile(user_id),
-        "attempted_quizzes": attempted,
-        "correct_answers": correct,
-        "incorrect_answers": user.get("incorrect_answers", 0),
-        "accuracy": accuracy
     }
+    
+    leaderboard_collection.update_one(
+        {"user_id": user_id},
+        update_data,
+        upsert=True  # Create document if it doesn't exist
+    )
+
+
 
 
 
