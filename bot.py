@@ -632,6 +632,7 @@ def main():
     dp.add_handler(CommandHandler("resume", resume_quiz))
     dp.add_handler(CommandHandler("next", next_quiz))
     dp.add_handler(CallbackQueryHandler(button))
+    dp.add_handler(CallbackQueryHandler(check_stats))
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
