@@ -311,8 +311,44 @@ def button(update: Update, context: CallbackContext):
         update.effective_message.reply_text(message, parse_mode="Markdown")
 
     elif query.data == 'show_stats':
-        
-        
+        user_id = str(update.effective_user.id)
+        # Send loading message
+        loading_message = context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="📊 Loading statistics..."
+        )
+
+        try:
+            stats = get_user_stats(user_id)
+            rank_display = f"#{stats['rank']}/{stats['total_users']}"
+            message = (
+                "📊 *Your Quiz Statistics* 📊\n\n"
+                f"📈 *Your Rank: {rank_display}*\n"
+                f"🏆 *Score*: {stats['score']} Points\n"
+                f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
+                f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
+                f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
+                f"✅ *Correct Answers*: {stats['correct_answers']}\n"
+                f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
+                f"🕒 *Last Updated*: {current_time} UTC"
+            )
+            context.bot.delete_message(
+                chat_id=update.effective_chat.id,
+                message_id=loading_message.message_id
+            )
+            query.message.edit_text(
+                text=message,
+                parse_mode="Markdown"
+            )
+
+        except Exception as e:
+            logger.error(f"Error showing stats: {e}")
+            # Update loading message to show error
+            context.bot.edit_message_text(
+                chat_id=update.effective_chat.id,
+                message_id=loading_message.message_id,
+                text="❌ Sorry, there was an error getting your statistics. Please try again."
+            )
         
     elif query.data == 'show_commands':
         commands_description = """
