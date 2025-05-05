@@ -513,32 +513,6 @@ def restart_active_quizzes(context: CallbackContext):
             first=0,
             context={"chat_id": chat_id, "used_questions": used_questions}
         )
-
-# def check_statss(update: Update, context: CallbackContext, query):
-#     """Display user's quiz statistics"""
-    # user_id = str(update.effective_user.id)
-    # stats = get_user_stats(user_id)
-    
-    # if not stats:
-    #     query.edit_message_text("❌ Unable to fetch your stats. Please try again later.")
-    #     return
-    
-    # # Format rank with total users
-    # rank_display = f"#{stats['rank']}/{stats['total_users']}"
-    
-    # message = (
-    #     "📊 *Your Quiz Statistics* 📊\n\n"
-    #     f"📈 *Your Rank: {rank_display}*\n"
-    #     f"🏆 *Score*: {stats['score']} Points\n"
-    #     f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
-    #     f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
-    #     f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
-    #     f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-    #     f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
-    #     f" */start - Use this to start*"
-    # )
-    
-    # query.edit_message_text(message, parse_mode="Markdown")
     
 def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
@@ -568,7 +542,6 @@ def check_stats(update: Update, context: CallbackContext):
 
 def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
-
     # Send initial loading message
     loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
 
@@ -612,12 +585,10 @@ def show_leaderboard(update: Update, context: CallbackContext):
 def next_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     chat_data = load_chat_data(chat_id)
-
     # Check if there are any active quizzes
     if not chat_data.get("active", False):
         update.message.reply_text("No active quiz. Use /start to begin a quiz session.")
         return
-
     # Send the next quiz immediately
     send_quiz_immediately(context, chat_id)
     update.message.reply_text("Next quiz has been sent!")
@@ -675,8 +646,6 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
-    # dp.add_handler(CommandHandler("statss", check_statss))
-
     
     # Add error handler
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
