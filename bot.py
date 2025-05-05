@@ -381,6 +381,7 @@ def button(update: Update, context: CallbackContext):
                                 "This can ask two Exams PYQ's.\n\n"
                                 "*➠ SSC *\n*➠ RRB*\n\n"
                                 "Choose the option for proceed further:",
+                                parse_mode="Markdown",
                                 reply_markup=reply_markup
                                 )
 
