@@ -482,7 +482,7 @@ def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
     stats = get_user_stats(user_id)
     
-    # Create a formatted message with all statistics
+    # Create formatted message with all statistics
     message = (
         "📊 *Your Quiz Statistics* 📊\n\n"
         f"🏆 *Score*: {stats['score']} points\n"
@@ -491,7 +491,7 @@ def check_stats(update: Update, context: CallbackContext):
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n"
     )
     
     update.message.reply_text(message, parse_mode="Markdown")
