@@ -474,10 +474,6 @@ def restart_active_quizzes(context: CallbackContext):
             context={"chat_id": chat_id, "used_questions": used_questions}
         )
         
-# def check_stats(update: Update, context: CallbackContext):
-#     user_id = str(update.effective_user.id)
-#     score = get_user_score(user_id)
-#     update.message.reply_text(f"Your current score is: {score} points.")
 def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
     user_id = str(update.effective_user.id)
@@ -490,14 +486,14 @@ def check_stats(update: Update, context: CallbackContext):
     current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     
     message = (
-        "📊 *Your Quiz Statistics* 📊\n\n\n"
+        "📊 *Your Quiz Statistics* 📊\n\n"
         f"📈 *Your Rank ➠ [{rank_display}]*\\n"
         f"🏆 *Score*: {stats['score']} points\n"
         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
     )
     
     update.message.reply_text(message, parse_mode="Markdown")
