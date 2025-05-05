@@ -487,7 +487,7 @@ def check_stats(update: Update, context: CallbackContext):
     
     message = (
         "📊 *Your Quiz Statistics* 📊\n\n"
-        f"📈 *Your Rank ➠ [{rank_display}]*\\n"
+        f"📈 *Your Rank ➠ [{rank_display}]*\n"
         f"🏆 *Score*: {stats['score']} points\n"
         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
