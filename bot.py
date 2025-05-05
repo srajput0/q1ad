@@ -1,7 +1,7 @@
 import logging
 import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember, Bot
-from telegram.error import TelegramError, TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
+from telegram.error import TelegramError, TimedOut, NetworkError, RetryAfter, BadRequest
 from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, 
     PollAnswerHandler, MessageHandler, Filters
