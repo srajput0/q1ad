@@ -269,30 +269,50 @@ def button(update: Update, context: CallbackContext):
         start_quiz(update, context)
 
     elif query.data == 'show_leaderboard':
-        chat_id = update.effective_chat.id
+    chat_id = update.effective_chat.id
+    try:
         # Send initial loading message
         loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
-
         # Send loading updates in a separate thread
         def send_loading_messages(message_id):
-            for i in range(2, 4):
-                time.sleep(1)  # Wait for 1 second before sending the next message
-                context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading...{i}")
+            try:
+                for i in range(2, 4):
+                    time.sleep(1)
+                    context.bot.edit_message_text(
+                        chat_id=chat_id,
+                        message_id=message_id,
+                        text=f"Leaderboard is loading...{i}"
+                    )
+            except Exception as e:
+                logger.error(f"Error in loading messages: {str(e)}")
 
         loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
         loading_thread.start()
 
         # Fetch and display the leaderboard
         top_scores = get_top_scores(20)
-        loading_thread.join()  # Wait for the loading messages to finish
+        loading_thread.join()
+
+        # Add back button
+        keyboard = [[InlineKeyboardButton("Back", callback_data='back_to_main_menu')]]
+        reply_markup = InlineKeyboardMarkup(keyboard)
 
         if not top_scores:
-            context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
-            update.effective_message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+            try:
+                context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            except:
+                pass
+            query.edit_message_text(
+                "🏆 No scores yet! Start playing to appear on the leaderboard.",
+                reply_markup=reply_markup
+            )
             return
 
         # Delete the loading message
-        context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+        try:
+            context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+        except:
+            pass
 
         # Prepare and send the leaderboard message
         message = "🏆 *Quiz Leaderboard* 🏆\n\n"
@@ -308,7 +328,24 @@ def button(update: Update, context: CallbackContext):
             rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
             message += f"{rank_display}  *{username}* - {score} Points\n\n"
 
-        update.effective_message.reply_text(message, parse_mode="Markdown")
+        query.edit_message_text(
+            text=message,
+            parse_mode="Markdown",
+            reply_markup=reply_markup
+        )
+
+    except Exception as e:
+        logger.error(f"Error showing leaderboard: {str(e)}")
+        keyboard = [[InlineKeyboardButton("Back", callback_data='back_to_main_menu')]]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        try:
+            query.edit_message_text(
+                "❌ An error occurred while loading the leaderboard. Please try again later.",
+                reply_markup=reply_markup
+            )
+        except:
+            pass
+
 
     elif query.data == 'show_stats':
         try:
