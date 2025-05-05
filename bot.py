@@ -496,10 +496,11 @@ def check_statss(update: Update, context: CallbackContext, query):
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
+        f"❌ */start - Use this to start*"
     )
     
-    query.reply_message_text(message, parse_mode="Markdown")
+    query.edit_message_text(message, parse_mode="Markdown")
     
 def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
@@ -636,7 +637,7 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
-    dp.add_handler(CommandHandler("stats", check_statss))
+    dp.add_handler(CommandHandler("statss", check_statss))
 
     
     # Add error handler
