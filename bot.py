@@ -483,18 +483,27 @@ def check_stats(update: Update, context: CallbackContext):
     user_id = str(update.effective_user.id)
     stats = get_user_stats(user_id)
     
+    # Format rank with total users
+    rank_display = f"#{stats['rank']}/{stats['total_users']}"
+    
+    # Get current time in UTC
+    current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    
     message = (
         "📊 *Your Quiz Statistics* 📊\n\n"
         f"🏆 *Score*: {stats['score']} points\n"
-        f"📈 *Rank*: #{stats['rank']}\n"
+        f"📈 *Rank*: {rank_display}\n"
         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}\n\n"
+        f"🕒 *Last Updated*: {current_time} UTC"
     )
     
     update.message.reply_text(message, parse_mode="Markdown")
+
+
 
 def show_leaderboard(update: Update, context: CallbackContext):
     chat_id = update.message.chat_id
