@@ -486,10 +486,10 @@ def check_stats(update: Update, context: CallbackContext):
     current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     
     message = (
-        "📊 *Your Quiz Statistics* 📊\n\n"
-        f"📈 *Your Rank ➠ [{rank_display}]*\n"
-        f"🏆 *Score*: {stats['score']} points\n"
-        f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
+        "📊 *Your Quiz Statistics* 📊\n\n\n"
+        f"📈 *Your Rank ➠ {rank_display}*\n\n"
+        f"🏆 *Score*: {stats['score']} points\n\n"
+        f"📊 *Percentile*: {stats['percentile']:.1f}%\n\n"
         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
