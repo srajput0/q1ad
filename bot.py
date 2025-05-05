@@ -373,6 +373,7 @@ def button(update: Update, context: CallbackContext):
             [InlineKeyboardButton("Commands", callback_data='show_commands')],
             [InlineKeyboardButton("Download all Edition Book", url="https://t.me/+ZSZUt_eBmmhiMDM1")]
         ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
         query.edit_message_text(text=
                                 "*Pinnacle 7th Edition*\n\n"
                                 "Welcome to the Pinnacle 7th edition Quiz Bot! "
