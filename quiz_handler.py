@@ -2,7 +2,7 @@ import logging
 from telegram import Update
 from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, save_chat_data
-from leaderboard_handler import add_score
+from leaderboard_handler import add_score, update_user_stats
 import random
 import json
 import os
@@ -149,7 +149,9 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     send_quiz_logic(context, chat_id)
 
 
+
 def handle_poll_answer(update: Update, context: CallbackContext):
+    """Handle user answers to quiz questions"""
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
@@ -163,7 +165,7 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     correct_option_id = poll_data['correct_option_id']
     is_correct = selected_option == correct_option_id
 
-    # Update all user statistics
+    # Update user statistics
     update_user_stats(user_id, is_correct)
 
 # def handle_poll_answer(update: Update, context: CallbackContext):
