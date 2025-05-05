@@ -148,6 +148,7 @@ def send_quiz_immediately(context: CallbackContext, chat_id: str):
     """
     send_quiz_logic(context, chat_id)
 
+
 def handle_poll_answer(update: Update, context: CallbackContext):
     poll_answer = update.poll_answer
     user_id = str(poll_answer.user.id)
