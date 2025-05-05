@@ -12,10 +12,24 @@ db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
 
 
+def get_rank_and_total(user_id: str) -> Tuple[int, int]:
+    """Get user's rank and total number of users"""
+    user = leaderboard_collection.find_one({"user_id": user_id})
+    if not user:
+        total_users = leaderboard_collection.count_documents({})
+        return (total_users + 1, total_users + 1)
+    
+    total_users = leaderboard_collection.count_documents({})
+    higher_scores = leaderboard_collection.count_documents({
+        "score": {"$gt": user.get("score", 0)}
+    })
+    return (higher_scores + 1, total_users)
+
 def get_user_stats(user_id: str) -> Dict[str, Any]:
     """Get comprehensive user statistics"""
     user = leaderboard_collection.find_one({"user_id": user_id})
     if not user:
+        total_users = leaderboard_collection.count_documents({})
         return {
             "score": 0,
             "attempted_quizzes": 0,
@@ -23,6 +37,7 @@ def get_user_stats(user_id: str) -> Dict[str, Any]:
             "incorrect_answers": 0,
             "accuracy": 0.0,
             "rank": 1,
+            "total_users": total_users,
             "percentile": 0.0
         }
     
@@ -31,18 +46,18 @@ def get_user_stats(user_id: str) -> Dict[str, Any]:
     correct = user.get("correct_answers", 0)
     accuracy = (correct / attempted * 100) if attempted > 0 else 0
     
-    # Get rank
-    higher_scores = leaderboard_collection.count_documents({
-        "score": {"$gt": user.get("score", 0)}
-    })
-    rank = higher_scores + 1
+    # Get rank and total users
+    rank, total_users = get_rank_and_total(user_id)
     
     # Calculate percentile
-    total_users = leaderboard_collection.count_documents({})
-    users_below = leaderboard_collection.count_documents({
-        "score": {"$lt": user.get("score", 0)}
-    })
-    percentile = (users_below / total_users * 100) if total_users > 0 else 0
+    if total_users > 1:
+        # Percentile = (Number of users below you / Total number of users) * 100
+        users_below = leaderboard_collection.count_documents({
+            "score": {"$lt": user.get("score", 0)}
+        })
+        percentile = (users_below / (total_users - 1)) * 100
+    else:
+        percentile = 100.0  # If you're the only user
     
     return {
         "score": user.get("score", 0),
@@ -51,6 +66,7 @@ def get_user_stats(user_id: str) -> Dict[str, Any]:
         "incorrect_answers": user.get("incorrect_answers", 0),
         "accuracy": accuracy,
         "rank": rank,
+        "total_users": total_users,
         "percentile": percentile
     }
 
