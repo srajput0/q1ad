@@ -499,7 +499,7 @@ def check_statss(update: Update, context: CallbackContext, query):
         f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
     )
     
-    query.edit_reply_text(message, parse_mode="Markdown")
+    query.reply_message_text(message, parse_mode="Markdown")
     
 def check_stats(update: Update, context: CallbackContext):
     """Display user's quiz statistics"""
