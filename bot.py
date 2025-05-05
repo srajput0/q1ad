@@ -544,7 +544,7 @@ def cleanup_job(context: CallbackContext):
         # Only clean rate limiting cache (temporary data)
         to_delete = [
             user_id for user_id, last_time in rate_limit_dict.items()
-            if current_time - last_time > 3600
+            if current_time - last_time > 86400
         ]
         for user_id in to_delete:
             del rate_limit_dict[user_id]
