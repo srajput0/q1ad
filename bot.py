@@ -311,6 +311,7 @@ def button(update: Update, context: CallbackContext):
         update.effective_message.reply_text(message, parse_mode="Markdown")
 
     elif query.data == 'show_stats':
+        check_stats(update, Update)
         # user_id = str(update.effective_user.id)
         # score = get_user_score(user_id)
         # update.effective_message.reply_text(f"Your current score is: {score} points.")
