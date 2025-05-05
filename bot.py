@@ -312,7 +312,7 @@ def button(update: Update, context: CallbackContext):
 
     elif query.data == 'show_stats':
         try:
-            check_stats(update, context, query)
+            check_statss(update, context, query)
         except Exception as e:
             logger.error(f"Error in 'show_stats' button: {str(e)}")
             query.edit_message_text("❌ Unable to fetch stats. Please try again later.")
@@ -476,7 +476,7 @@ def restart_active_quizzes(context: CallbackContext):
             context={"chat_id": chat_id, "used_questions": used_questions}
         )
 
-def check_stats(update: Update, context: CallbackContext, query):
+def check_statss(update: Update, context: CallbackContext, query):
     """Display user's quiz statistics"""
     user_id = str(update.effective_user.id)
     stats = get_user_stats(user_id)
@@ -499,30 +499,31 @@ def check_stats(update: Update, context: CallbackContext, query):
         f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
     )
     
-    query.edit_message_text(message, parse_mode="Markdown")
-# def check_stats(update: Update, context: CallbackContext):
-#     """Display user's quiz statistics"""
-#     user_id = str(update.effective_user.id)
-#     stats = get_user_stats(user_id)
+    query.edit_reply_text(message, parse_mode="Markdown")
     
-#     # Format rank with total users
-#     rank_display = f"#{stats['rank']}/{stats['total_users']}"
+def check_stats(update: Update, context: CallbackContext):
+    """Display user's quiz statistics"""
+    user_id = str(update.effective_user.id)
+    stats = get_user_stats(user_id)
     
-#     # Get current time in UTC
-#     current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    # Format rank with total users
+    rank_display = f"#{stats['rank']}/{stats['total_users']}"
     
-#     message = (
-#         "📊 *Your Quiz Statistics* 📊\n\n"
-#         f"📈 *Your Rank: {rank_display}*\n"
-#         f"🏆 *Score*: {stats['score']} Points\n"
-#         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
-#         f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
-#         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
-#         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
-#         f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
-#     )
+    # Get current time in UTC
+    current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     
-#     update.message.reply_text(message, parse_mode="Markdown")
+    message = (
+        "📊 *Your Quiz Statistics* 📊\n\n"
+        f"📈 *Your Rank: {rank_display}*\n"
+        f"🏆 *Score*: {stats['score']} Points\n"
+        f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
+        f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
+        f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
+        f"✅ *Correct Answers*: {stats['correct_answers']}\n"
+        f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
+    )
+    
+    update.message.reply_text(message, parse_mode="Markdown")
 
 
 
