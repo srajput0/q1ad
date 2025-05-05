@@ -1,87 +1,180 @@
 import logging
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember
-from telegram.error import TelegramError
+import os
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember, Bot
+from telegram.error import TelegramError, TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
 from telegram.ext import (
-    Updater, CommandHandler, CallbackQueryHandler, CallbackContext, PollAnswerHandler
+    Updater, CommandHandler, CallbackQueryHandler, CallbackContext, 
+    PollAnswerHandler, MessageHandler, Filters
 )
-from chat_data_handler import load_chat_data, save_chat_data, add_served_chat, add_served_user, get_active_quizzes
-from quiz_handler import send_quiz, send_quiz_immediately,  handle_poll_answer, load_quizzes
+from chat_data_handler import (
+    load_chat_data, save_chat_data, add_served_chat, add_served_user, 
+    get_active_quizzes, cleanup_old_data
+)
+from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, load_quizzes
 from admin_handler import broadcast
 from leaderboard_handler import get_user_score, get_top_scores
-from datetime import datetime
+from datetime import datetime, timedelta
 from pymongo import MongoClient
 import threading
 import time
-# Enable logging
+import asyncio
+from functools import wraps
+from cachetools import TTLCache, cached
+from typing import Optional, Dict, List, Any
 from bot_logging import logger
 
-TOKEN = "7183336129:AAGBlp0cqb9gjIRj0CdXRhTR4-b9QMDVAaM"
-ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-LOG_GROUP_ID = -1001902619247  # Replace with your actual log group chat ID
+# Load environment variables
+TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "7183336129:AAGBlp0cqb9gjIRj0CdXRhTR4-b9QMDVAaM")
+ADMIN_ID = int(os.getenv('ADMIN_ID', "5050578106"))
+LOG_GROUP_ID = int(os.getenv('LOG_GROUP_ID', "-1001902619247"))
+MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority")
 
-# MongoDB connection
-# MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-# MONGO_URI = "mongodb+srv://tigerbundle282:tTaRXh353IOL9mj2@testcookies.2elxf.mongodb.net/?retryWrites=true&w=majority&appName=Testcookies"
-client = MongoClient(MONGO_URI)
+# Initialize MongoDB with optimized connection
+client = MongoClient(
+    MONGO_URI,
+    maxPoolSize=100,
+    connectTimeoutMS=30000,
+    retryWrites=True
+)
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 
+# Cache configurations
+user_cache = TTLCache(maxsize=10000, ttl=3600)  # 1 hour TTL
+chat_cache = TTLCache(maxsize=10000, ttl=3600)
 
+# Rate limiting configuration
+RATE_LIMIT = 5  # messages per second
+rate_limit_dict = {}
 
-def log_user_or_group(update: Update, context: CallbackContext):
+def rate_limit(func):
+    """Decorator to implement rate limiting"""
+    @wraps(func)
+    async def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
+        user_id = update.effective_user.id
+        current_time = time.time()
+        
+        if user_id in rate_limit_dict:
+            last_time = rate_limit_dict[user_id]
+            if current_time - last_time < 1.0/RATE_LIMIT:
+                return
+        
+        rate_limit_dict[user_id] = current_time
+        return await func(update, context, *args, **kwargs)
+    return wrapper
+
+def error_handler(func):
+    """Decorator for handling errors and retries"""
+    @wraps(func)
+    async def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
+        max_retries = 3
+        retry_count = 0
+        
+        while retry_count < max_retries:
+            try:
+                return await func(update, context, *args, **kwargs)
+            except RetryAfter as e:
+                retry_count += 1
+                if retry_count < max_retries:
+                    await asyncio.sleep(e.retry_after)
+                    continue
+            except (TimedOut, NetworkError) as e:
+                retry_count += 1
+                if retry_count < max_retries:
+                    await asyncio.sleep(2 ** retry_count)
+                    continue
+            except (Unauthorized, BadRequest) as e:
+                logger.error(f"Permanent error: {e}")
+                return
+            except Exception as e:
+                logger.error(f"Unexpected error: {e}")
+                return
+        
+        logger.error(f"Max retries reached for {func.__name__}")
+    return wrapper
+
+@cached(cache=user_cache)
+def get_cached_user_data(user_id: int) -> Dict:
+    """Cache user data to reduce database calls"""
+    return load_chat_data(str(user_id))
+
+async def batch_send_messages(bot: Bot, chat_ids: List[str], message_func, *args, **kwargs):
+    """Send messages in batches to avoid rate limits"""
+    BATCH_SIZE = 30
+    DELAY = 1  # seconds between batches
+    
+    for i in range(0, len(chat_ids), BATCH_SIZE):
+        batch = chat_ids[i:i + BATCH_SIZE]
+        tasks = []
+        
+        for chat_id in batch:
+            try:
+                task = asyncio.create_task(message_func(chat_id=chat_id, *args, **kwargs))
+                tasks.append(task)
+            except Exception as e:
+                logger.error(f"Error sending message to {chat_id}: {e}")
+                continue
+        
+        await asyncio.gather(*tasks)
+        await asyncio.sleep(DELAY)
+
+@error_handler
+async def log_user_or_group(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
 
-    if chat.type in ['group', 'supergroup']:
-        log_message = (
-            f"Group started the bot: {chat.title}\nID: {chat.id}\n\n"
-            f"Group link: https://t.me/{chat.username if chat.username else 'N/A'}"
-        )
-    else:
-        log_message = (
-            f"User started the bot: {user.first_name} {user.last_name or ''}\n\n"
-            f"Username: @{user.username or 'N/A'},\nID: {user.id}\n"
-            f"User profile: https://t.me/{user.username if user.username else 'N/A'}"
-        )
+    log_message = (
+        f"{'Group' if chat.type in ['group', 'supergroup'] else 'User'} started the bot: "
+        f"{chat.title if chat.type in ['group', 'supergroup'] else user.first_name} "
+        f"{user.last_name or ''}\n"
+        f"ID: {chat.id}\n"
+        f"Link: https://t.me/{chat.username if chat.username else 'N/A'}"
+    )
 
-    logger.info(f"Logging message: {log_message}")
-    context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
+    logger.info(f"New user/group: {log_message}")
+    await context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
 
-def start_command(update: Update, context: CallbackContext):
+@rate_limit
+@error_handler
+async def start_command(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     user_id = str(update.effective_user.id)
 
-    # Log the user or group
-    log_user_or_group(update, context)
+    await log_user_or_group(update, context)
+    
+    # Register chat and user with error handling
+    try:
+        add_served_chat(chat_id)
+        add_served_user(user_id)
+    except Exception as e:
+        logger.error(f"Error registering chat/user: {e}")
 
-    # Register the chat and user for broadcasting
-    add_served_chat(chat_id)
-    add_served_user(user_id)
-
-    # Inline buttons for main menu
     keyboard = [
-        [
-            InlineKeyboardButton("Add in Your Group +", url=f"https://t.me/PYQ_Quizbot?startgroup=true"),   
-        ],
+        [InlineKeyboardButton("Add in Your Group +", url="https://t.me/PYQ_Quizbot?startgroup=true")],
         [InlineKeyboardButton("Start PYQ Quizzes", callback_data='start_quiz')],
         [
             InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
             InlineKeyboardButton("📈 My Score", callback_data='show_stats')
         ],
-        [InlineKeyboardButton("Commands", callback_data='show_commands')], 
-        [InlineKeyboardButton("Download all Edition Book", url=f"https://t.me/+ZSZUt_eBmmhiMDM1")]
-        
+        [InlineKeyboardButton("Commands", callback_data='show_commands')],
+        [InlineKeyboardButton("Download all Edition Book", url="https://t.me/+ZSZUt_eBmmhiMDM1")]
     ]
+    
     reply_markup = InlineKeyboardMarkup(keyboard)
-
-    # Send welcome message with main menu buttons
-    update.message.reply_text(
-        "*Pinnacle 7th Edition*\n\nWelcome to the Pinnacle 7th edition Quiz Bot! This is a Quiz Bot made by *Pinnacle Publication.*\n\nThis can ask two Exams PYQ's.\n\n*➠ SSC *\n*➠ RRB*\n\nChoose the option for proceed further :",
-        reply_markup=reply_markup, parse_mode="Markdown"
+    welcome_message = (
+        "*Pinnacle 7th Edition*\n\n"
+        "Welcome to the Pinnacle 7th edition Quiz Bot! "
+        "This is a Quiz Bot made by *Pinnacle Publication.*\n\n"
+        "This can ask two Exams PYQ's.\n\n"
+        "*➠ SSC *\n*➠ RRB*\n\n"
+        "Choose the option for proceed further:"
     )
-
+    
+    await update.message.reply_text(
+        welcome_message,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 
 def is_user_admin(update: Update, user_id: int):
     chat_member = update.effective_chat.get_member(user_id)
@@ -479,13 +572,37 @@ def next_quiz(update: Update, context: CallbackContext):
 
 
 
-
-
+async def cleanup_job(context: CallbackContext):
+    """Periodic cleanup job"""
+    try:
+        await cleanup_old_data()
+        # Clean rate limit cache
+        current_time = time.time()
+        to_delete = [
+            user_id for user_id, last_time in rate_limit_dict.items()
+            if current_time - last_time > 3600
+        ]
+        for user_id in to_delete:
+            del rate_limit_dict[user_id]
+    except Exception as e:
+        logger.error(f"Error in cleanup job: {e}")
 
 def main():
-    updater = Updater(TOKEN, use_context=True)
+    # Initialize bot with optimized settings
+    bot = Bot(TOKEN)
+    updater = Updater(
+        bot=bot,
+        use_context=True,
+        workers=8,  # Increase worker threads
+        request_kwargs={
+            'read_timeout': 10,
+            'connect_timeout': 10,
+            'connect_pool_size': 100
+        }
+    )
     dp = updater.dispatcher
-    
+
+    # Add handlers with error handling
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("setinterval", set_interval))
     dp.add_handler(CommandHandler("stopquiz", stop_quiz))
@@ -498,12 +615,19 @@ def main():
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
 
+    # Add error handler
+    dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
 
-
-    
-    updater.start_polling()
+    # Schedule periodic cleanup
+    updater.job_queue.run_repeating(cleanup_job, interval=3600)  # Run every hour
     updater.job_queue.run_once(restart_active_quizzes, 0)
 
+    # Start the bot
+    updater.start_polling(
+        drop_pending_updates=True,
+        timeout=30,
+        read_latency=5.0
+    )
     updater.idle()
 
 if __name__ == '__main__':
