@@ -93,46 +93,53 @@ def log_user_or_group(update: Update, context: CallbackContext):
     logger.info(f"New user/group: {log_message}")
     context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
 
+
 @rate_limit
 @error_handler
 def start_command(update: Update, context: CallbackContext):
-    chat_id = str(update.effective_chat.id)
-    user_id = str(update.effective_user.id)
-
-    log_user_or_group(update, context)
-    
     try:
-        add_served_chat(chat_id)
-        add_served_user(user_id)
-    except Exception as e:
-        logger.error(f"Error registering chat/user: {e}")
+        chat_id = str(update.effective_chat.id)
+        user_id = str(update.effective_user.id)
 
-    keyboard = [
-        [InlineKeyboardButton("Add in Your Group +", url="https://t.me/PYQ_Quizbot?startgroup=true")],
-        [InlineKeyboardButton("Start PYQ Quizzes", callback_data='start_quiz')],
-        [
-            InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
-            InlineKeyboardButton("📈 My Score", callback_data='show_stats')
-        ],
-        [InlineKeyboardButton("Commands", callback_data='show_commands')],
-        [InlineKeyboardButton("Download all Edition Book", url="https://t.me/+ZSZUt_eBmmhiMDM1")]
-    ]
-    
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    welcome_message = (
-        "*Pinnacle 7th Edition*\n\n"
-        "Welcome to the Pinnacle 7th edition Quiz Bot! "
-        "This is a Quiz Bot made by *Pinnacle Publication.*\n\n"
-        "This can ask two Exams PYQ's.\n\n"
-        "*➠ SSC *\n*➠ RRB*\n\n"
-        "Choose the option for proceed further:"
-    )
-    
-    update.message.reply_text(
-        welcome_message,
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
-    )
+        # Log user/group synchronously
+        log_user_or_group(update, context)
+        
+        try:
+            add_served_chat(chat_id)
+            add_served_user(user_id)
+        except Exception as e:
+            logger.error(f"Error registering chat/user: {e}")
+
+        keyboard = [
+            [InlineKeyboardButton("Add in Your Group +", url="https://t.me/PYQ_Quizbot?startgroup=true")],
+            [InlineKeyboardButton("Start PYQ Quizzes", callback_data='start_quiz')],
+            [
+                InlineKeyboardButton("📊 Leaderboard", callback_data='show_leaderboard'),
+                InlineKeyboardButton("📈 My Score", callback_data='show_stats')
+            ],
+            [InlineKeyboardButton("Commands", callback_data='show_commands')],
+            [InlineKeyboardButton("Download all Edition Book", url="https://t.me/+ZSZUt_eBmmhiMDM1")]
+        ]
+        
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        welcome_message = (
+            "*Pinnacle 7th Edition*\n\n"
+            "Welcome to the Pinnacle 7th edition Quiz Bot! "
+            "This is a Quiz Bot made by *Pinnacle Publication.*\n\n"
+            "This can ask two Exams PYQ's.\n\n"
+            "*➠ SSC *\n*➠ RRB*\n\n"
+            "Choose the option for proceed further:"
+        )
+        
+        update.message.reply_text(
+            welcome_message,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+        return True
+    except Exception as e:
+        logger.error(f"Error in start_command: {e}")
+        return False
 
 
 def is_user_admin(update: Update, user_id: int):
@@ -552,18 +559,21 @@ def cleanup_job(context: CallbackContext):
         logger.error(f"Error in cleanup job: {e}")
 
 def main():
-    # Initialize bot with optimized settings
+     # Initialize bot with optimized settings
     bot = Bot(TOKEN)
     updater = Updater(
         bot=bot,
         use_context=True,
-        workers=12,  # Increase worker threads
+        workers=12,
         request_kwargs={
             'read_timeout': 10,
             'connect_timeout': 10,
-            'connect_pool_size': 100
+            'connect_pool_size': 12,  # Match this with workers count
+            'connect_retries': 3,
+            'pool_timeout': 30
         }
     )
+    
     dp = updater.dispatcher
 
     # Add handlers with error handling
@@ -586,12 +596,13 @@ def main():
     updater.job_queue.run_repeating(cleanup_job, interval=3600)  # Run every hour
     updater.job_queue.run_once(restart_active_quizzes, 0)
 
-    # Start the bot
+    # Start the bot with optimized polling settings
     logger.info("Starting bot...")
     updater.start_polling(
         drop_pending_updates=True,
         timeout=30,
-        read_latency=2.0
+        read_latency=1.0,
+        allowed_updates=['message', 'callback_query', 'poll_answer']
     )
     logger.info("Bot started successfully!")
     updater.idle()
