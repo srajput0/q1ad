@@ -21,7 +21,7 @@ from functools import wraps
 from cachetools import TTLCache, cached
 from typing import Optional, Dict, List, Any
 from bot_logging import logger
-from stats_handler import StatsManager, get_stats_command
+
 
 
 # Configuration
@@ -96,7 +96,6 @@ def log_user_or_group(update: Update, context: CallbackContext):
     logger.info(f"New user/group: {log_message}")
     context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
 
-stats_manager = StatsManager(MONGO_URI)
 
 @rate_limit
 @error_handler
@@ -385,10 +384,6 @@ def start_quiz(update: Update, context: CallbackContext):
     today = datetime.now().date().isoformat()  # Convert date to string
     quizzes_sent = quizzes_sent_collection.find_one({"chat_id": chat_id, "date": today})
 
-    # if quizzes_sent and quizzes_sent.get("count", 0) >= 10:
-    #     update.message.reply_text("You have reached your daily limit. The next quiz will be sent tomorrow.")
-    #     return
-
     if chat_data.get("active", False):
         update.message.reply_text("A quiz is already running in this chat!")
         return
@@ -589,12 +584,11 @@ def main():
     dp.add_handler(CommandHandler("resume", resume_quiz))
     dp.add_handler(CommandHandler("next", next_quiz))
     dp.add_handler(CallbackQueryHandler(button))
-    # dp.add_handler(PollAnswerHandler(handle_poll_answer))
-    dp.add_handler(PollAnswerHandler(stats_manager.handle_poll_answer))
+    dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
-    # dp.add_handler(CommandHandler("stats", check_stats))
-    dp.add_handler(CommandHandler("stats", get_stats_command))
+    dp.add_handler(CommandHandler("stats", check_stats))
+
     
     # Add error handler
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
