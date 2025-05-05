@@ -21,12 +21,15 @@ from functools import wraps
 from cachetools import TTLCache, cached
 from typing import Optional, Dict, List, Any
 from bot_logging import logger
+from stats_handler import StatsManager, get_stats_command
+
 
 # Configuration
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "7183336129:AAGC7Cj0fXjMQzROUXMZHnb0pyXQQqneMic")
 ADMIN_ID = int(os.getenv('ADMIN_ID', "5050578106"))
 LOG_GROUP_ID = int(os.getenv('LOG_GROUP_ID', "-1001902619247"))
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority")
+
 
 # Initialize MongoDB
 client = MongoClient(
@@ -93,6 +96,7 @@ def log_user_or_group(update: Update, context: CallbackContext):
     logger.info(f"New user/group: {log_message}")
     context.bot.send_message(chat_id=LOG_GROUP_ID, text=log_message)
 
+stats_manager = StatsManager(MONGO_URI)
 
 @rate_limit
 @error_handler
@@ -575,6 +579,7 @@ def main():
     )
     
     dp = updater.dispatcher
+    # Store important data in bot_data
 
     # Add handlers with error handling
     dp.add_handler(CommandHandler("start", start_command))
@@ -587,8 +592,9 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
-    dp.add_handler(CommandHandler("stats", check_stats))
-
+    # dp.add_handler(CommandHandler("stats", check_stats))
+    dp.add_handler(CommandHandler("stats", get_stats_command))
+    
     # Add error handler
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
 
