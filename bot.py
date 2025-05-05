@@ -608,7 +608,7 @@ def main():
     updater.start_polling(
         drop_pending_updates=True,
         timeout=30,
-        read_latency=1.0,
+        read_latency=0.1,
         allowed_updates=['message', 'callback_query', 'poll_answer']
     )
     logger.info("Bot started successfully!")
