@@ -529,20 +529,25 @@ def next_quiz(update: Update, context: CallbackContext):
     send_quiz_immediately(context, chat_id)
     update.message.reply_text("Next quiz has been sent!")
 
-
-
-async def cleanup_job(context: CallbackContext):
-    """Periodic cleanup job"""
+def cleanup_job(context: CallbackContext):
+    """Modified cleanup job that preserves quiz history and chat IDs"""
     try:
-        await cleanup_old_data()
-        # Clean rate limit cache
         current_time = time.time()
+        
+        # Only clean rate limiting cache (temporary data)
         to_delete = [
             user_id for user_id, last_time in rate_limit_dict.items()
             if current_time - last_time > 3600
         ]
         for user_id in to_delete:
             del rate_limit_dict[user_id]
+            
+        # Clear only temporary caches
+        user_cache.expire()
+        chat_cache.expire()
+        
+        logger.info("Cleanup job completed - Preserved quiz history and chat IDs")
+            
     except Exception as e:
         logger.error(f"Error in cleanup job: {e}")
 
