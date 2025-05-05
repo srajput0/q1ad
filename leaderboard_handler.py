@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from typing import Dict, Any
 from datetime import datetime
 from typing import Tuple
+from operator import itemgetter
 # MongoDB connection
 # MONGO_URI = "mongodb+srv://asrushfig:2003@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -113,10 +114,43 @@ def add_score(user_id, score):
     else:
         leaderboard_collection.insert_one({"user_id": user_id, "score": score})
 
-def get_top_scores(n=20):
-    top_scores = leaderboard_collection.find().sort("score", -1).limit(n)
-    return [(entry["user_id"], entry["score"]) for entry in top_scores]
+def get_top_scores(limit=20):
+    """
+    Get the top scores from the database
+    Args:
+        limit (int): Number of top scores to retrieve
+    Returns:
+        list: List of tuples containing (user_id, score)
+    """
+    try:
+        # Assuming you have a MongoDB collection for user scores
+        # Replace 'user_scores' with your actual collection name
+        scores_collection = db['user_scores']
+        
+        # Get all users and their scores, sort by score in descending order
+        cursor = scores_collection.find(
+            {},  # Empty query to get all documents
+            {'user_id': 1, 'score': 1, '_id': 0}  # Only get user_id and score fields
+        ).sort('score', -1).limit(limit)
+        
+        # Convert cursor to list of tuples (user_id, score)
+        top_scores = [(str(doc['user_id']), doc['score']) for doc in cursor]
+        
+        return top_scores
+    except Exception as e:
+        logger.error(f"Error fetching top scores: {str(e)}")
+        return []
 
 def get_user_score(user_id):
     user = leaderboard_collection.find_one({"user_id": user_id})
     return user["score"] if user else 0
+    
+def update_user_score(user_id, points):
+    try:
+        user_scores_collection.update_one(
+            {'user_id': user_id},
+            {'$inc': {'score': points}},
+            upsert=True
+        )
+    except Exception as e:
+        logger.error(f"Error updating user score: {str(e)}")
