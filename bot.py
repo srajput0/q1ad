@@ -311,9 +311,9 @@ def button(update: Update, context: CallbackContext):
         update.effective_message.reply_text(message, parse_mode="Markdown")
 
     elif query.data == 'show_stats':
-        user_id = str(update.effective_user.id)
-        score = get_user_score(user_id)
-        update.effective_message.reply_text(f"Your current score is: {score} points.")
+        # user_id = str(update.effective_user.id)
+        # score = get_user_score(user_id)
+        # update.effective_message.reply_text(f"Your current score is: {score} points.")
         
     elif query.data == 'show_commands':
         commands_description = """
@@ -490,7 +490,7 @@ def check_stats(update: Update, context: CallbackContext):
         f"📈 *Your Rank: {rank_display}*\n"
         f"🏆 *Score*: {stats['score']} points\n"
         f"📊 *Percentile*: {stats['percentile']:.1f}%\n"
-        f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n"
+        f"🎯 *Accuracy*: {stats['accuracy']:.1f}%\n\n"
         f"📝 *Quiz Attempts*: {stats['attempted_quizzes']}\n"
         f"✅ *Correct Answers*: {stats['correct_answers']}\n"
         f"❌ *Incorrect Answers*: {stats['incorrect_answers']}"
