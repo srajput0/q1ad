@@ -6,6 +6,14 @@ from typing import Tuple
 from operator import itemgetter
 import logging
 
+
+# Setup logging first
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
 # MongoDB connection
 MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
 
