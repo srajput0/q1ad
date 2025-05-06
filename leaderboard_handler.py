@@ -116,26 +116,56 @@ def add_score(user_id, score):
 
 def get_top_scores(limit=20):
     """
-    Get the top scores from the database
+    Get the top scores from the database with proper ranking
     Args:
         limit (int): Number of top scores to retrieve
     Returns:
-        list: List of tuples containing (user_id, score)
+        list: List of dictionaries containing user stats
     """
     try:
-        # Assuming you have a MongoDB collection for user scores
-        # Replace 'user_scores' with your actual collection name
-        scores_collection = db['user_scores']
+        # Get all users and their stats, sort by score in descending order
+        cursor = leaderboard_collection.find(
+            {},
+            {
+                'user_id': 1, 
+                'score': 1, 
+                'correct_answers': 1, 
+                'attempted_quizzes': 1,
+                '_id': 0
+            }
+        ).sort([
+            ('score', -1),
+            ('correct_answers', -1)  # Secondary sort by correct answers
+        ]).limit(limit)
         
-        # Get all users and their scores, sort by score in descending order
-        cursor = scores_collection.find(
-            {},  # Empty query to get all documents
-            {'user_id': 1, 'score': 1, '_id': 0}  # Only get user_id and score fields
-        ).sort('score', -1).limit(limit)
+        results = list(cursor)
         
-        # Convert cursor to list of tuples (user_id, score)
-        top_scores = [(str(doc['user_id']), doc['score']) for doc in cursor]
+        # Format the results with ranking
+        top_scores = []
+        current_rank = 1
+        previous_score = None
         
+        for doc in results:
+            score = doc.get('score', 0)
+            user_id = doc.get('user_id')
+            correct = doc.get('correct_answers', 0)
+            attempts = doc.get('attempted_quizzes', 0)
+            
+            # Keep same rank for tied scores
+            if score != previous_score:
+                rank = current_rank
+                
+            top_scores.append({
+                'user_id': user_id,
+                'score': score,
+                'rank': rank,
+                'correct_answers': correct,
+                'attempts': attempts
+            })
+            
+            previous_score = score
+            current_rank += 1
+            
         return top_scores
     except Exception as e:
         logger.error(f"Error fetching top scores: {str(e)}")
