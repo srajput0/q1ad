@@ -91,9 +91,15 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
             else:
                 message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"limit_reached": True}})
         return  # Stop further processing
-
+        
+    # Check if no questions are available for the category
     if not questions:
-        context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+        if message_status is None or not message_status.get("no_questions", False):
+            context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+            if message_status is None:
+                message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_questions": True})
+            else:
+                message_status_collection.update_one({"chat_id": chat_id, "date": today}, {"$set": {"no_questions": True}})
         return
 
     used_question_ids = used_quizzesss_collection.find_one({"chat_id": chat_id})
