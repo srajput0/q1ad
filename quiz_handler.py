@@ -95,7 +95,7 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
     # Check if no questions are available for the category
     if not questions:
         if message_status is None or not message_status.get("no_questions", False):
-            context.bot.send_message(chat_id=chat_id, text="No questions available for this category.")
+            context.bot.send_message(chat_id=chat_id, text="No questions available for this category. /start choose other category ")
             if message_status is None:
                 message_status_collection.insert_one({"chat_id": chat_id, "date": today, "no_questions": True})
             else:
