@@ -139,64 +139,24 @@ def add_score(user_id, score):
     else:
         leaderboard_collection.insert_one({"user_id": user_id, "score": score})
 
-def get_top_scores(limit=20):
+def get_top_scores(limit: int = 20) -> List[Tuple[str, int]]:
     """
-    Get the top scores from the database with proper ranking
-    Args:
-        limit (int): Number of top scores to retrieve
-    Returns:
-        list: List of dictionaries containing user stats
+    Get the top scores from the leaderboard
+    Returns list of tuples (user_id, score)
     """
     try:
-        # Get all users and their stats, sort by score in descending order
+        # Get all scores, sort by score descending
         cursor = leaderboard_collection.find(
             {},
-            {
-                'user_id': 1, 
-                'score': 1, 
-                'correct_answers': 1, 
-                'attempted_quizzes': 1,
-                '_id': 0
-            }
-        ).sort([
-            ('score', -1),
-            ('correct_answers', -1)  # Secondary sort by correct answers
-        ]).limit(limit)
+            {'user_id': 1, 'score': 1, '_id': 0}
+        ).sort('score', -1).limit(limit)
         
-        results = list(cursor)
-        
-        # Format the results with ranking
-        top_scores = []
-        current_rank = 1
-        previous_score = None
-        
-        for doc in results:
-            score = doc.get('score', 0)
-            user_id = doc.get('user_id')
-            correct = doc.get('correct_answers', 0)
-            attempts = doc.get('attempted_quizzes', 0)
-            
-            # Keep same rank for tied scores
-            if score != previous_score:
-                rank = current_rank
-                
-            top_scores.append({
-                'user_id': user_id,
-                'score': score,
-                'rank': rank,
-                'correct_answers': correct,
-                'attempts': attempts
-            })
-            
-            previous_score = score
-            current_rank += 1
-            
-        return top_scores
+        # Convert cursor to list of tuples
+        return [(str(doc['user_id']), doc['score']) for doc in cursor]
     except Exception as e:
         logger.error(f"Error fetching top scores: {str(e)}")
         return []
-
-
+        
 def get_user_score(user_id):
     user = leaderboard_collection.find_one({"user_id": user_id})
     return user["score"] if user else 0
