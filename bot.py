@@ -274,9 +274,7 @@ def button(update: Update, context: CallbackContext):
         start_quiz(update, context)
         
     elif query.data == 'show_leaderboard':
-        chat_id = update.effective_chat.id
-            loading_message = None
-            
+        chat_id = update.effective_chat.id            
             try:
                 # Send initial loading message
                 loading_message = context.bot.send_message(
