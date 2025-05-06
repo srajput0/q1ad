@@ -54,9 +54,9 @@ def get_daily_quiz_limit(chat_type):
     :return: Daily quiz limit.
     """
     if chat_type == 'private':
-        return 5  # Daily limit for private chats
+        return 50  # Daily limit for private chats
     else:
-        return 10  # Daily limit for groups/supergroups
+        return 100 # Daily limit for groups/supergroups
 
 def send_quiz_logic(context: CallbackContext, chat_id: str):
     """
