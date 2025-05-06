@@ -272,8 +272,8 @@ def button(update: Update, context: CallbackContext):
         context.job_queue.run_repeating(send_quiz, interval=interval, first=interval, context={"chat_id": chat_id, "used_questions": chat_data.get("used_questions", [])})
         query.edit_message_text(f"Quiz interval updated to {interval} seconds. Starting quiz.")
         start_quiz(update, context)
-
-        elif query.data == 'show_leaderboard':
+        
+    elif query.data == 'show_leaderboard':
         chat_id = update.effective_chat.id
             loading_message = None
             
@@ -364,7 +364,6 @@ def button(update: Update, context: CallbackContext):
                 update.message.reply_text(
                     "❌ An error occurred while loading the leaderboard. Please try again later."
                 )
-
 
 
     elif query.data == 'show_stats':
