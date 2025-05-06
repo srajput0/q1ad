@@ -139,9 +139,9 @@ def add_score(user_id, score):
     else:
         leaderboard_collection.insert_one({"user_id": user_id, "score": score})
 
-def get_top_scores(limit: int = 20) -> List[Tuple[str, int]]:
+def get_top_scores(limit=20):
     """
-    Get the top scores from the leaderboard
+    Get the top scores from the database
     Returns list of tuples (user_id, score)
     """
     try:
@@ -152,11 +152,11 @@ def get_top_scores(limit: int = 20) -> List[Tuple[str, int]]:
         ).sort('score', -1).limit(limit)
         
         # Convert cursor to list of tuples
-        return [(str(doc['user_id']), doc['score']) for doc in cursor]
+        return [(str(doc['user_id']), doc.get('score', 0)) for doc in cursor]
     except Exception as e:
         logger.error(f"Error fetching top scores: {str(e)}")
         return []
-        
+
 def get_user_score(user_id):
     user = leaderboard_collection.find_one({"user_id": user_id})
     return user["score"] if user else 0
