@@ -580,68 +580,151 @@ def check_stats(update: Update, context: CallbackContext):
     
     update.message.reply_text(message, parse_mode="Markdown")
 
+# def show_leaderboard(update: Update, context: CallbackContext):
+#     """Display leaderboard showing top 10 users with their stats"""
+#     chat_id = update.effective_chat.id
+#     try:
+#         # Send initial loading message
+#         loading_message = context.bot.send_message(chat_id=chat_id, text="📊 Loading leaderboard...")
+    
+#         # Get top 10 scores
+#         top_scores = get_top_scores(10)  # Limit to top 10
+        
+#         if not top_scores:
+#             context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+#             update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+#             return
+
+#         # Delete the loading message
+#         context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+
+#         # Prepare the leaderboard message
+#         message = "🏆 *TOP 10 LEADERBOARD* 🏆\n\n"
+#         medals = ["🥇", "🥈", "🥉"]  # Medals for top 3
+
+#         for entry in top_scores:
+#             try:
+#                 user_id = entry['user_id']
+#                 # Get detailed stats for the user
+#                 stats = get_user_stats(user_id)
+                
+#                 # Get user info from Telegram
+#                 try:
+#                     user = context.bot.get_chat(int(user_id))
+#                     username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+#                 except Exception:
+#                     username = f"User {user_id}"
+
+#                 # Determine rank display (medal or number)
+#                 rank = entry.get('rank', 0)
+#                 rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
+
+#                 # Format stats
+#                 score = stats['score']
+#                 accuracy = stats['accuracy']
+#                 correct_answers = stats['correct_answers']
+#                 total_attempts = stats['attempted_quizzes']
+
+#                 # Add entry to leaderboard message
+#                 message += (
+#                     f"{rank_display} *{username}*\n"
+#                     f"    ├ Score: {score} pts\n"
+#                     f"    ├ Accuracy: {accuracy:.1f}%\n"
+#                     f"    └ {correct_answers}/{total_attempts} correct answers\n\n"
+#                 )
+
+#             except Exception as e:
+#                 logger.error(f"Error processing user {user_id}: {str(e)}")
+#                 continue
+
+#         # Add footer with update time
+#         current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+#         message += f"\n_Updated: {current_time}_"
+
+#         # Send the formatted leaderboard
+#         update.message.reply_text(
+#             message,
+#             parse_mode="Markdown",
+#             disable_web_page_preview=True
+#         )
+
+#     except Exception as e:
+#         logger.error(f"Error showing leaderboard: {str(e)}")
+#         # If loading message exists, try to delete it
+#         try:
+#             context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+#         except:
+#             pass
+#         update.message.reply_text("❌ An error occurred while loading the leaderboard. Please try again later.")
+
 def show_leaderboard(update: Update, context: CallbackContext):
-    """Display leaderboard showing top 10 users with their stats"""
+    """Display leaderboard showing rank, score, accuracy and percentile"""
     chat_id = update.effective_chat.id
+    loading_message = None
+    
     try:
         # Send initial loading message
-        loading_message = context.bot.send_message(chat_id=chat_id, text="📊 Loading leaderboard...")
-    
+        loading_message = context.bot.send_message(
+            chat_id=chat_id, 
+            text="📊 Loading leaderboard..."
+        )
+        
         # Get top 10 scores
-        top_scores = get_top_scores(10)  # Limit to top 10
+        top_scores = get_top_scores(10)
         
         if not top_scores:
-            context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            if loading_message:
+                context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
             update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
             return
 
-        # Delete the loading message
-        context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
-
         # Prepare the leaderboard message
-        message = "🏆 *TOP 10 LEADERBOARD* 🏆\n\n"
-        medals = ["🥇", "🥈", "🥉"]  # Medals for top 3
+        message = "📊 *LEADERBOARD* 📊\n\n"
+        medals = ["🥇", "🥈", "🥉"]
 
-        for entry in top_scores:
+        for rank, entry in enumerate(top_scores, 1):
             try:
-                user_id = entry['user_id']
-                # Get detailed stats for the user
+                user_id = entry["user_id"]
+                score = entry["score"]
+                
+                # Get user stats for accuracy and percentile
                 stats = get_user_stats(user_id)
+                accuracy = stats['accuracy']
+                percentile = stats['percentile']
                 
                 # Get user info from Telegram
                 try:
                     user = context.bot.get_chat(int(user_id))
                     username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
-                except Exception:
+                except:
                     username = f"User {user_id}"
 
-                # Determine rank display (medal or number)
-                rank = entry.get('rank', 0)
+                # Format rank display (medal or number)
                 rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
-
-                # Format stats
-                score = stats['score']
-                accuracy = stats['accuracy']
-                correct_answers = stats['correct_answers']
-                total_attempts = stats['attempted_quizzes']
-
-                # Add entry to leaderboard message
+                
+                # Add entry to leaderboard with accuracy
                 message += (
                     f"{rank_display} *{username}*\n"
-                    f"    ├ Score: {score} pts\n"
+                    f"    ├ Score: {score}\n"
                     f"    ├ Accuracy: {accuracy:.1f}%\n"
-                    f"    └ {correct_answers}/{total_attempts} correct answers\n\n"
+                    f"    └ Top {percentile:.1f}%\n\n"
                 )
-
+                
             except Exception as e:
-                logger.error(f"Error processing user {user_id}: {str(e)}")
+                logger.error(f"Error processing leaderboard entry: {str(e)}")
                 continue
 
-        # Add footer with update time
+        # Add timestamp
         current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
         message += f"\n_Updated: {current_time}_"
 
-        # Send the formatted leaderboard
+        # Delete loading message and send leaderboard
+        if loading_message:
+            try:
+                context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            except:
+                pass
+        
         update.message.reply_text(
             message,
             parse_mode="Markdown",
@@ -650,13 +733,14 @@ def show_leaderboard(update: Update, context: CallbackContext):
 
     except Exception as e:
         logger.error(f"Error showing leaderboard: {str(e)}")
-        # If loading message exists, try to delete it
-        try:
-            context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
-        except:
-            pass
-        update.message.reply_text("❌ An error occurred while loading the leaderboard. Please try again later.")
-        
+        if loading_message:
+            try:
+                context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            except:
+                pass
+        update.message.reply_text(
+            "❌ An error occurred while loading the leaderboard. Please try again later."
+        )
 
 # def show_leaderboard(update: Update, context: CallbackContext):
 #     chat_id = update.message.chat_id
