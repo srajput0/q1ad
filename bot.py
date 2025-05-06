@@ -327,9 +327,9 @@ def button(update: Update, context: CallbackContext):
                     logger.error(f"Error processing leaderboard entry: {str(e)}")
                     continue
     
-            # Add timestamp
-            current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-            message += f"\n_Updated: {current_time}_"
+            # # Add timestamp
+            # current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+            # message += f"\n_Updated: {current_time}_"
     
             # Delete loading message and send leaderboard
             if loading_message:
@@ -644,9 +644,9 @@ def show_leaderboard(update: Update, context: CallbackContext):
                 logger.error(f"Error processing leaderboard entry: {str(e)}")
                 continue
 
-        # Add timestamp
-        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-        message += f"\n_Updated: {current_time}_"
+        # # Add timestamp
+        # current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+        # message += f"\n_Updated: {current_time}_"
 
         # Delete loading message and send leaderboard
         if loading_message:
