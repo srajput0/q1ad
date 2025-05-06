@@ -5,8 +5,15 @@ from datetime import datetime
 from typing import Tuple
 from operator import itemgetter
 import logging
+import traceback
 
 
+def log_error(func_name: str, error: Exception):
+    """Helper function to log errors with traceback"""
+    logger.error(
+        f"Error in {func_name}: {str(error)}\n"
+        f"Traceback:\n{traceback.format_exc()}"
+    )
 # Setup logging first
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -138,21 +145,36 @@ def add_score(user_id, score):
         leaderboard_collection.update_one({"user_id": user_id}, {"$set": {"score": new_score}})
     else:
         leaderboard_collection.insert_one({"user_id": user_id, "score": score})
-
 def get_top_scores(limit=20):
     """
     Get the top scores from the database
-    Returns list of tuples (user_id, score)
+    Returns list of tuples (user_id, score, stats)
     """
     try:
-        # Get all scores, sort by score descending
-        cursor = leaderboard_collection.find(
-            {},
-            {'user_id': 1, 'score': 1, '_id': 0}
-        ).sort('score', -1).limit(limit)
+        # Get all scores with user stats, sort by score descending
+        cursor = leaderboard_collection.find({}).sort("score", -1).limit(limit)
+        top_scores = []
         
-        # Convert cursor to list of tuples
-        return [(str(doc['user_id']), doc.get('score', 0)) for doc in cursor]
+        for doc in cursor:
+            user_id = str(doc.get("user_id"))  # Ensure user_id is a string
+            if not user_id:  # Skip if no user_id
+                continue
+                
+            score = doc.get("score", 0)
+            attempted = doc.get("attempted_quizzes", 0)
+            correct = doc.get("correct_answers", 0)
+            accuracy = (correct / attempted * 100) if attempted > 0 else 0
+            
+            top_scores.append({
+                "user_id": user_id,
+                "score": score,
+                "accuracy": accuracy,
+                "correct_answers": correct,
+                "attempted_quizzes": attempted
+            })
+            
+        return top_scores
+        
     except Exception as e:
         logger.error(f"Error fetching top scores: {str(e)}")
         return []
