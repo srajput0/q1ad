@@ -4,6 +4,7 @@ from typing import Dict, Any
 from datetime import datetime
 from typing import Tuple
 from operator import itemgetter
+import logging
 
 # MongoDB connection
 MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
