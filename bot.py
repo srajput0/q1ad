@@ -619,66 +619,6 @@ def check_stats(update: Update, context: CallbackContext):
 
 #     update.message.reply_text(message, parse_mode="Markdown")
 
-def show_leaderboard(update: Update, context: CallbackContext):
-    chat_id = update.effective_chat.id
-    try:
-        # Initial loading message
-        message = context.bot.send_message(
-            chat_id=chat_id,
-            text="🏆 *Loading Leaderboard...*",
-            parse_mode="Markdown"
-        )
-
-        # Get leaderboard data
-        top_scores = get_top_scores(20)
-        
-        if not top_scores:
-            context.bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=message.message_id,
-                text="🏆 *Leaderboard is empty!*\n\nBe the first to score points!",
-                parse_mode="Markdown"
-            )
-            return
-
-        # Format leaderboard message
-        leaderboard_text = "🏆 *Quiz Leaderboard* 🏆\n\n"
-        medals = ["🥇", "🥈", "🥉"]
-
-        for entry in top_scores:
-            try:
-                user = context.bot.get_chat(int(entry['user_id']))
-                username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
-            except:
-                username = f"User {entry['user_id']}"
-
-            rank = entry['rank']
-            rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
-            
-            accuracy = (entry['correct_answers'] / entry['attempts'] * 100) if entry['attempts'] > 0 else 0
-            
-            leaderboard_text += (
-                f"{rank_display} *{username}*\n"
-                f"└ Points: {entry['score']} 🏆 | "
-                f"Correct: {entry['correct_answers']} ✅ | "
-                f"Accuracy: {accuracy:.1f}% 🎯\n\n"
-            )
-
-        # Update the message with leaderboard
-        context.bot.edit_message_text(
-            chat_id=chat_id,
-            message_id=message.message_id,
-            text=leaderboard_text,
-            parse_mode="Markdown"
-        )
-
-    except Exception as e:
-        logger.error(f"Leaderboard Error: {str(e)}")
-        update.message.reply_text(
-            "❌ Unable to load leaderboard. Please try again later.",
-            parse_mode="Markdown"
-        )
-
 
 def next_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
