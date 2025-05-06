@@ -168,18 +168,6 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     # Update user statistics
     update_user_stats(user_id, is_correct)
 
-# def handle_poll_answer(update: Update, context: CallbackContext):
-#     poll_answer = update.poll_answer
-#     user_id = str(poll_answer.user.id)
-#     selected_option = poll_answer.option_ids[0] if poll_answer.option_ids else None
-
-#     poll_id = poll_answer.poll_id
-#     poll_data = context.bot_data.get(poll_id)
-
-#     if not poll_data:
-#         return
-
-#     correct_option_id = poll_data['correct_option_id']
 
 #     # Update the score
 #     if selected_option == correct_option_id:
