@@ -194,6 +194,7 @@ def get_top_scores(limit=20):
         logger.error(f"Error fetching top scores: {str(e)}")
         return []
 
+
 def get_user_score(user_id):
     user = leaderboard_collection.find_one({"user_id": user_id})
     return user["score"] if user else 0
