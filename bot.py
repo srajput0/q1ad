@@ -620,84 +620,66 @@ def check_stats(update: Update, context: CallbackContext):
 #     update.message.reply_text(message, parse_mode="Markdown")
 
 def show_leaderboard(update: Update, context: CallbackContext):
-    """Handler for /leaderboard command"""
     chat_id = update.effective_chat.id
     try:
-        # Send initial loading message
-        loading_message = context.bot.send_message(
+        # Initial loading message
+        message = context.bot.send_message(
             chat_id=chat_id,
             text="🏆 *Loading Leaderboard...*",
             parse_mode="Markdown"
         )
 
-        # Fetch the leaderboard data
+        # Get leaderboard data
         top_scores = get_top_scores(20)
-
+        
         if not top_scores:
             context.bot.edit_message_text(
                 chat_id=chat_id,
-                message_id=loading_message.message_id,
-                text="🏆 *Leaderboard*\n\nNo scores yet! Start playing to appear on the leaderboard.",
+                message_id=message.message_id,
+                text="🏆 *Leaderboard is empty!*\n\nBe the first to score points!",
                 parse_mode="Markdown"
             )
             return
 
-        # Prepare the leaderboard message
-        message = "🏆 *Global Quiz Leaderboard* 🏆\n\n"
+        # Format leaderboard message
+        leaderboard_text = "🏆 *Quiz Leaderboard* 🏆\n\n"
         medals = ["🥇", "🥈", "🥉"]
 
         for entry in top_scores:
             try:
                 user = context.bot.get_chat(int(entry['user_id']))
                 username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
-            except Exception:
+            except:
                 username = f"User {entry['user_id']}"
 
-            # Format rank display
             rank = entry['rank']
             rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
             
-            # Calculate accuracy percentage
             accuracy = (entry['correct_answers'] / entry['attempts'] * 100) if entry['attempts'] > 0 else 0
             
-            # Format the entry with emojis and alignment
-            message += (
+            leaderboard_text += (
                 f"{rank_display} *{username}*\n"
                 f"└ Points: {entry['score']} 🏆 | "
                 f"Correct: {entry['correct_answers']} ✅ | "
                 f"Accuracy: {accuracy:.1f}% 🎯\n\n"
             )
 
-        # Add footer with current time
-        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-        message += f"\n📊 *Last Updated:* {current_time}"
-
-        # Send the formatted leaderboard message
+        # Update the message with leaderboard
         context.bot.edit_message_text(
             chat_id=chat_id,
-            message_id=loading_message.message_id,
-            text=message,
+            message_id=message.message_id,
+            text=leaderboard_text,
             parse_mode="Markdown"
         )
 
     except Exception as e:
-        logger.error(f"Error in show_leaderboard command: {str(e)}")
-        # If there's an error with the loading message, try sending a new message
-        try:
-            if 'loading_message' in locals():
-                context.bot.edit_message_text(
-                    chat_id=chat_id,
-                    message_id=loading_message.message_id,
-                    text="❌ An error occurred while loading the leaderboard.\nPlease try again later."
-                )
-            else:
-                context.bot.send_message(
-                    chat_id=chat_id,
-                    text="❌ An error occurred while loading the leaderboard.\nPlease try again later."
-                )
-        except:
-            pass
-            
+        logger.error(f"Leaderboard Error: {str(e)}")
+        update.message.reply_text(
+            "❌ Unable to load leaderboard. Please try again later.",
+            parse_mode="Markdown"
+        )
+
+
 def next_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     chat_data = load_chat_data(chat_id)
