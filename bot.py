@@ -109,7 +109,7 @@ def start_command(update: Update, context: CallbackContext):
         chat_id = str(update.effective_chat.id)
         user_id = str(update.effective_user.id)
 
-        # Log user/group synchronously
+
         log_user_or_group(update, context)
         
         try:
@@ -317,10 +317,10 @@ def button(update: Update, context: CallbackContext):
                     
                     # Add entry to leaderboard with accuracy
                     message += (
-                        f"{rank_display} *{username}*\n"
-                        f"    ├ Score: {score}\n"
-                        f"    ├ Accuracy: {accuracy:.1f}%\n"
-                        f"    └ Top {percentile:.1f}%\n\n"
+                        f"*{rank_display} {username}*\n"
+                        f"  *├ Score: {score}*\n"
+                        f"  *├ Accuracy: {accuracy:.1f}%*\n"
+                        f"  *└ Top {percentile:.1f}%*\n\n"
                     )
                     
                 except Exception as e:
@@ -346,11 +346,6 @@ def button(update: Update, context: CallbackContext):
                 parse_mode="Markdown",
                 reply_markup=reply_markup
                 )
-            # update.message.reply_text(
-            #     message,
-            #     parse_mode="Markdown",
-            #     disable_web_page_preview=True
-            # )
     
         except Exception as e:
             logger.error(f"Error showing leaderboard: {str(e)}")
