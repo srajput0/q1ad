@@ -13,7 +13,7 @@ from telegram.error import BadRequest, TimedOut, NetworkError, RetryAfter
 logger = logging.getLogger(__name__)
 
 # MongoDB connection
-MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGO_URI = "mongodb+srv://tigerbundle282:tTaRXh353IOL9mj2@testcookies.2elxf.mongodb.net/?retryWrites=true&w=majority&appName=Testcookies"
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 # quizzes_collection = db["quizzes"]
@@ -85,7 +85,7 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
     if quizzes_sent["count"] >= daily_limit:
         # Send confirmation message immediately when the limit is first reached
         if message_status is None or not message_status.get("limit_reached", False):
-            context.bot.send_message(chat_id=chat_id, text="Your daily limit is reached. You will get quizzes tomorrow.")
+            context.bot.send_message(chat_id=chat_id, text="Your daily {daily_limit} limit is reached. You will get quizzes tomorrow.")
             if message_status is None:
                 message_status_collection.insert_one({"chat_id": chat_id, "date": today, "limit_reached": True})
             else:
@@ -168,7 +168,3 @@ def handle_poll_answer(update: Update, context: CallbackContext):
     # Update user statistics
     update_user_stats(user_id, is_correct)
 
-
-#     # Update the score
-#     if selected_option == correct_option_id:
-#         add_score(user_id, 1)
