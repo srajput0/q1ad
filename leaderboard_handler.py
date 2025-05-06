@@ -14,6 +14,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
+
 client = MongoClient(MONGO_URI)
 db = client["telegram_bot"]
 leaderboard_collection = db["leaderboard"]
