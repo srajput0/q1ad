@@ -577,48 +577,127 @@ def check_stats(update: Update, context: CallbackContext):
 
 
 
+# def show_leaderboard(update: Update, context: CallbackContext):
+#     chat_id = update.message.chat_id
+#     # Send initial loading message
+#     loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
+
+#     # Send loading updates in a separate thread
+#     def send_loading_messages(message_id):
+#         for i in range(2, 4):
+#             time.sleep(1)  # Wait for 1 second before sending the next message
+#             context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading...{i}")
+
+#     loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
+#     loading_thread.start()
+
+#     # Fetch and display the leaderboard
+#     top_scores = get_top_scores(20)
+#     loading_thread.join()  # Wait for the loading messages to finish
+
+#     if not top_scores:
+#         context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+#         update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
+#         return
+
+#     # Delete the loading message
+#     context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+
+#     # Prepare and send the leaderboard message
+#     message = "🏆 *Quiz Leaderboard* 🏆\n\n"
+#     medals = ["🥇", "🥈", "🥉"]
+
+#     for rank, (user_id, score) in enumerate(top_scores, start=1):
+#         try:
+#             user = context.bot.get_chat(int(user_id))
+#             username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+#         except Exception:
+#             username = f"User {user_id}"
+
+#         rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
+#         message += f"{rank_display}  *{username}* - {score} Points\n\n"
+
+#     update.message.reply_text(message, parse_mode="Markdown")
+
 def show_leaderboard(update: Update, context: CallbackContext):
-    chat_id = update.message.chat_id
-    # Send initial loading message
-    loading_message = context.bot.send_message(chat_id=chat_id, text="Leaderboard is loading...")
+    """Handler for /leaderboard command"""
+    chat_id = update.effective_chat.id
+    try:
+        # Send initial loading message
+        loading_message = context.bot.send_message(
+            chat_id=chat_id,
+            text="🏆 *Loading Leaderboard...*",
+            parse_mode="Markdown"
+        )
 
-    # Send loading updates in a separate thread
-    def send_loading_messages(message_id):
-        for i in range(2, 4):
-            time.sleep(1)  # Wait for 1 second before sending the next message
-            context.bot.edit_message_text(chat_id=chat_id, message_id=message_id, text=f"Leaderboard is loading...{i}")
+        # Fetch the leaderboard data
+        top_scores = get_top_scores(20)
 
-    loading_thread = threading.Thread(target=send_loading_messages, args=(loading_message.message_id,))
-    loading_thread.start()
+        if not top_scores:
+            context.bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=loading_message.message_id,
+                text="🏆 *Leaderboard*\n\nNo scores yet! Start playing to appear on the leaderboard.",
+                parse_mode="Markdown"
+            )
+            return
 
-    # Fetch and display the leaderboard
-    top_scores = get_top_scores(20)
-    loading_thread.join()  # Wait for the loading messages to finish
+        # Prepare the leaderboard message
+        message = "🏆 *Global Quiz Leaderboard* 🏆\n\n"
+        medals = ["🥇", "🥈", "🥉"]
 
-    if not top_scores:
-        context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
-        update.message.reply_text("🏆 No scores yet! Start playing to appear on the leaderboard.")
-        return
+        for entry in top_scores:
+            try:
+                user = context.bot.get_chat(int(entry['user_id']))
+                username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
+            except Exception:
+                username = f"User {entry['user_id']}"
 
-    # Delete the loading message
-    context.bot.delete_message(chat_id=chat_id, message_id=loading_message.message_id)
+            # Format rank display
+            rank = entry['rank']
+            rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
+            
+            # Calculate accuracy percentage
+            accuracy = (entry['correct_answers'] / entry['attempts'] * 100) if entry['attempts'] > 0 else 0
+            
+            # Format the entry with emojis and alignment
+            message += (
+                f"{rank_display} *{username}*\n"
+                f"└ Points: {entry['score']} 🏆 | "
+                f"Correct: {entry['correct_answers']} ✅ | "
+                f"Accuracy: {accuracy:.1f}% 🎯\n\n"
+            )
 
-    # Prepare and send the leaderboard message
-    message = "🏆 *Quiz Leaderboard* 🏆\n\n"
-    medals = ["🥇", "🥈", "🥉"]
+        # Add footer with current time
+        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+        message += f"\n📊 *Last Updated:* {current_time}"
 
-    for rank, (user_id, score) in enumerate(top_scores, start=1):
+        # Send the formatted leaderboard message
+        context.bot.edit_message_text(
+            chat_id=chat_id,
+            message_id=loading_message.message_id,
+            text=message,
+            parse_mode="Markdown"
+        )
+
+    except Exception as e:
+        logger.error(f"Error in show_leaderboard command: {str(e)}")
+        # If there's an error with the loading message, try sending a new message
         try:
-            user = context.bot.get_chat(int(user_id))
-            username = f"@{user.username}" if user.username else f"{user.first_name} {user.last_name or ''}"
-        except Exception:
-            username = f"User {user_id}"
-
-        rank_display = medals[rank - 1] if rank <= 3 else f"{rank}."
-        message += f"{rank_display}  *{username}* - {score} Points\n\n"
-
-    update.message.reply_text(message, parse_mode="Markdown")
-
+            if 'loading_message' in locals():
+                context.bot.edit_message_text(
+                    chat_id=chat_id,
+                    message_id=loading_message.message_id,
+                    text="❌ An error occurred while loading the leaderboard.\nPlease try again later."
+                )
+            else:
+                context.bot.send_message(
+                    chat_id=chat_id,
+                    text="❌ An error occurred while loading the leaderboard.\nPlease try again later."
+                )
+        except:
+            pass
+            
 def next_quiz(update: Update, context: CallbackContext):
     chat_id = str(update.effective_chat.id)
     chat_data = load_chat_data(chat_id)
