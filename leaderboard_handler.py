@@ -21,28 +21,28 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
-
-client = MongoClient(MONGO_URI)
-db = client["telegram_bot"]
-leaderboard_collection = db["leaderboard"]
-
-
-# # MongoDB connection
 # MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
 
-# try:
-#     client = MongoClient(MONGO_URI, 
-#                         serverSelectionTimeoutMS=5000,
-#                         connectTimeoutMS=5000)
-#     db = client["telegram_bot"]
-#     leaderboard_collection = db["leaderboard"]
+# client = MongoClient(MONGO_URI)
+# db = client["telegram_bot"]
+# leaderboard_collection = db["leaderboard"]
+
+
+# MongoDB connection
+MONGO_URI = "mongodb+srv://2004:2005@cluster0.6vdid.mongodb.net/?retryWrites=true&w=majority"
+
+try:
+    client = MongoClient(MONGO_URI, 
+                        serverSelectionTimeoutMS=5000,
+                        connectTimeoutMS=5000)
+    db = client["telegram_bot"]
+    leaderboard_collection = db["leaderboard"]
     
-#     # Test the connection
-#     client.server_info()
-#     logger.info("MongoDB connection successful")
-# except Exception as e:
-#     logger.error(f"MongoDB connection error: {str(e)}")
+    # Test the connection
+    client.server_info()
+    logger.info("MongoDB connection successful")
+except Exception as e:
+    logger.error(f"MongoDB connection error: {str(e)}")
 
 
 
