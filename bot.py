@@ -706,6 +706,15 @@ def cleanup_job(context: CallbackContext):
     except Exception as e:
         logger.error(f"Error in cleanup job: {e}")
 
+def remove_inactive_jobs(context: CallbackContext):
+    """Remove jobs associated with inactive or expired chats."""
+    jobs = context.job_queue.jobs()
+    for job in jobs:
+        if job.context and not is_chat_active(job.context["chat_id"]):  # Check if chat is active
+            job.schedule_removal()
+            logger.info(f"Removed inactive job for chat_id: {job.context['chat_id']}")
+
+
 def main():
      # Initialize bot with optimized settings
     bot = Bot(TOKEN)
@@ -744,6 +753,7 @@ def main():
     # Schedule periodic cleanup
     updater.job_queue.run_repeating(cleanup_job, interval=3600)  # Run every hour
     updater.job_queue.run_once(restart_active_quizzes, 0)
+    updater.job_queue.run_repeating(remove_inactive_jobs, interval=3600)  # Run every 1 hour
 
     # Start the bot with optimized polling settings
     logger.info("Starting bot...")
