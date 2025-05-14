@@ -692,7 +692,7 @@ def cleanup_job(context: CallbackContext):
         # Only clean rate limiting cache (temporary data)
         to_delete = [
             user_id for user_id, last_time in rate_limit_dict.items()
-            if current_time - last_time > 3600
+            if current_time - last_time > 600
         ]
         for user_id in to_delete:
             del rate_limit_dict[user_id]
@@ -725,7 +725,7 @@ def main():
         request_kwargs={
             'read_timeout': 10,
             'connect_timeout': 10,
-            'connect_pool_size': 4,  # Match this with workers count
+            'connect_pool_size': 1,  # Match this with workers count
             'connect_retries': 3,
             'pool_timeout': 30
         }
@@ -751,9 +751,9 @@ def main():
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
 
     # Schedule periodic cleanup
-    updater.job_queue.run_repeating(cleanup_job, interval=3600)  # Run every hour
+    updater.job_queue.run_repeating(cleanup_job, interval=600)  # Run every hour
     updater.job_queue.run_once(restart_active_quizzes, 0)
-    updater.job_queue.run_repeating(remove_inactive_jobs, interval=3600)  # Run every 1 hour
+    updater.job_queue.run_repeating(remove_inactive_jobs, interval=600)  # Run every 1 hour
 
     # Start the bot with optimized polling settings
     logger.info("Starting bot...")
