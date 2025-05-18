@@ -9,6 +9,10 @@ import os
 from pymongo import MongoClient
 from datetime import datetime
 from telegram.error import BadRequest, TimedOut, NetworkError, RetryAfter 
+# Add these imports at the top
+from quiz_thread_manager import QuizThreadManager
+import threading
+
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +40,8 @@ def retry_on_failure(func):
                 break
         logger.error(f"Function {func.__name__} failed after retries.")
     return wrapper
+
+quiz_thread_manager = QuizThreadManager(max_workers=4)
 
 def load_quizzes(category):
     file_path = os.path.join('quizzes', f'{category}.json')
@@ -143,18 +149,44 @@ def send_quiz_logic(context: CallbackContext, chat_id: str):
 @retry_on_failure
 def send_quiz(context: CallbackContext):
     """
-    Send a quiz to the chat based on the category and daily limits.
+    Send a quiz to the chat using the thread pool.
     """
     chat_id = context.job.context['chat_id']
-    send_quiz_logic(context, chat_id)
+    chat_data = load_chat_data(chat_id)
+    category = chat_data.get('category')
+    
+    # Schedule the quiz using thread manager
+    quiz_thread_manager.schedule_quiz(
+        chat_id=chat_id,
+        context=context,
+        category=category
+    )
+
+
+
+# @retry_on_failure
+# def send_quiz_immediately(context: CallbackContext, chat_id: str):
+#     """
+#     Send a quiz immediately to the specified chat.
+#     """
+#     send_quiz_logic(context, chat_id)
+
 
 @retry_on_failure
 def send_quiz_immediately(context: CallbackContext, chat_id: str):
     """
-    Send a quiz immediately to the specified chat.
+    Send a quiz immediately to the specified chat using the thread pool.
     """
-    send_quiz_logic(context, chat_id)
-
+    chat_data = load_chat_data(chat_id)
+    category = chat_data.get('category')
+    
+    # Schedule immediate quiz with higher priority
+    quiz_thread_manager.schedule_quiz(
+        chat_id=chat_id,
+        context=context,
+        category=category,
+        priority=0  # Higher priority for immediate sending
+    )
 
 
 def handle_poll_answer(update: Update, context: CallbackContext):
