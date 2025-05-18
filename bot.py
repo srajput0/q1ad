@@ -39,16 +39,31 @@ MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://tigerbundle282:tTaRXh353IOL9mj
 # Initialize MongoDB
 client = MongoClient(
     MONGO_URI,
-    maxPoolSize=100,
+    maxPoolSize=25,
     connectTimeoutMS=30000,
     retryWrites=True
 )
 db = client["telegram_bot"]
 quizzes_sent_collection = db["quizzes_sent"]
 
-# Cache configurations
-user_cache = TTLCache(maxsize=5000, ttl=600)
-chat_cache = TTLCache(maxsize=5000, ttl=600)
+# Update cache configuration in bot.py
+from cachetools import TTLCache, LRUCache
+
+# Implement tiered caching
+frequent_cache = LRUCache(maxsize=1000)  # For very frequent data
+user_cache = TTLCache(maxsize=2000, ttl=300)  # Reduced size and TTL
+chat_cache = TTLCache(maxsize=2000, ttl=300)  # Reduced size and TTL
+
+
+def get_cached_data(key, cache_type='user'):
+    cache = user_cache if cache_type == 'user' else chat_cache
+    if key in frequent_cache:
+        return frequent_cache[key]
+    if key in cache:
+        frequent_cache[key] = cache[key]
+        return cache[key]
+    return None
+
 
 # Rate limiting
 RATE_LIMIT = 5
@@ -684,6 +699,24 @@ def next_quiz(update: Update, context: CallbackContext):
     send_quiz_immediately(context, chat_id)
     # update.message.reply_text("Next quiz has been sent!")
 
+# Add periodic cleanup job in bot.py
+def cleanup_memory(context: CallbackContext):
+    """Periodic memory cleanup"""
+    try:
+        # Clear expired cache entries
+        user_cache.expire()
+        chat_cache.expire()
+        
+        # Clear frequent cache periodically
+        frequent_cache.clear()
+        
+        # Force garbage collection
+        import gc
+        gc.collect()
+        
+    except Exception as e:
+        logger.error(f"Error in cleanup_memory: {e}")
+
 def cleanup_job(context: CallbackContext):
     """Modified cleanup job that preserves quiz history and chat IDs"""
     try:
@@ -715,17 +748,67 @@ def remove_inactive_jobs(context: CallbackContext):
             logger.info(f"Removed inactive job for chat_id: {job.context['chat_id']}")
 
 
+# Add to bot.py
+from collections import deque
+from threading import Lock
+
+class MessageQueue:
+    def __init__(self, max_size=1000):
+        self.queue = deque(maxlen=max_size)
+        self.lock = Lock()
+    
+    def add_message(self, message):
+        with self.lock:
+            self.queue.append(message)
+    
+    def process_messages(self):
+        with self.lock:
+            messages = list(self.queue)
+            self.queue.clear()
+        return messages
+
+message_queue = MessageQueue()
+
+# Modify message handling to use queue
+def handle_message(update: Update, context: CallbackContext):
+    message_queue.add_message(update.message)
+    if len(message_queue.queue) >= 100:  # Process in batches
+        process_message_batch(message_queue.process_messages())
+
+import psutil
+import threading
+
+def monitor_resources():
+    """Monitor system resources"""
+    while True:
+        try:
+            process = psutil.Process()
+            memory_info = process.memory_info()
+            
+            # Log if memory usage is too high
+            if memory_info.rss > 7 * 1024 * 1024 * 1024:  # 7GB
+                logger.warning(f"High memory usage: {memory_info.rss / (1024*1024*1024):.2f} GB")
+                cleanup_memory(None)  # Force cleanup
+                
+            time.sleep(60)  # Check every minute
+            
+        except Exception as e:
+            logger.error(f"Error in resource monitoring: {e}")
+
+# # Add to main()
+# threading.Thread(target=monitor_resources, daemon=True).start()
+
 def main():
      # Initialize bot with optimized settings
     bot = Bot(TOKEN)
     updater = Updater(
         bot=bot,
         use_context=True,
-        workers=2,
+        workers=8,
         request_kwargs={
             'read_timeout': 10,
             'connect_timeout': 10,
-            'connect_pool_size': 1,  # Match this with workers count
+            'connect_pool_size': 8,  # Match this with workers count
             'connect_retries': 3,
             'pool_timeout': 30
         }
@@ -751,9 +834,11 @@ def main():
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
 
     # Schedule periodic cleanup
-    updater.job_queue.run_repeating(cleanup_job, interval=600)  # Run every hour
+    updater.job_queue.run_repeating(cleanup_memory, interval=300)  # Run every 5 minutes
+    updater.job_queue.run_repeating(cleanup_job, interval=300)  # Run every hour
     updater.job_queue.run_once(restart_active_quizzes, 0)
-    updater.job_queue.run_repeating(remove_inactive_jobs, interval=600)  # Run every 1 hour
+    updater.job_queue.run_repeating(remove_inactive_jobs, interval=300)  # Run every 1 hour
+    threading.Thread(target=monitor_resources, daemon=True).start()
 
     # Start the bot with optimized polling settings
     logger.info("Starting bot...")
