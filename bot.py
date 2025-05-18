@@ -26,7 +26,7 @@ from functools import wraps
 from cachetools import TTLCache, cached
 from typing import Optional, Dict, List, Any
 from bot_logging import logger
-
+from quiz_handler import quiz_thread_manager
 
 
 # Configuration
@@ -842,13 +842,22 @@ def main():
 
     # Start the bot with optimized polling settings
     logger.info("Starting bot...")
-    updater.start_polling(
-        drop_pending_updates=True,
-        timeout=30,
-        read_latency=0.1,
-        allowed_updates=['message', 'callback_query', 'poll_answer']
-    )
-    logger.info("Bot started successfully!")
+    # updater.start_polling(
+    #     drop_pending_updates=True,
+    #     timeout=30,
+    #     read_latency=0.1,
+    #     allowed_updates=['message', 'callback_query', 'poll_answer']
+    # )
+    # logger.info("Bot started successfully!")
+    try:
+        updater.start_polling()
+        logger.info("Bot started successfully!")
+        updater.idle()
+    finally:
+        # Cleanup thread manager on shutdown
+        quiz_thread_manager.stop()
+        logger.info("Quiz thread manager stopped")
+        
     updater.idle()
 
 if __name__ == '__main__':
