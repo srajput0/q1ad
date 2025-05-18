@@ -928,7 +928,7 @@ def main():
     dp.add_handler(CommandHandler("memory", check_memory_stats))
     dp.add_handler(CommandHandler("testload", test_load))
     dp.add_handler(CommandHandler("dbstats", check_db_stats))
-    dp.add_handler(CommandHandler("performance", check_performance))\
+    dp.add_handler(CommandHandler("performance", check_performance))
     dp.add_handler(CommandHandler("quizstats", get_quiz_stats))
 
     
