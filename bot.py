@@ -911,9 +911,10 @@ def main():
         logger.info("Bot started successfully!")
         updater.idle()
     finally:
-        # Cleanup thread manager on shutdown
+        # Cleanup
+        resource_monitor.stop()
         quiz_thread_manager.stop()
-        logger.info("Quiz thread manager stopped")
+        logger.info("Bot shutdown complete")
         
     updater.idle()
 
