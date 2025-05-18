@@ -1,5 +1,3 @@
-
-
 import logging
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
@@ -11,6 +9,10 @@ from typing import List, Dict, Any
 import time
 from collections import deque
 
+logger = logging.getLogger(__name__)
+
+ADMIN_ID = 5050578106  # Your admin ID
+
 class BroadcastManager:
     def __init__(self, max_workers: int = 8):
         self.executor = ThreadPoolExecutor(max_workers=max_workers)
@@ -18,6 +20,11 @@ class BroadcastManager:
         self.batch_size = 100
         self.rate_limit = 30  # messages per second
         self.last_sent = time.time()
+        self.stats = {
+            'total_sent': 0,
+            'failed_attempts': 0,
+            'retry_success': 0
+        }
         
     async def broadcast_to_all(self, bot, text_content: str, content_type: str, 
                              file_id: str = None, reply_markup: Any = None) -> Dict[str, int]:
@@ -57,11 +64,13 @@ class BroadcastManager:
                         sent_counts['chats'] += 1
                     else:
                         sent_counts['users'] += 1
-                        
+                    
+                    self.stats['total_sent'] += 1
                     self.last_sent = time.time()
                     
                 except Exception as e:
                     sent_counts['failed'] += 1
+                    self.stats['failed_attempts'] += 1
                     logger.error(f"Error broadcasting to {'chat' if is_chat else 'user'} {target_id}: {e}")
                     continue
                 
@@ -82,17 +91,32 @@ class BroadcastManager:
             
         return sent_counts
 
-broadcast_manager = BroadcastManager()
+    def get_stats(self) -> Dict[str, int]:
+        """Get broadcast statistics"""
+        return {
+            'total_sent': self.stats['total_sent'],
+            'failed_attempts': self.stats['failed_attempts'],
+            'retry_success': self.stats['retry_success'],
+            'queue_size': len(self.message_queue)
+        }
+
+# Initialize the broadcast manager
+broadcast_manager = BroadcastManager(max_workers=8)
 
 def broadcast(update: Update, context: CallbackContext):
+    """Handle broadcast command with status updates"""
     if update.effective_user.id != ADMIN_ID:
         update.message.reply_text("You are not authorized to use this command.")
         return
 
-    status_message = update.message.reply_text("Starting broadcast...")
+    # Send initial status message
+    status_message = update.message.reply_text(
+        "🚀 Starting broadcast...\n"
+        "Please wait while the messages are being sent."
+    )
     
     try:
-        # Get content
+        # Get content from message
         if update.message.reply_to_message:
             if update.message.reply_to_message.photo:
                 content_type = 'photo'
@@ -104,7 +128,11 @@ def broadcast(update: Update, context: CallbackContext):
         else:
             message = ' '.join(context.args)
             if not message:
-                update.message.reply_text("Usage: /broadcast <message>")
+                status_message.edit_text(
+                    "❌ Usage:\n"
+                    "1. Reply to a message with /broadcast\n"
+                    "2. Or use: /broadcast <your message>"
+                )
                 return
             content_type = 'text'
             text_content = message
@@ -112,6 +140,12 @@ def broadcast(update: Update, context: CallbackContext):
         reply_markup = (update.message.reply_to_message.reply_markup 
                        if hasattr(update.message.reply_to_message, 'reply_markup') 
                        else None)
+
+        # Update status message
+        status_message.edit_text(
+            "📤 Broadcasting in progress...\n"
+            "This may take a while for large numbers of users."
+        )
 
         # Run broadcast asynchronously
         loop = asyncio.new_event_loop()
@@ -126,90 +160,58 @@ def broadcast(update: Update, context: CallbackContext):
             )
         )
         
+        # Get final statistics
+        stats = broadcast_manager.get_stats()
+        
+        # Update status message with results
         status_message.edit_text(
-            f"Broadcast completed!\n"
-            f"✅ Sent to {results['chats']} chats\n"
-            f"👤 Sent to {results['users']} users\n"
-            f"❌ Failed: {results['failed']}"
+            "✅ *Broadcast Completed*\n\n"
+            f"📊 *Results:*\n"
+            f"└ Sent to chats: {results['chats']}\n"
+            f"└ Sent to users: {results['users']}\n"
+            f"└ Failed: {results['failed']}\n\n"
+            f"📈 *Total Statistics:*\n"
+            f"└ Total messages sent: {stats['total_sent']}\n"
+            f"└ Total failed attempts: {stats['failed_attempts']}\n"
+            f"└ Successful retries: {stats['retry_success']}",
+            parse_mode='Markdown'
         )
         
     except Exception as e:
         logger.error(f"Broadcast error: {e}")
-        status_message.edit_text(f"Broadcast failed: {str(e)}")
+        status_message.edit_text(
+            f"❌ *Broadcast Failed*\n\n"
+            f"Error: {str(e)}",
+            parse_mode='Markdown'
+        )
 
+def broadcast_stats(update: Update, context: CallbackContext):
+    """Show broadcast statistics"""
+    if update.effective_user.id != ADMIN_ID:
+        update.message.reply_text("⚠️ This command is only available for administrators.")
+        return
 
+    try:
+        stats = broadcast_manager.get_stats()
+        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        
+        stats_message = (
+            "📨 *Broadcast System Statistics*\n"
+            f"🕒 Time (UTC): {current_time}\n\n"
+            "*Performance Metrics:*\n"
+            f"├ Total Messages Sent: {stats['total_sent']}\n"
+            f"├ Failed Attempts: {stats['failed_attempts']}\n"
+            f"├ Retry Successes: {stats['retry_success']}\n"
+            f"└ Current Queue Size: {stats['queue_size']}"
+        )
 
-# logger = logging.getLogger(__name__)
+        update.message.reply_text(
+            stats_message,
+            parse_mode='Markdown'
+        )
 
-# ADMIN_ID = 5050578106  # Replace with your actual Telegram user ID
-
-# def broadcast(update: Update, context: CallbackContext):
-#     if update.effective_user.id != ADMIN_ID:
-#         update.message.reply_text("You are not authorized to use this command.")
-#         return
-
-#     # Determine if the message is a photo or text
-#     if update.message.reply_to_message:
-#         if update.message.reply_to_message.photo:
-#             content_type = 'photo'
-#             file_id = update.message.reply_to_message.photo[-1].file_id
-#             text_content = update.message.reply_to_message.caption
-#         else:
-#             content_type = 'text'
-#             text_content = update.message.reply_to_message.text
-#     else:
-#         message = ' '.join(context.args)
-#         if not message:
-#             update.message.reply_text("Usage: /broadcast <message>")
-#             return
-#         content_type = 'text'
-#         text_content = message
-
-#     reply_markup = update.message.reply_to_message.reply_markup if hasattr(update.message.reply_to_message, 'reply_markup') else None
-
-#     sent_chats, sent_users = broadcast_to_all(context.bot, text_content, content_type, file_id if content_type == 'photo' else None, reply_markup, update.message)
-#     update.message.reply_text(f"Broadcast completed! Sent to {sent_chats} chats and {sent_users} users.")
-
-# def broadcast_to_all(bot, text_content, content_type, file_id, reply_markup, message):
-#     sent_chats = 0
-#     sent_users = 0
-
-#     for chat in get_served_chats():
-#         chat_id = chat["chat_id"]
-#         try:
-#             if content_type == 'photo':
-#                 sent_message = bot.send_photo(chat_id=chat_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
-#             else:
-#                 sent_message = bot.send_message(chat_id=chat_id, text=text_content, reply_markup=reply_markup)
-            
-#             if "-pin" in message.text:
-#                 try:
-#                     sent_message.pin(disable_notification=True)
-#                 except Exception as e:
-#                     logger.warning(f"Failed to pin message in chat {chat_id}: {e}")
-#                     continue
-#             elif "-pinloud" in message.text:
-#                 try:
-#                     sent_message.pin(disable_notification=False)
-#                 except Exception as e:
-#                     logger.warning(f"Failed to pin message with notification in chat {chat_id}: {e}")
-#                     continue
-#             sent_chats += 1
-#         except (TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized) as e:
-#             logger.error(f"Error broadcasting to chat {chat_id}: {e}")
-#             continue
-
-#     # Broadcasting to users
-#     for user in get_served_users():
-#         user_id = user["user_id"]
-#         try:
-#             if content_type == 'photo':
-#                 bot.send_photo(chat_id=user_id, photo=file_id, caption=text_content, reply_markup=reply_markup)
-#             else:
-#                 bot.send_message(chat_id=user_id, text=text_content, reply_markup=reply_markup)
-#             sent_users += 1
-#         except (TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized) as e:
-#             logger.error(f"Error broadcasting to user {user_id}: {e}")
-#             continue
-
-#     return sent_chats, sent_users
+    except Exception as e:
+        logger.error(f"Error getting broadcast stats: {e}")
+        update.message.reply_text(
+            "❌ Error fetching statistics. Please try again later."
+        )
