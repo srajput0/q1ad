@@ -912,13 +912,12 @@ def main():
             'pool_timeout': 30
         }
     )
+    dp = updater.dispatcher
      # Initialize resource monitor
     dp.bot_data['resource_monitor'] = resource_monitor
     dp.bot_data['quiz_thread_manager'] = quiz_thread_manager
     dp.bot_data['broadcast_manager'] = broadcast_manager
-    dp = updater.dispatcher
-    # Store important data in bot_data
-
+    
     # Add handlers with error handling
     dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("setinterval", set_interval))
