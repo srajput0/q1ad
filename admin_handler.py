@@ -1,13 +1,13 @@
 import logging
 from telegram import Update
-from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext import CallbackContext
 from chat_data_handler import load_chat_data, get_served_chats, get_served_users
 from telegram.error import TimedOut, NetworkError, RetryAfter, BadRequest, Unauthorized
-import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Any
 import time
 from collections import deque
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -23,11 +23,30 @@ class BroadcastManager:
         self.stats = {
             'total_sent': 0,
             'failed_attempts': 0,
-            'retry_success': 0
+            'retry_success': 0,
+            'active_threads': 0,
+            'queued_messages': 0
+        }
+        self.is_running = True
+        
+    def stop(self):
+        """Stop the broadcast manager"""
+        self.is_running = False
+        self.executor.shutdown(wait=True)
+        logger.info("Broadcast manager stopped successfully")
+
+    def get_stats(self) -> Dict[str, int]:
+        """Get broadcast statistics"""
+        return {
+            'total_sent': self.stats['total_sent'],
+            'failed_attempts': self.stats['failed_attempts'],
+            'retry_success': self.stats['retry_success'],
+            'active_threads': len(self.executor._threads),
+            'queued_messages': len(self.message_queue)
         }
         
-    async def broadcast_to_all(self, bot, text_content: str, content_type: str, 
-                             file_id: str = None, reply_markup: Any = None) -> Dict[str, int]:
+    def broadcast_to_all(self, bot, text_content: str, content_type: str, 
+                        file_id: str = None, reply_markup: Any = None) -> Dict[str, int]:
         chats = list(get_served_chats())
         users = list(get_served_users())
         sent_counts = {'chats': 0, 'users': 0, 'failed': 0}
@@ -36,25 +55,25 @@ class BroadcastManager:
         chat_batches = [chats[i:i + self.batch_size] for i in range(0, len(chats), self.batch_size)]
         user_batches = [users[i:i + self.batch_size] for i in range(0, len(users), self.batch_size)]
         
-        async def process_batch(items: List[Dict], is_chat: bool):
+        def process_batch(items: List[Dict], is_chat: bool):
             for item in items:
                 target_id = item['chat_id' if is_chat else 'user_id']
                 
                 # Rate limiting
                 current_time = time.time()
                 if current_time - self.last_sent < 1/self.rate_limit:
-                    await asyncio.sleep(1/self.rate_limit - (current_time - self.last_sent))
+                    time.sleep(1/self.rate_limit - (current_time - self.last_sent))
                 
                 try:
                     if content_type == 'photo':
-                        await bot.send_photo(
+                        bot.send_photo(
                             chat_id=target_id,
                             photo=file_id,
                             caption=text_content,
                             reply_markup=reply_markup
                         )
                     else:
-                        await bot.send_message(
+                        bot.send_message(
                             chat_id=target_id,
                             text=text_content,
                             reply_markup=reply_markup
@@ -81,26 +100,17 @@ class BroadcastManager:
         
         # Process chat batches
         for batch in chat_batches:
-            await process_batch(batch, True)
-            await asyncio.sleep(1)  # Prevent overloading
+            process_batch(batch, True)
+            time.sleep(1)  # Prevent overloading
             
         # Process user batches
         for batch in user_batches:
-            await process_batch(batch, False)
-            await asyncio.sleep(1)  # Prevent overloading
+            process_batch(batch, False)
+            time.sleep(1)  # Prevent overloading
             
         return sent_counts
 
-    def get_stats(self) -> Dict[str, int]:
-        """Get broadcast statistics"""
-        return {
-            'total_sent': self.stats['total_sent'],
-            'failed_attempts': self.stats['failed_attempts'],
-            'retry_success': self.stats['retry_success'],
-            'queue_size': len(self.message_queue)
-        }
-
-# Initialize the broadcast manager
+# Initialize the broadcast manager at module level
 broadcast_manager = BroadcastManager(max_workers=8)
 
 def broadcast(update: Update, context: CallbackContext):
@@ -141,23 +151,19 @@ def broadcast(update: Update, context: CallbackContext):
                        if hasattr(update.message.reply_to_message, 'reply_markup') 
                        else None)
 
-        # Update status message
+        # Update status
         status_message.edit_text(
             "📤 Broadcasting in progress...\n"
             "This may take a while for large numbers of users."
         )
 
-        # Run broadcast asynchronously
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        results = loop.run_until_complete(
-            broadcast_manager.broadcast_to_all(
-                context.bot,
-                text_content,
-                content_type,
-                file_id if content_type == 'photo' else None,
-                reply_markup
-            )
+        # Run broadcast
+        results = broadcast_manager.broadcast_to_all(
+            context.bot,
+            text_content,
+            content_type,
+            file_id if content_type == 'photo' else None,
+            reply_markup
         )
         
         # Get final statistics
@@ -202,7 +208,8 @@ def broadcast_stats(update: Update, context: CallbackContext):
             f"├ Total Messages Sent: {stats['total_sent']}\n"
             f"├ Failed Attempts: {stats['failed_attempts']}\n"
             f"├ Retry Successes: {stats['retry_success']}\n"
-            f"└ Current Queue Size: {stats['queue_size']}"
+            f"├ Active Threads: {stats['active_threads']}\n"
+            f"└ Queued Messages: {stats['queued_messages']}"
         )
 
         update.message.reply_text(
