@@ -890,6 +890,13 @@ def get_quiz_stats(update: Update, context: CallbackContext):
         logger.error(f"Error getting quiz stats: {e}")
         update.message.reply_text("❌ Error fetching statistics. Please try again later.")
 
+
+# Initialize the resource monitor
+resource_monitor = ResourceMonitor(
+    quiz_thread_manager=quiz_thread_manager,
+    broadcast_manager=broadcast_manager
+)
+
 def main():
      # Initialize bot with optimized settings
     bot = Bot(TOKEN)
@@ -906,11 +913,9 @@ def main():
         }
     )
      # Initialize resource monitor
-    resource_monitor = ResourceMonitor(
-        quiz_thread_manager=quiz_thread_manager,
-        broadcast_manager=broadcast_manager
-    )
     dp.bot_data['resource_monitor'] = resource_monitor
+    dp.bot_data['quiz_thread_manager'] = quiz_thread_manager
+    dp.bot_data['broadcast_manager'] = broadcast_manager
     dp = updater.dispatcher
     # Store important data in bot_data
 
