@@ -794,6 +794,52 @@ def monitor_resources():
             
         except Exception as e:
             logger.error(f"Error in resource monitoring: {e}")
+def check_memory_stats(update: Update, context: CallbackContext):
+    if update.effective_user.id == ADMIN_ID:  # Only for admin
+        process = psutil.Process()
+        memory_info = process.memory_info()
+        memory_gb = memory_info.rss / (1024 * 1024 * 1024)
+        
+        # Get thread manager stats
+        thread_stats = quiz_thread_manager.get_stats() if hasattr(quiz_thread_manager, 'get_stats') else {}
+        
+        stats = (
+            f"🔧 System Status:\n"
+            f"Memory Usage: {memory_gb:.2f} GB\n"
+            f"Active Threads: {thread_stats.get('active_threads', 'N/A')}\n"
+            f"Queued Tasks: {thread_stats.get('queued_tasks', 'N/A')}\n"
+            f"Active Chats: {thread_stats.get('active_chats', 'N/A')}\n"
+            f"CPU Usage: {process.cpu_percent()}%"
+        )
+        update.message.reply_text(stats)
+
+def test_load(update: Update, context: CallbackContext):
+    if update.effective_user.id != ADMIN_ID:
+        return
+        
+    try:
+        num_chats = 100  # Test with 100 chats
+        for i in range(num_chats):
+            quiz_thread_manager.schedule_quiz(
+                chat_id=f"test_{i}",
+                context=context,
+                category="test",
+                priority=1
+            )
+        update.message.reply_text(f"Scheduled {num_chats} test quizzes")
+    except Exception as e:
+        update.message.reply_text(f"Error in load test: {e}")
+
+def check_db_stats(update: Update, context: CallbackContext):
+    if update.effective_user.id == ADMIN_ID:
+        stats = client.admin.command('serverStatus')
+        conn_stats = (
+            f"📊 MongoDB Stats:\n"
+            f"Active Connections: {stats['connections']['current']}\n"
+            f"Available Connections: {stats['connections']['available']}\n"
+            f"Max Used Connections: {stats.get('connections', {}).get('totalCreated', 0)}"
+        )
+        update.message.reply_text(conn_stats)
 
 # # Add to main()
 # threading.Thread(target=monitor_resources, daemon=True).start()
@@ -829,6 +875,10 @@ def main():
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
     dp.add_handler(CommandHandler("stats", check_stats))
+    dp.add_handler(CommandHandler("memory", check_memory_stats))
+    dp.add_handler(CommandHandler("testload", test_load))
+    dp.add_handler(CommandHandler("dbstats", check_db_stats))
+
     
     # Add error handler
     dp.add_error_handler(lambda _, context: logger.error(f"Update caused error: {context.error}"))
