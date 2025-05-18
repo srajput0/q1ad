@@ -966,7 +966,9 @@ def main():
         # Cleanup
         resource_monitor.stop()
         quiz_thread_manager.stop()
+        broadcast_manager.stop()  # Stop broadcast manager
         logger.info("Bot shutdown complete")
+        
         
     updater.idle()
 
