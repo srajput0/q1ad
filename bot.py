@@ -1,6 +1,6 @@
 import logging
 import os
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember, Bot
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ChatMember, Bot, ParseMode
 from telegram.error import TelegramError, TimedOut, NetworkError, RetryAfter, BadRequest
 from telegram.ext import (
     Updater, CommandHandler, CallbackQueryHandler, CallbackContext, 
@@ -844,6 +844,50 @@ def check_db_stats(update: Update, context: CallbackContext):
 
 # # Add to main()
 # threading.Thread(target=monitor_resources, daemon=True).start()
+def get_quiz_stats(update: Update, context: CallbackContext):
+    """Command handler to get current quiz system statistics"""
+    # Check if user is admin
+    if update.effective_user.id != ADMIN_ID:
+        update.message.reply_text("⚠️ This command is only available for administrators.")
+        return
+
+    try:
+        # Get stats from quiz thread manager
+        stats = quiz_thread_manager.get_stats()
+        
+        # Format the stats message
+        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        
+        stats_message = (
+            "📊 *Quiz System Statistics*\n"
+            f"🕒 Time (UTC): {current_time}\n"
+            "\n"
+            "*System Status:*\n"
+            f"├ Active Threads: {stats['active_threads']}\n"
+            f"├ Queued Tasks: {stats['queued_tasks']}\n"
+            f"├ Active Chats: {stats['active_chats']}\n"
+            f"├ Memory Usage: {stats['memory_usage_mb']:.2f} MB\n"
+            f"└ CPU Usage: {stats['cpu_percent']}%\n"
+            "\n"
+            "*Performance Metrics:*\n"
+            f"├ Total Quizzes Sent: {stats['total_sent']}\n"
+            f"├ Failed Attempts: {stats['failed_attempts']}\n"
+            f"├ Retry Successes: {stats['retry_success']}\n"
+            f"└ Accepting New: {'✅' if stats['accepting_new'] else '❌'}\n"
+            "\n"
+            "*System Health:*\n"
+            f"└ Status: {'✅ Normal' if stats['memory_usage_mb'] < 7000 else '⚠️ High Load'}"
+        )
+
+        # Send the formatted stats
+        update.message.reply_text(
+            stats_message,
+            parse_mode=ParseMode.MARKDOWN
+        )
+
+    except Exception as e:
+        logger.error(f"Error getting quiz stats: {e}")
+        update.message.reply_text("❌ Error fetching statistics. Please try again later.")
 
 def main():
      # Initialize bot with optimized settings
@@ -884,7 +928,8 @@ def main():
     dp.add_handler(CommandHandler("memory", check_memory_stats))
     dp.add_handler(CommandHandler("testload", test_load))
     dp.add_handler(CommandHandler("dbstats", check_db_stats))
-    dp.add_handler(CommandHandler("performance", check_performance))
+    dp.add_handler(CommandHandler("performance", check_performance))\
+    dp.add_handler(CommandHandler("quizstats", get_quiz_stats))
 
     
     # Add error handler
