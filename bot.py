@@ -27,6 +27,7 @@ from cachetools import TTLCache, cached
 from typing import Optional, Dict, List, Any
 from bot_logging import logger
 from quiz_handler import quiz_thread_manager
+from admin_handler import broadcast_manager  # Import the broadcast_manager from admin_handler
 from resource_monitor import ResourceMonitor, check_performance
 
 
