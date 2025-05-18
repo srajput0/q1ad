@@ -11,7 +11,7 @@ from chat_data_handler import (
     get_active_quizzes
 )
 from quiz_handler import send_quiz, send_quiz_immediately, handle_poll_answer, load_quizzes
-from admin_handler import broadcast
+from admin_handler import broadcast, broadcast_stats
 from leaderboard_handler import (
     get_top_scores,
     get_user_stats,
@@ -924,6 +924,7 @@ def main():
     dp.add_handler(PollAnswerHandler(handle_poll_answer))
     dp.add_handler(CommandHandler("leaderboard", show_leaderboard))
     dp.add_handler(CommandHandler("broadcast", broadcast))
+    dp.add_handler(CommandHandler("broadcaststats", broadcast_stats))
     dp.add_handler(CommandHandler("stats", check_stats))
     dp.add_handler(CommandHandler("memory", check_memory_stats))
     dp.add_handler(CommandHandler("testload", test_load))
