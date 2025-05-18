@@ -27,6 +27,7 @@ from cachetools import TTLCache, cached
 from typing import Optional, Dict, List, Any
 from bot_logging import logger
 from quiz_handler import quiz_thread_manager
+from resource_monitor import ResourceMonitor, check_performance
 
 
 # Configuration
@@ -859,7 +860,12 @@ def main():
             'pool_timeout': 30
         }
     )
-    
+     # Initialize resource monitor
+    resource_monitor = ResourceMonitor(
+        quiz_thread_manager=quiz_thread_manager,
+        broadcast_manager=broadcast_manager
+    )
+    dp.bot_data['resource_monitor'] = resource_monitor
     dp = updater.dispatcher
     # Store important data in bot_data
 
@@ -878,6 +884,7 @@ def main():
     dp.add_handler(CommandHandler("memory", check_memory_stats))
     dp.add_handler(CommandHandler("testload", test_load))
     dp.add_handler(CommandHandler("dbstats", check_db_stats))
+    dp.add_handler(CommandHandler("performance", check_performance))
 
     
     # Add error handler
